@@ -1,0 +1,13 @@
+﻿services:
+  farmxpert:
+    image: farmxpert
+    build:
+      context: .
+      dockerfile: FarmXpert/FarmXpert/Dockerfile
+
+  farmxpert.client:
+    image: farmxpert.client
+    build:
+      context: .
+      dockerfile: FarmXpert/FarmXpert.Client/Dockerfile
+
