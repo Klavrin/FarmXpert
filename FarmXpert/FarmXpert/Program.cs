@@ -3,7 +3,11 @@ using FarmXpert.Components;
 using FarmXpert.Components.Account;
 using FarmXpert.Data;
 using AspNetCore.Identity.Mongo;
+using FarmXpert.Application.Todo.Queries.GetAllTodos;
+using FarmXpert.Domain.Interfaces;
+using FarmXpert.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,10 +31,22 @@ builder.Services.AddIdentityMongoDbProvider<ApplicationUser>(identityOptions =>
     mongoIdentityOptions.ConnectionString = builder.Configuration.GetConnectionString("MongoDb");
 });
 
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssemblyContaining<GetAllTodosQueryHandler>();
+});
+
 builder.Services.AddAuthorization();
 
 // builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 builder.Services.AddSingleton<IEmailSender, SmtpEmailSender>();
+builder.Services.AddSingleton<IMongoDatabase>(sp =>
+{
+    var mongoService = sp.GetRequiredService<MongodDbService>();
+    return mongoService.Database;
+});
+
+builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 
 var app = builder.Build();
 
