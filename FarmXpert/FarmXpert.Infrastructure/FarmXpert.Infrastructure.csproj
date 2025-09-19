@@ -20,4 +20,8 @@
       <_ContentIncludedByDefault Remove="wwwroot\exampleJsInterop.js" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\FarmXpert.Application\FarmXpert.Application.csproj" />
+    </ItemGroup>
+
 </Project>

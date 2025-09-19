@@ -15,4 +15,8 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.7"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\FarmXpert.Domain\FarmXpert.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
