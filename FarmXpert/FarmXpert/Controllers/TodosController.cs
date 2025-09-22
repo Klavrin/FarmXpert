@@ -41,20 +41,34 @@ public class TodosController: ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateTodoCommand command)
     {
-        var todo = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetById), todo, null);
+        try
+        {
+            var todo = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetById), new { id = todo.Id }, todo);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
     
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(UpdateTodoCommand command)
     {
-        var updatedTodo = await _mediator.Send(command);
-        if (updatedTodo == null)
+        try
         {
-            return BadRequest("Failed to modify salary.");
+            var updatedTodo = await _mediator.Send(command);
+            if (updatedTodo == null)
+            {
+                return BadRequest("Failed to modify salary.");
+            }
+            
+            return Ok(updatedTodo);
+        } 
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
         }
-        
-        return Ok(updatedTodo);
     }
 
     [HttpDelete("{id:guid}")]
