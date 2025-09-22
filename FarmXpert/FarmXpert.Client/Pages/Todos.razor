@@ -1,0 +1,88 @@
+@page "/todos"
+@inject HttpClient Http
+@rendermode InteractiveWebAssembly
+
+<h3>Todos</h3>
+
+@if (_todos == null)
+{
+    <p><em>Loading...</em></p>
+    return;
+}
+else if (!_todos.Any())
+{
+    <p>No todos found.</p>
+    return;
+}
+
+<div class="mb-3">
+    <input type="text" @bind="_newTodoTitle" placeholder="New todo title" class="form-control" />
+    <button @onclick="AddTodo" type="button" class="btn btn-primary mt-2">Add Todo</button>
+</div>
+
+<ul class="list-group">
+    @foreach (var todo in _todos)
+    {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <input type="checkbox"  />
+            <span>@todo.Title</span>
+            <button @onclick="(() => DeleteTodo(todo.Id))" class="btn btn-danger btn-sm">Delete</button>
+        </li>
+    }
+</ul>
+
+@code {
+    private List<Todo>? _todos;
+    private string _newTodoTitle = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _todos = await Http.GetFromJsonAsync<List<Todo>>("http://localhost:5041/api/todos");
+    }
+
+    private void Testing()
+    {
+        Console.WriteLine("TESTING"); 
+    }
+    
+    private async Task AddTodo()
+    {
+        Console.WriteLine("Adding new todo: " + _newTodoTitle);
+        if (!string.IsNullOrWhiteSpace(_newTodoTitle))
+        {
+            var newTodo = new Todo
+            {
+                Id = Guid.NewGuid(),
+                Title = _newTodoTitle, 
+                IsCompleted = false
+            };
+            var response = await Http.PostAsJsonAsync("http://localhost:5041/api/todos", newTodo);
+            if (response.IsSuccessStatusCode)
+            {
+                var createdTodo = await response.Content.ReadFromJsonAsync<Todo>();
+                _todos.Add(createdTodo);
+                _newTodoTitle = string.Empty;
+            }
+        }
+    }
+    
+    private async Task DeleteTodo(Guid id)
+    {
+        var response = await Http.DeleteAsync($"http://localhost:5041/api/todos/{id}");
+        if (response.IsSuccessStatusCode)
+        {
+            var todoToRemove = _todos.FirstOrDefault(t => t.Id == id);
+            if (todoToRemove != null)
+            {
+                _todos.Remove(todoToRemove);
+            }
+        }
+    }
+    
+    private class Todo
+    {
+        public Guid Id { get; set; }
+        public string Title { get; set; }
+        public bool IsCompleted { get; set; }
+    }
+}
