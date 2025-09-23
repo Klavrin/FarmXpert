@@ -9,23 +9,38 @@
     Variant="DrawerVariant.Responsive" 
     Breakpoint="Breakpoint.Md" 
     OverlayAutoClose="true">
+
     <MudDrawerHeader>
         <MudText Typo="Typo.h6">FarmXpert</MudText>
     </MudDrawerHeader>
+
     <MudNavMenu>
-        <MudNavLink Match="NavLinkMatch.All" Href="/">Home</MudNavLink>
-        <MudNavLink Match="NavLinkMatch.All" Href="/counter">Counter</MudNavLink>
-        <MudNavLink Match="NavLinkMatch.All" Href="/todos">Todos</MudNavLink>
-        <MudNavLink Match="NavLinkMatch.All" Href="/weather">Weather</MudNavLink>
-        <MudNavLink Match="NavLinkMatch.All" Href="/auth">Auth Required</MudNavLink>
+        <MudNavLink Icon="@Icons.Material.Filled.Home" Match="NavLinkMatch.All" Href="/">Home</MudNavLink>
+        <MudNavLink Icon="@Icons.Material.Filled.ExposurePlus1" Match="NavLinkMatch.All" Href="/counter">Counter</MudNavLink>
+        <MudNavLink Icon="@Icons.Material.Filled.ListAlt" Match="NavLinkMatch.All" Href="/todos">Todos</MudNavLink>
+        <MudNavLink Icon="@Icons.Material.Filled.WbSunny" Match="NavLinkMatch.All" Href="/weather">Weather</MudNavLink>
+        <MudNavLink Icon="@Icons.Material.Filled.Lock" Match="NavLinkMatch.All" Href="/auth">Auth Required</MudNavLink>
+
         <AuthorizeView>
             <Authorized>
-                <MudNavLink Match="NavLinkMatch.All" Href="/Account/Manage">@context.User.Identity?.Name</MudNavLink>
-                <MudNavLink Match="NavLinkMatch.All" Href="/Account/Logout">Logout</MudNavLink>
+                <MudNavLink Icon="@Icons.Material.Filled.AccountCircle" Match="NavLinkMatch.All" Href="/Account/Manage">
+                    @context.User.Identity?.Name
+                </MudNavLink>
+                <form action="/Account/Logout" method="post">
+                    <AntiforgeryToken />
+                    <input type="hidden" name="ReturnUrl" value="@currentUrl"/>
+                    <MudButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Logout" Match="NavLinkMatch.All" Class="w-100">
+                        Logout
+                    </MudButton>
+                </form>
             </Authorized>
             <NotAuthorized>
-                <MudNavLink Match="NavLinkMatch.All" Href="/Account/Register">Register</MudNavLink>
-                <MudNavLink Match="NavLinkMatch.All" Href="/Account/Login">Login</MudNavLink>
+                <MudNavLink Icon="@Icons.Material.Filled.PersonAdd" Match="NavLinkMatch.All" Href="/Account/Register">
+                    Register
+                </MudNavLink>
+                <MudNavLink Icon="@Icons.Material.Filled.Login" Match="NavLinkMatch.All" Href="/Account/Login">
+                    Login
+                </MudNavLink>
             </NotAuthorized>
         </AuthorizeView>
     </MudNavMenu>    
@@ -40,22 +55,22 @@
         Console.WriteLine($"Drawer toggled: {_open}");
     }
     
-    // private string? currentUrl;
-    //
-    // protected override void OnInitialized()
-    // {
-    //     currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-    //     NavigationManager.LocationChanged += OnLocationChanged;
-    // }
-    //
-    // private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
-    // {
-    //     currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
-    //     StateHasChanged();
-    // }
-    //
-    // public void Dispose()
-    // {
-    //     NavigationManager.LocationChanged -= OnLocationChanged;
-    // }
+    private string? currentUrl;
+    
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+    
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+    
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
 }
