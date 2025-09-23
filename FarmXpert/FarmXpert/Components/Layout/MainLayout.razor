@@ -1,19 +1,32 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
+    <MudThemeProvider />
+    <MudPopoverProvider/>
+    <MudDialogProvider/>
+    <MudSnackbarProvider/>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+    <MudLayout>
+        <MudAppBar Elevation="1" Style="display: block">
+            <MudIconButton
+                id="nav-drawer-toggle-button"
+                Icon="@Icons.Material.Filled.Menu" 
+                Color="Color.Inherit" 
+                Edge="Edge.Start" 
+                OnClick="@(() => _navMenu?.ToggleDrawer())" />
+        </MudAppBar>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+        <NavMenu @ref="_navMenu"/>
+
+        <MudMainContent Style="min-height: calc(100vh);">
+            <MudContainer Class="mt-6">
+                <article class="content">
+                    @Body
+                </article>
+            </MudContainer>
+        </MudMainContent>
+    </MudLayout>
 </div>
 
 <div id="blazor-error-ui" data-nosnippet>
@@ -21,3 +34,15 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+<script src="/Components/Layout/MainLayout.razor.js"></script>
+
+@code {
+    private NavMenu? _navMenu;
+    // private bool _isIdentityPage;
+    
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     _isIdentityPage =
+    // }
+}
