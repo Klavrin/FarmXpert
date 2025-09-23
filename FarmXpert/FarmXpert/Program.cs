@@ -8,6 +8,7 @@ using FarmXpert.Domain.Interfaces;
 using FarmXpert.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using MongoDB.Driver;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddControllers();
 builder.Services.AddSingleton<MongodDbService>();
 builder.Services.AddHttpClient();
+builder.Services.AddMudServices();
 
 builder.Services.AddIdentityMongoDbProvider<ApplicationUser>(identityOptions =>
 {
