@@ -24,6 +24,6 @@ namespace FarmXpert.Domain.Entities
         public string OtherFertilizer { get; set; } = string.Empty;
         public HerbicideType Herbicide { get; set; }
         public string OtherHerbicide { get; set; } = string.Empty;
-        public object Coords { get; set; }
+        public List<double[]> Coords { get; set; } = new();
     }
 }
