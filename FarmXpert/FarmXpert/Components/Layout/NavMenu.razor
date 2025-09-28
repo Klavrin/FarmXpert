@@ -26,13 +26,13 @@
                 @* <MudNavLink Icon="@Icons.Material.Filled.AccountCircle" Match="NavLinkMatch.All" Href="/Account/Manage"> *@
                 @*     @context.User.Identity?.Name *@
                 @* </MudNavLink> *@
-                @* <form action="/Account/Logout" method="post"> *@
-                @*     <AntiforgeryToken /> *@
-                @*     <input type="hidden" name="ReturnUrl" value="@currentUrl"/> *@
-                @*     <MudButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Logout" Match="NavLinkMatch.All" Class="w-100"> *@
-                @*         Logout *@
-                @*     </MudButton> *@
-                @* </form> *@
+                <form action="/Account/Logout" method="post">
+                    <AntiforgeryToken />
+                    <input type="hidden" name="ReturnUrl" value="@currentUrl"/>
+                    <MudButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Logout" Match="NavLinkMatch.All" Class="w-100">
+                        Logout
+                    </MudButton>
+                </form>
             </Authorized>
             <NotAuthorized>
                 <MudNavLink Icon="@Icons.Material.Filled.PersonAdd" Match="NavLinkMatch.All" Href="/Account/Register">
