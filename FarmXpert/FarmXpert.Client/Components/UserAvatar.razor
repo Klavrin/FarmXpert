@@ -1,0 +1,37 @@
+@rendermode InteractiveWebAssembly
+@inject NavigationManager Navigation
+@inject HttpClient Http
+@inject IJSRuntime JsRuntime
+
+<MudPopoverProvider />
+
+<AuthorizeView>
+    <Authorized>
+        <MudMenu Size="Size.Small" Dense>
+            <ActivatorContent>
+                <MudAvatar Color="Color.Secondary">@context.User.Identity?.Name[0]</MudAvatar>
+            </ActivatorContent>
+            <ChildContent>
+                <MudMenuItem Label="Profile" Icon="@Icons.Material.Filled.Person"/>
+            </ChildContent>
+        </MudMenu>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private string? _currentUrl;
+    private ElementReference _formRef;
+    
+    protected override void OnInitialized()
+    {
+        _currentUrl = Navigation.ToBaseRelativePath(Navigation.Uri);
+        Navigation.LocationChanged += OnLocationChanged;
+    }
+    
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        _currentUrl = Navigation.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+}
