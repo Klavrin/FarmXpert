@@ -1,9 +1,9 @@
-﻿@inherits LayoutComponentBase
+﻿@using FarmXpert.Client.Components
+@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
 <div class="page">
-    <MudThemeProvider />
-    <MudPopoverProvider/>
+    <MudThemeProvider/>
     <MudDialogProvider/>
     <MudSnackbarProvider/>
 
@@ -11,10 +11,12 @@
         <MudAppBar Elevation="1" Style="display: block">
             <MudIconButton
                 id="nav-drawer-toggle-button"
-                Icon="@Icons.Material.Filled.Menu" 
-                Color="Color.Inherit" 
-                Edge="Edge.Start" 
-                OnClick="@(() => _navMenu?.ToggleDrawer())" />
+                Icon="@Icons.Material.Filled.Menu"
+                Color="Color.Inherit"
+                Edge="Edge.Start"
+                OnClick="@(() => _navMenu?.ToggleDrawer())"/>
+            <MudSpacer />
+            <UserAvatar/>
         </MudAppBar>
 
         <NavMenu @ref="_navMenu"/>
