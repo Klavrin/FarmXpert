@@ -1,0 +1,81 @@
+@page "/subsidies"
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
+    <MudText Typo="Typo.h4" GutterBottom="true">Recommended Subsidies</MudText>
+
+    @foreach (var subsidy in RecommendedSubsidies)
+    {
+        <MudPaper Class="p-4 mb-4 rounded-lg" style="@($"background-color:{subsidy.Color};")">
+            <MudStack Row="true" Spacing="2">
+                @if (subsidy.HasStar)
+                {
+                    <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Warning" />
+                }
+                <MudText Typo="Typo.h6" Class="font-semibold">@subsidy.Title</MudText>
+            </MudStack>
+
+            <MudText Class="mt-2" Typo="Typo.body2">@subsidy.Description</MudText>
+
+            <MudStack Justify="Justify.FlexEnd">
+                <MudButton Variant="Variant.Filled" Color="Color.Success" Class="mt-4">
+                    Download Document
+                </MudButton>
+            </MudStack>
+        </MudPaper>
+    }
+
+    <MudText Typo="Typo.h5" Class="mt-6 mb-2">Other Subsidies</MudText>
+
+    @foreach (var subsidy in OtherSubsidies)
+    {
+        <MudPaper Class="p-4 mb-4 rounded-lg" style="@($"background-color:{subsidy.Color};")">
+            <MudText Typo="Typo.h6" Class="font-semibold">@subsidy.Title</MudText>
+            <MudText Class="mt-2" Typo="Typo.body2">@subsidy.Description</MudText>
+            
+            <MudStack Justify="Justify.FlexEnd">
+                <MudButton Variant="Variant.Filled" Color="Color.Success" Class="mt-4">
+                    Download Document
+                </MudButton>
+            </MudStack>
+        </MudPaper>
+    }
+</MudContainer>
+
+@code {
+    class Subsidy
+    {
+        public string Title { get; set; } = "";
+        public string Description { get; set; } = "";
+        public string Color { get; set; } = "#ffffff";
+        public bool HasStar { get; set; } = false;
+    }
+
+    private List<Subsidy> RecommendedSubsidies = new()
+    {
+        new Subsidy {
+            Title = "Investiții în bazine de acumulare a apei pentru irigare",
+            Description = "Scor estimat pe bază de potrivire textuală între descrierea subvenției și profilul fermei. Semnale detectate: animal, bazine, bovine, carne, cerealiere, culturi, cultură, infrastructură, irigare, lapte, legume, ovine, porcine, sector vegetal, tehnologii, zootehnic, zootehnie. Suprafață: 31.5 ha; efective: 120 capete.",
+            Color = "#e8f5e9",
+            HasStar = true
+        },
+        new Subsidy {
+            Title = "Investiții în exploatații din sectorul vegetal",
+            Description = "Scor estimat pe bază de potrivire textuală între descrierea subvenției și profilul fermei. Semnale detectate: animal, bazine, bovine, carne, cerealiere, culturi, cultură, infrastructură, irigare, lapte, legume, ovine, porcine, sector vegetal, tehnologii, zootehnic, zootehnie. Suprafață: 31.5 ha; efective: 120 capete.",
+            Color = "#fff3e0"
+        },
+        new Subsidy {
+            Title = "Investiții în infrastructura din sectorul vegetal",
+            Description = "Scor estimat pe bază de potrivire textuală între descrierea subvenției și profilul fermei. Semnale detectate: animal, bazine, bovine, carne, cerealiere, culturi, cultură, infrastructură, irigare, lapte, legume, ovine, porcine, sector vegetal, tehnologii, zootehnic, zootehnie. Suprafață: 31.5 ha; efective: 120 capete.",
+            Color = "#fffde7"
+        }
+    };
+
+    private List<Subsidy> OtherSubsidies = new()
+    {
+        new Subsidy {
+            Title = "Investiții în tehnologii de lucrare a solului",
+            Description = "Scor estimat pe bază de potrivire textuală între descrierea subvenției și profilul fermei. Semnale detectate: animal, bazine, bovine, carne, cerealiere, culturi, cultură, infrastructură, irigare, lapte, legume, ovine, porcine, sector vegetal, tehnologii, zootehnic, zootehnie. Suprafață: 31.5 ha; efective: 120 capete.",
+            Color = "#ffebee"
+        }
+    };
+}
