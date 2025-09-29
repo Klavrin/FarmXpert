@@ -2,6 +2,60 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-6">
+    <MudGrid Spacing="3">
+        @foreach (var post in posts)
+        {
+            <MudItem xs="12" sm="6">
+                <MudCard Class="h-full w-100">
+                    <MudButton Variant="Variant.Text" Class="p-0 w-100 text-left" Style="text-transform:none;">
+                        <MudCardContent Style="text-align: start">
+                            <MudText Typo="Typo.h6" Class="mb-2">
+                                @post.Title
+                            </MudText>
+                            <MudText Typo="Typo.body2">
+                                @post.Description
+                            </MudText>
+                            
+                            <div class="w-100 pt-4 text-secondary" style="text-align: end;">
+                                <span>Learn more...</span>
+                            </div>
+                        </MudCardContent>
+                    </MudButton>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+</MudContainer>
 
-Welcome to your new app.
+@code {
+    private List<Post> posts = new()
+    {
+        new Post
+        {
+            Title = "Subsidy for Agricultural Equipment",
+            Description = "Financial support for purchasing modern agricultural machinery to improve productivity."
+        },
+        new Post
+        {
+            Title = "Irrigation System Subsidy",
+            Description = "Grants for implementing irrigation systems to ensure water availability during droughts."
+        },
+        new Post
+        {
+            Title = "Organic Farming Support",
+            Description = "Subsidies for farmers transitioning to organic practices, including certification assistance."
+        },
+        new Post
+        {
+            Title = "Young Farmer Program",
+            Description = "Special subsidies aimed at encouraging young people to start agricultural businesses."
+        }
+    };
+
+    private class Post
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+    }
+}
