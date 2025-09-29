@@ -19,6 +19,7 @@ namespace FarmXpert.Domain.Entities
         public string Species { get; set; } = string.Empty;
         public Sex Sex { get; set; }
         public DateTime BirthDate { get; set; }
+        public string OwnerId { get; set; } = string.Empty;
     }
 
 }

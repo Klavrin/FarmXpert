@@ -23,6 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<MongodDbService>();
 builder.Services.AddHttpClient();
 builder.Services.AddMudServices();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddIdentityMongoDbProvider<ApplicationUser>(identityOptions =>
 {
