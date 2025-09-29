@@ -12,7 +12,7 @@
                 <MudAvatar Color="Color.Secondary">@context.User.Identity?.Name[0]</MudAvatar>
             </ActivatorContent>
             <ChildContent>
-                <MudMenuItem Label="Profile" Icon="@Icons.Material.Filled.Person"/>
+                <MudMenuItem Label="Profile" Icon="@Icons.Material.Filled.Person" OnClick="@(() => Navigation.NavigateTo("Account/Manage"))" />
             </ChildContent>
         </MudMenu>
     </Authorized>
