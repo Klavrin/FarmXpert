@@ -29,8 +29,15 @@
                 <form action="/Account/Logout" method="post">
                     <AntiforgeryToken />
                     <input type="hidden" name="ReturnUrl" value="@currentUrl"/>
-                    <MudButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Logout" Match="NavLinkMatch.All" Class="w-100">
-                        Logout
+                    <MudButton 
+                        StartIcon="@Icons.Material.Filled.Logout" 
+                        ButtonType="ButtonType.Submit" 
+                        Icon="@Icons.Material.Filled.Logout" 
+                        Match="NavLinkMatch.All" 
+                        Class="w-100 px-6">
+                        <MudText Style="font-size: 14px; text-align: start" Class="w-100">
+                            Logout
+                        </MudText>
                     </MudButton>
                 </form>
             </Authorized>
