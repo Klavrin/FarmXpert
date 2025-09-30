@@ -2,4 +2,4 @@ using MediatR;
 
 namespace FarmXpert.Application.Vehicle.Commands.DeleteVehicle;
 
-public record DeleteVehicleCommand(Guid Id) : IRequest<FarmXpert.Domain.Entities.Vehicle?>;
+public record DeleteVehicleCommand(string OwnerId, Guid Id) : IRequest<FarmXpert.Domain.Entities.Vehicle?>;

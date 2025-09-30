@@ -3,4 +3,4 @@ using MediatR;
 
 namespace FarmXpert.Application.Vehicle.Queries.GetVehicleById;
 
-public record GetVehicleByIdQuery(Guid Id) : IRequest<FarmXpert.Domain.Entities.Vehicle?>;
+public record GetVehicleByIdQuery(string OwnerId, Guid Id) : IRequest<FarmXpert.Domain.Entities.Vehicle?>;

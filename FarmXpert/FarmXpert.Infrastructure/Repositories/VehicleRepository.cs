@@ -14,30 +14,23 @@ public class VehicleRepository : IVehicleRepository
     }
 
     public async Task CreateAsync(Vehicle vehicle, CancellationToken cancellationToken = default)
-    {
-        await _vehicles.InsertOneAsync(vehicle, null, cancellationToken);
-    }
+        => await _vehicles.InsertOneAsync(vehicle, null, cancellationToken);
 
-    public async Task<Vehicle?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<Vehicle?> GetByIdAsync(string ownerId, Guid id, CancellationToken cancellationToken = default)
     {
-        var filter = Builders<Vehicle>.Filter.Eq(v => v.Id, id);
+        var filter = Builders<Vehicle>.Filter.Eq(v => v.OwnerId, ownerId) & Builders<Vehicle>.Filter.Eq(v => v.Id, id);
         return await _vehicles.Find(filter).FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Vehicle>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Vehicle>> GetAllAsync(string ownerId, CancellationToken cancellationToken = default)
     {
-        return await _vehicles.Find(_ => true).ToListAsync(cancellationToken);
+        var filter = Builders<Vehicle>.Filter.Eq(v => v.OwnerId, ownerId);
+        return await _vehicles.Find(filter).ToListAsync(cancellationToken);
     }
 
     public async Task UpdateAsync(Vehicle vehicle, CancellationToken cancellationToken = default)
-    {
-        var filter = Builders<Vehicle>.Filter.Eq(v => v.Id, vehicle.Id);
-        await _vehicles.ReplaceOneAsync(filter, vehicle, new ReplaceOptions(), cancellationToken);
-    }
+        => await _vehicles.ReplaceOneAsync(Builders<Vehicle>.Filter.Eq(v => v.Id, vehicle.Id), vehicle, new ReplaceOptions(), cancellationToken);
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
-    {
-        var filter = Builders<Vehicle>.Filter.Eq(v => v.Id, id);
-        await _vehicles.DeleteOneAsync(filter, cancellationToken);
-    }
+        => await _vehicles.DeleteOneAsync(Builders<Vehicle>.Filter.Eq(v => v.Id, id), cancellationToken);
 }

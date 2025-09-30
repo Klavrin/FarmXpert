@@ -15,6 +15,6 @@ public class GetVehicleByIdQueryHandler : IRequestHandler<GetVehicleByIdQuery, F
 
     public async Task<FarmXpert.Domain.Entities.Vehicle?> Handle(GetVehicleByIdQuery request, CancellationToken cancellationToken)
     {
-        return await _vehicleRepository.GetByIdAsync(request.Id, cancellationToken);
+        return await _vehicleRepository.GetByIdAsync(request.OwnerId, request.Id, cancellationToken);
     }
 }
