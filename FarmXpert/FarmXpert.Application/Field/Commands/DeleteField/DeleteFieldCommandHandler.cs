@@ -13,7 +13,7 @@ public class DeleteFieldCommandHandler : IRequestHandler<DeleteFieldCommand, Far
 
     public async Task<FarmXpert.Domain.Entities.Field?> Handle(DeleteFieldCommand request, CancellationToken cancellationToken)
     {
-        var field = await _fieldRepository.GetByIdAsync(request.Id, cancellationToken);
+        var field = await _fieldRepository.GetByIdAsync(request.OwnerId, request.Id, cancellationToken);
         if (field == null)
             return null;
 

@@ -12,5 +12,5 @@ public class GetFieldByIdQueryHandler : IRequestHandler<GetFieldByIdQuery, FarmX
     }
 
     public async Task<FarmXpert.Domain.Entities.Field?> Handle(GetFieldByIdQuery request, CancellationToken cancellationToken)
-        => await _fieldRepository.GetByIdAsync(request.Id, cancellationToken);
+        => await _fieldRepository.GetByIdAsync(request.OwnerId, request.Id, cancellationToken);
 }

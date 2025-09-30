@@ -13,7 +13,7 @@ public class UpdateFieldCommandHandler : IRequestHandler<UpdateFieldCommand, Far
 
     public async Task<FarmXpert.Domain.Entities.Field> Handle(UpdateFieldCommand request, CancellationToken cancellationToken)
     {
-        var existingField = await _fieldRepository.GetByIdAsync(request.Field.Id, cancellationToken);
+        var existingField = await _fieldRepository.GetByIdAsync(request.Field.OwnerId, request.Field.Id, cancellationToken);
         if (existingField == null)
             throw new KeyNotFoundException($"Field with ID {request.Field.Id} not found.");
 

@@ -13,7 +13,7 @@ public class GetAllFieldsQueryHandler : IRequestHandler<GetAllFieldsQuery, List<
 
     public async Task<List<FarmXpert.Domain.Entities.Field>> Handle(GetAllFieldsQuery request, CancellationToken cancellationToken)
     {
-        var fields = await _fieldRepository.GetAllAsync(cancellationToken);
+        var fields = await _fieldRepository.GetAllAsync(request.OwnerId, cancellationToken);
         return fields.ToList();
     }
 }

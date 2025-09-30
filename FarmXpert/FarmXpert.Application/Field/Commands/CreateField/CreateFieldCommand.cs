@@ -12,5 +12,6 @@ public record CreateFieldCommand(
     string OtherFertilizer,
     HerbicideType Herbicide,
     string OtherHerbicide,
-    List<double[]> Coords
+    List<double[]> Coords,
+    string OwnerId
 ) : IRequest<FarmXpert.Domain.Entities.Field>;

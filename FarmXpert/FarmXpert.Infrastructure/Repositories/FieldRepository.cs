@@ -16,11 +16,17 @@ public class FieldRepository : IFieldRepository
     public async Task CreateAsync(Field field, CancellationToken cancellationToken = default)
         => await _fields.InsertOneAsync(field, null, cancellationToken);
 
-    public async Task<Field?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        => await _fields.Find(Builders<Field>.Filter.Eq(f => f.Id, id)).FirstOrDefaultAsync(cancellationToken);
+    public async Task<Field?> GetByIdAsync(string OwnerId, Guid id, CancellationToken cancellationToken = default)
+    {
+        var filter = Builders<Field>.Filter.Eq(a => a.OwnerId, OwnerId) & Builders<Field>.Filter.Eq(a => a.Id, id);
+        return await _fields.Find(filter).FirstOrDefaultAsync(cancellationToken);
+    }
 
-    public async Task<IEnumerable<Field>> GetAllAsync(CancellationToken cancellationToken = default)
-        => await _fields.Find(_ => true).ToListAsync(cancellationToken);
+    public async Task<IEnumerable<Field>> GetAllAsync(string OwnerId, CancellationToken cancellationToken = default)
+    {
+        var filter = Builders<Field>.Filter.Eq(a => a.OwnerId, OwnerId);
+        return await _fields.Find(filter).ToListAsync(cancellationToken);
+    }
 
     public async Task UpdateAsync(Field field, CancellationToken cancellationToken = default)
         => await _fields.ReplaceOneAsync(Builders<Field>.Filter.Eq(f => f.Id, field.Id), field, new ReplaceOptions(), cancellationToken);

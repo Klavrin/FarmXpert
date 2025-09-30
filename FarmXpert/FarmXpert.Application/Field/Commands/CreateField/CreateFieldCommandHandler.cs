@@ -25,7 +25,9 @@ public class CreateFieldCommandHandler : IRequestHandler<CreateFieldCommand, Far
             OtherFertilizer = request.OtherFertilizer,
             Herbicide = request.Herbicide,
             OtherHerbicide = request.OtherHerbicide,
-            Coords = request.Coords
+            Coords = request.Coords,
+            OwnerId = request.OwnerId
+
         };
         await _fieldRepository.CreateAsync(field, cancellationToken);
         return field;
