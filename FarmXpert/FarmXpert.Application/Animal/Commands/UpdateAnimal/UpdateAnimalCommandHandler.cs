@@ -14,7 +14,7 @@ public class UpdateAnimalCommandHandler: IRequestHandler<UpdateAnimalCommand, Do
     
     public async Task<Domain.Entities.Animal> Handle(UpdateAnimalCommand request, CancellationToken cancellationToken)
     {
-        var existingAnimal = await _animalRepository.GetByIdAsync(request.Animal.Id, cancellationToken);
+        var existingAnimal = await _animalRepository.GetByIdAsync(request.Animal.OwnerId, request.Animal.Id, cancellationToken);
         if (existingAnimal == null)
         {
             throw new KeyNotFoundException($"Animal with ID {request.Animal.Id} not found.");

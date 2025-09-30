@@ -14,7 +14,7 @@ public class GetAllAnimalsQueryHandler : IRequestHandler<GetAllAnimalsQuery, Lis
 
     public async Task<List<FarmXpert.Domain.Entities.Animal>> Handle(GetAllAnimalsQuery request, CancellationToken cancellationToken)
     {
-        var animals = await _animalRepository.GetAllAsync(cancellationToken);
+        var animals = await _animalRepository.GetAllAsync(request.OwnerId, cancellationToken);
         return animals.ToList();
     }
 }

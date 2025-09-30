@@ -20,7 +20,8 @@ public class CreateAnimalCommandHandler : IRequestHandler<CreateAnimalCommand, F
             CattleId = request.CattleId,
             Species = request.Species,
             Sex = request.Sex,
-            BirthDate = request.BirthDate
+            BirthDate = request.BirthDate,
+            OwnerId = request.OwnerId
         };
         await _animalRepository.CreateAsync(animal, cancellationToken);
         return animal;

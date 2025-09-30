@@ -15,7 +15,7 @@ public class GetAllVehiclesQueryHandler : IRequestHandler<GetAllVehiclesQuery, L
 
     public async Task<List<FarmXpert.Domain.Entities.Vehicle>> Handle(GetAllVehiclesQuery request, CancellationToken cancellationToken)
     {
-        var vehicles = await _vehicleRepository.GetAllAsync(cancellationToken);
+        var vehicles = await _vehicleRepository.GetAllAsync(request.OwnerId, cancellationToken);
         return vehicles.ToList();
     }
 }

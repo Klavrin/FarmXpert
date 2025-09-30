@@ -7,5 +7,6 @@ public record CreateAnimalCommand(
     Guid CattleId,
     string Species,
     Sex Sex,
-    DateTime BirthDate
+    DateTime BirthDate,
+    string OwnerId
 ) : IRequest<FarmXpert.Domain.Entities.Animal>;

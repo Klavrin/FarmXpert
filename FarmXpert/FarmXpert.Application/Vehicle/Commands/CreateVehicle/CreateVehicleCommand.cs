@@ -4,6 +4,7 @@ using MediatR;
 namespace FarmXpert.Application.Vehicle.Commands.CreateVehicle;
 
 public record CreateVehicleCommand(
+    string OwnerId,
     Guid BusinessId,
     Guid VehicleGroupId,
     string VehicleType,

@@ -15,7 +15,7 @@ public class DeleteVehicleCommandHandler : IRequestHandler<DeleteVehicleCommand,
 
     public async Task<FarmXpert.Domain.Entities.Vehicle?> Handle(DeleteVehicleCommand request, CancellationToken cancellationToken)
     {
-        var vehicle = await _vehicleRepository.GetByIdAsync(request.Id, cancellationToken);
+        var vehicle = await _vehicleRepository.GetByIdAsync(request.OwnerId, request.Id, cancellationToken);
         if (vehicle == null)
         {
             return null;

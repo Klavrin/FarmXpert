@@ -23,6 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<MongodDbService>();
 builder.Services.AddHttpClient();
 builder.Services.AddMudServices();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddIdentityMongoDbProvider<ApplicationUser>(identityOptions =>
 {
@@ -51,6 +52,7 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<IFieldRepository, FieldRepository>();
 
 var app = builder.Build();
 

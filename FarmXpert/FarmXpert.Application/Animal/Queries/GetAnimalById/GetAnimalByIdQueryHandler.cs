@@ -14,6 +14,6 @@ public class GetAnimalByIdQueryHandler : IRequestHandler<GetAnimalByIdQuery, Far
 
     public async Task<Domain.Entities.Animal?> Handle(GetAnimalByIdQuery request, CancellationToken cancellationToken)
     {
-        return await _animalRepository.GetByIdAsync(request.Id, cancellationToken);
+        return await _animalRepository.GetByIdAsync(request.OwnerId, request.Id, cancellationToken);
     }
 }

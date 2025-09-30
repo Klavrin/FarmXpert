@@ -22,7 +22,8 @@ public class CreateVehicleCommandHandler : IRequestHandler<CreateVehicleCommand,
             VehicleGroupId = request.VehicleGroupId,
             VehicleType = request.VehicleType,
             FabricationDate = request.FabricationDate,
-            Brand = request.Brand
+            Brand = request.Brand,
+            OwnerId = request.OwnerId
         };
 
         await _vehicleRepository.CreateAsync(vehicle, cancellationToken);

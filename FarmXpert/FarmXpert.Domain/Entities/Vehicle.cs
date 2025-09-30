@@ -20,5 +20,6 @@ namespace FarmXpert.Domain.Entities
         public string VehicleType { get; set; } = string.Empty;
         public short FabricationDate { get; set; }
         public string Brand { get; set; } = string.Empty;
+        public string OwnerId { get; set; } = string.Empty;
     }
 }

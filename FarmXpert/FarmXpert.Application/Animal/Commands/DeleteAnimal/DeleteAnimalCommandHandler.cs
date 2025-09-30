@@ -14,7 +14,7 @@ public class DeleteAnimalCommandHandler : IRequestHandler<DeleteAnimalCommand, F
 
     public async Task<Domain.Entities.Animal?> Handle(DeleteAnimalCommand request, CancellationToken cancellationToken)
     {
-        var animal = await _animalRepository.GetByIdAsync(request.Id, cancellationToken);
+        var animal = await _animalRepository.GetByIdAsync(request.OwnerId, request.Id, cancellationToken);
         if (animal == null)
         {
             return null;
