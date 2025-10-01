@@ -36,11 +36,11 @@
             </div>
         </MudStep>
         
-        <MudStep Title="Add farm details">
+        <MudStep Title="Add farm details" Class="d-flex flex-column gap-1">
             <MudTextField T="string" Label="Farm Name" />
             <MudTextField T="string" Label="Farm Location" />
             <MudTextField T="string" Label="Land parcels and size" />
-            <MudTextField T="string" Label="Date of registration" style="margin-bottom: 1.5rem;" />
+            <MudDatePicker Label="Date of Registration" @bind-Date="_date" Style="margin-bottom: 1.5rem;" />
         </MudStep>
         
         <MudStep Title="Add livestock" SecondaryText="Optional" Skippable="true">
@@ -55,7 +55,9 @@
 </MudPaper>
 
 @code {
+    private DateTime? _date = DateTime.Today;
     IList<IBrowserFile> _files = new List<IBrowserFile>();
+    
     private void UploadFiles(IBrowserFile file)
     {
         _files.Add(file);
