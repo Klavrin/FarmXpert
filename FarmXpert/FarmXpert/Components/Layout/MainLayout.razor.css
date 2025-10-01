@@ -44,6 +44,10 @@ main {
     .top-row ::deep a, .top-row ::deep .btn-link {
         margin-left: 0;
     }
+
+    .sticky-alert {
+        top: 56px;
+    }
 }
 
 @media (min-width: 641px) {
@@ -96,3 +100,17 @@ main {
         right: 0.75rem;
         top: 0.5rem;
     }
+.sticky-alert {
+    position: sticky;
+    top: 64px;
+    z-index: 99999;
+}
+
+.complete-setup {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.complete-setup:hover {
+    text-decoration: none;
+}
