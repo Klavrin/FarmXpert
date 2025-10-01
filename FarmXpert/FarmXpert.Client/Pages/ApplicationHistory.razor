@@ -1,0 +1,106 @@
+@page "/application-history"
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
+    <MudText Typo="Typo.h4" GutterBottom="true">Application History</MudText>
+</MudContainer>
+
+<MudContainer MaxWidth="MaxWidth.Large">
+    @if (applicationCount > 0)
+    {
+        <div class="grid-container">
+            <MudPaper Class="d-flex">
+                <MudButton Class="p-0 flex-grow-1">
+                    <div class="d-flex flex-column" style="width: 100%;">
+                        <div class="bg-body-secondary d-flex justify-content-center align-items-center p-4">
+                            <MudIcon Style="font-size: 15rem;" Icon="@Icons.Material.Filled.RequestQuote" Size="Size.Large" Class="mud-icon-size-large"/>
+                        </div>
+
+                        <div class="pa-4" style="text-align: left;">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <MudText Class="fw-bold" Typo="Typo.body1">Application title</MudText>
+                                <MudText Typo="Typo.body2">Processing</MudText>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-1">
+                                <div class="d-flex gap-1">
+                                    <MudIcon Icon="@Icons.Material.Filled.DateRange" Size="Size.Small"/>
+                                    <MudText Typo="Typo.body2">01.10.2025</MudText>
+                                </div>
+                                <MudIcon Icon="@Icons.Material.Filled.MoreVert"/>
+                            </div>
+                        </div>
+                    </div>
+                </MudButton>
+            </MudPaper>
+            
+            <MudPaper Class="d-flex">
+                <MudButton Class="p-0 flex-grow-1">
+                    <div class="d-flex flex-column" style="width: 100%;">
+                        <div class="d-flex justify-content-center align-items-center p-4" style="background: #5ab543">
+                            <MudIcon Style="font-size: 15rem;" Icon="@Icons.Material.Filled.RequestQuote" Size="Size.Large" Class="mud-icon-size-large"/>
+                        </div>
+
+                        <div class="pa-4" style="text-align: left;">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <MudText Class="fw-bold" Typo="Typo.body1">Application title</MudText>
+                                <MudText Class="text-success" Typo="Typo.body2">Accepted</MudText>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-1">
+                                <div class="d-flex gap-1">
+                                    <MudIcon Icon="@Icons.Material.Filled.DateRange" Size="Size.Small"/>
+                                    <MudText Typo="Typo.body2">01.10.2025</MudText>
+                                </div>
+                                <MudIcon Icon="@Icons.Material.Filled.MoreVert"/>
+                            </div>
+                        </div>
+                    </div>
+                </MudButton>
+            </MudPaper>
+            
+            <MudPaper Class="d-flex">
+                <MudButton Class="p-0 flex-grow-1">
+                    <div class="d-flex flex-column" style="width: 100%;">
+                        <div class="d-flex justify-content-center align-items-center p-4" style="background: #b54343">
+                            <MudIcon Style="font-size: 15rem;" Icon="@Icons.Material.Filled.RequestQuote" Size="Size.Large" Class="mud-icon-size-large"/>
+                        </div>
+
+                        <div class="pa-4" style="text-align: left;">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <MudText Class="fw-bold" Typo="Typo.body1">Application title</MudText>
+                                <MudText Class="text-danger" Typo="Typo.body2">Rejected</MudText>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-1">
+                                <div class="d-flex gap-1">
+                                    <MudIcon Icon="@Icons.Material.Filled.DateRange" Size="Size.Small"/>
+                                    <MudText Typo="Typo.body2">01.10.2025</MudText>
+                                </div>
+                                <MudIcon Icon="@Icons.Material.Filled.MoreVert"/>
+                            </div>
+                        </div>
+                    </div>
+                </MudButton>
+            </MudPaper>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex flex-column justify-center align-center text-center" style="height: 50vh;">
+            <MudIcon Icon="@Icons.Material.Filled.HistoryEdu" Size="Size.Large" Color="Color.Default" Class="mb-4" Style="font-size: 4rem; opacity: 0.5;"/>
+            <MudText Typo="Typo.h5" Class="mb-2">No applications</MudText>
+            <MudText Typo="Typo.body1" Color="Color.Secondary">You haven't submitted any applications yet.</MudText>
+        </div>
+    }
+</MudContainer>
+
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+        gap: 1rem;
+        justify-content: center;
+        padding-inline: 1.6rem;
+    }
+</style>
+
+@code {
+    private int applicationCount = 5;
+}
