@@ -7,6 +7,7 @@
     <MudDialogProvider/>
     <MudSnackbarProvider/>
 
+    
     <MudLayout>
         <MudAppBar Elevation="1" Style="display: block">
             <MudIconButton
@@ -15,13 +16,25 @@
                 Color="Color.Inherit"
                 Edge="Edge.Start"
                 OnClick="@(() => _navMenu?.ToggleDrawer())"/>
-            <MudSpacer />
+            <MudSpacer/>
             <UserAvatar/>
         </MudAppBar>
-
+        
         <NavMenu @ref="_navMenu"/>
 
         <MudMainContent Style="min-height: calc(100vh);">
+            <AuthorizeView>
+                <Authorized>
+                    <MudAlert
+                        Class="sticky-alert"
+                        Variant="Variant.Filled"
+                        Severity="Severity.Warning"
+                        ShowCloseIcon>
+                        Please complete your profile setup.
+                        <span class="complete-setup">Complete setup</span>.
+                    </MudAlert>
+                </Authorized>
+            </AuthorizeView>
             <MudContainer Class="mt-6">
                 <article class="content">
                     @Body
