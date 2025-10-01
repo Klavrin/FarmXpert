@@ -5,31 +5,42 @@
 </MudContainer>
 
 <MudContainer MaxWidth="MaxWidth.Large">
-    <div class="grid-container">
-        @foreach (var _ in Enumerable.Range(1, 5))
-        {
-            <MudPaper Class="d-flex">
-                <MudButton Class="p-0 flex-grow-1">
-                    <div class="d-flex flex-column" style="width: 100%;">
-                        <div class="bg-body-secondary d-flex justify-content-center align-items-center p-4">
-                            <MudIcon Style="font-size: 15rem;" Icon="@Icons.Material.Filled.InsertDriveFile" Size="Size.Large" Class="mud-icon-size-large"/>
-                        </div>
+    @if (documentCount > 0)
+    {
+        <div class="grid-container">
+            @foreach (var _ in Enumerable.Range(1, documentCount))
+            {
+                <MudPaper Class="d-flex">
+                    <MudButton Class="p-0 flex-grow-1">
+                        <div class="d-flex flex-column" style="width: 100%;">
+                            <div class="bg-body-secondary d-flex justify-content-center align-items-center p-4">
+                                <MudIcon Style="font-size: 15rem;" Icon="@Icons.Material.Filled.InsertDriveFile" Size="Size.Large" Class="mud-icon-size-large"/>
+                            </div>
 
-                        <div class="pa-4" style="text-align: left;">
-                            <MudText Class="fw-bold" Typo="Typo.body1">Document title</MudText>
-                            <div class="d-flex align-items-center justify-content-between mt-1">
-                                <div class="d-flex gap-1">
-                                    <MudIcon Icon="@Icons.Material.Filled.DateRange" Size="Size.Small"/>
-                                    <MudText Typo="Typo.body2">01.10.2025</MudText>
+                            <div class="pa-4" style="text-align: left;">
+                                <MudText Class="fw-bold" Typo="Typo.body1">Document title</MudText>
+                                <div class="d-flex align-items-center justify-content-between mt-1">
+                                    <div class="d-flex gap-1">
+                                        <MudIcon Icon="@Icons.Material.Filled.DateRange" Size="Size.Small"/>
+                                        <MudText Typo="Typo.body2">01.10.2025</MudText>
+                                    </div>
+                                    <MudIcon Icon="@Icons.Material.Filled.MoreVert"/>
                                 </div>
-                                <MudIcon Icon="@Icons.Material.Filled.MoreVert"/>
                             </div>
                         </div>
-                    </div>
-                </MudButton>
-            </MudPaper>
-        }
-    </div>
+                    </MudButton>
+                </MudPaper>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="d-flex flex-column justify-center align-center text-center" style="height: 50vh;">
+            <MudIcon Icon="@Icons.Material.Filled.FolderOff" Size="Size.Large" Color="Color.Default" Class="mb-4" Style="font-size: 4rem; opacity: 0.5;"/>
+            <MudText Typo="Typo.h5" Class="mb-2">No documents</MudText>
+            <MudText Typo="Typo.body1" Color="Color.Secondary">You don't have any documents yet.</MudText>
+        </div>
+    }
 </MudContainer>
 
 <style>
@@ -43,5 +54,5 @@
 </style>
 
 @code {
-    
+    private int documentCount = 5;
 }
