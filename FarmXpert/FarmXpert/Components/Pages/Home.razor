@@ -4,30 +4,45 @@
 
 <PageTitle>Home</PageTitle>
 
-<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-6">
-    <MudGrid Spacing="3">
+<MudContainer Class="mt-6 d-flex flex-column gap-4" Style="max-width: 45rem; margin-bottom: 5rem;">
         @foreach (var post in posts)
         {
-            <MudItem xs="12" sm="6">
-                <MudCard Class="h-full w-100">
-                    <MudButton Variant="Variant.Text" Class="p-0 w-100 text-left" Style="text-transform:none;">
-                        <MudCardContent Style="text-align: start">
-                            <MudText Typo="Typo.h6" Class="mb-2">
-                                @post.Title
-                            </MudText>
-                            <MudText Typo="Typo.body2">
-                                @post.Description
-                            </MudText>
-                            
-                            <div class="w-100 pt-4 text-secondary" style="text-align: end;">
-                                <span>Learn more...</span>
+            <MudCard Class="p-3" Style="cursor: pointer;">
+                <div class="d-flex">
+                    <MudAvatar Style="margin-right: 0.5rem;" Color="Color.Primary">FX</MudAvatar>
+                    <div class="mt-1">
+                        <MudText Class="fw-bold" Typo="Typo.h5">
+                            @post.Title
+                        </MudText>
+                        <MudText Class="opacity-75 mb-3" Typo="Typo.body1">
+                            @post.Description
+                        </MudText>
+                        
+                        <MudText Class="opacity-75" Typo="Typo.body2" Style="mask-image: linear-gradient(to bottom, black 50%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </MudText>
+                        
+                        <div class="mt-4 d-flex justify-content-between align-items-center">
+                            <div>
+                                <MudButton>
+                                    <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Favorite" Size="Size.Small"/>
+                                    <span>30</span>
+                                </MudButton>
+
+                                <MudButton>
+                                    <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Comment" Size="Size.Small"/>
+                                    <span>7</span>
+                                </MudButton>
                             </div>
-                        </MudCardContent>
-                    </MudButton>
-                </MudCard>
-            </MudItem>
+                            
+                            <MudButton>
+                                <MudIcon Icon="@Icons.Material.Filled.Download" Size="Size.Small"/>
+                            </MudButton>
+                        </div>
+                    </div>
+                </div>
+            </MudCard>
         }
-    </MudGrid>
 </MudContainer>
 
 @code {
