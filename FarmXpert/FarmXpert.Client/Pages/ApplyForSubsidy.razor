@@ -1,9 +1,60 @@
 @page "/apply-for-subsidy"
+@using FarmXpert.Client.Components
+@rendermode InteractiveWebAssembly
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
     <MudText Typo="Typo.h4" GutterBottom="true">Apply for Subsidy</MudText>
 </MudContainer>
 
-@code {
+<MudContainer Class="mt-6 pb-5">
+    <MudSelect @bind-Value="_value"
+               Variant="Variant.Filled"
+               Label="Subsidy Type">
+        @foreach (var type in _subsidyTypes)
+        {
+            <MudSelectItem Value="type">@type</MudSelectItem>
+        }
+    </MudSelect>
     
+    @if (_value == "Advance payments")
+    {
+        <AdvancePayments />
+    }
+    else if (_value == "Post-investment payments")
+    {
+        <PostInvestmentPayments />
+    }
+    else if (_value == "Stage-based investment payments")
+    {
+        <StageBasedInvestmentPayments />
+    }
+    else if (_value == "Direct payments")
+    {
+        <DirectPayments />
+    }
+    else if (_value == "Complementary payments")
+    {
+        <ComplementaryPayments />
+    }
+    
+</MudContainer>
+
+@code {
+    private string _value;
+    IList<IBrowserFile> _files = new List<IBrowserFile>();
+    
+    private void UploadFiles(IBrowserFile file)
+    {
+        _files.Add(file);
+        //TODO upload the files to the server
+    }
+
+    private readonly string[] _subsidyTypes =
+    {
+        "Advance payments", 
+        "Post-investment payments", 
+        "Stage-based investment payments", 
+        "Direct payments", 
+        "Complementary payments"
+    };
 }
