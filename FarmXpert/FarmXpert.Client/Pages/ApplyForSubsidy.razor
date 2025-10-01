@@ -7,41 +7,51 @@
 </MudContainer>
 
 <MudContainer Class="mt-6 pb-5">
+    <MudCheckBox @bind-Value="_selectDisabled" Color="Color.Primary">DEV ONLY: ignore profile setup completion.</MudCheckBox>
+    @if (_selectDisabled)
+    {
+        <MudText Class="mb-2 text-danger" Typo="Typo.body2">
+            You cannot select a subsidy type until you complete your profile setup.
+        </MudText>
+    }
+
     <MudSelect @bind-Value="_value"
                Variant="Variant.Filled"
-               Label="Subsidy Type">
+               Label="Subsidy Type"
+               Disabled="@_selectDisabled">
         @foreach (var type in _subsidyTypes)
         {
             <MudSelectItem Value="type">@type</MudSelectItem>
         }
     </MudSelect>
-    
+
     @if (_value == "Advance payments")
     {
-        <AdvancePayments />
+        <AdvancePayments/>
     }
     else if (_value == "Post-investment payments")
     {
-        <PostInvestmentPayments />
+        <PostInvestmentPayments/>
     }
     else if (_value == "Stage-based investment payments")
     {
-        <StageBasedInvestmentPayments />
+        <StageBasedInvestmentPayments/>
     }
     else if (_value == "Direct payments")
     {
-        <DirectPayments />
+        <DirectPayments/>
     }
     else if (_value == "Complementary payments")
     {
-        <ComplementaryPayments />
+        <ComplementaryPayments/>
     }
-    
+
 </MudContainer>
 
 @code {
     private string _value;
     IList<IBrowserFile> _files = new List<IBrowserFile>();
+    private bool _selectDisabled = true;
     
     private void UploadFiles(IBrowserFile file)
     {
