@@ -1,6 +1,6 @@
 ﻿@using FarmXpert.Client.Components
 @inherits LayoutComponentBase
-@inject NavigationManager NavigationManager
+@inject NavigationManager Navigation
 
 <div class="page">
     <MudThemeProvider/>
@@ -31,7 +31,9 @@
                         Severity="Severity.Warning"
                         ShowCloseIcon>
                         Please complete your profile setup.
-                        <span class="complete-setup">Complete setup</span>.
+                        <MudLink Href="/profile-setup" Color="Color.Inherit" Style="text-decoration: underline; font-size: 14px;">
+                            Complete setup
+                        </MudLink>
                     </MudAlert>
                 </Authorized>
             </AuthorizeView>
