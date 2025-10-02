@@ -43,13 +43,12 @@
             <MudDatePicker Label="Date of Registration" @bind-Date="_date" Style="margin-bottom: 1.5rem;" />
         </MudStep>
         
-        <MudStep Title="Add crops" Class="d-flex flex-column gap-2">
-            <MudText Typo="Typo.body2">Land parcel:</MudText>
+        <MudStep Title="Add crops" Class="d-flex flex-column gap-2" SecondaryText="Optional" Skippable="true">
+            <MudText Class="fw-bold" Typo="Typo.body1">Land parcel:</MudText>
             <MudTextField T="string" Label="Size" @bind-Value="_landParcel.Size"/>
             <MudTextField T="string" Label="Location" @bind-Value="_landParcel.Location"/>
 
-            <MudText Typo="Typo.body2" Class="mt-4">Crop types:</MudText>
-
+            <MudText Class="fw-bold mt-4" Typo="Typo.body1">Crop types:</MudText>
             @foreach (var crop in _crops)
             {
                 <MudPaper Class="p-3 mb-2" Style="border: 1px solid #ccc; border-radius: 8px;">
@@ -67,12 +66,35 @@
                 Add Another Crop
             </MudButton>
 
-            <MudText Typo="Typo.body2" Class="mt-4">Agricultural Practice:</MudText>
-            <MudTextField T="string" Label="Agricultural Practice" @bind-Value="_agriculturalPractice"/>
+            <MudText Class="fw-bold mt-4" Typo="Typo.body1">Agricultural Practice:</MudText>
+            <MudTextField Style="margin-bottom: 1.5rem;" T="string" Label="Agricultural Practice" @bind-Value="_agriculturalPractice"/>
         </MudStep>
         
         <MudStep Title="Add livestock" SecondaryText="Optional" Skippable="true">
-            How do we add the livestock?
+            <MudText Class="fw-bold" Typo="Typo.body1">Animal Types:</MudText>
+
+            @foreach (var animal in _livestock)
+            {
+                <MudPaper Class="p-3 mb-2" Style="border: 1px solid #ccc; border-radius: 8px;">
+                    <div class="d-flex flex-column gap-2">
+                        <MudTextField T="string" Label="Animal Type" @bind-Value="animal.Type"/>
+                        <MudTextField T="string" Label="Num. of Animals" @bind-Value="animal.Count"/>
+                        <MudTextField T="string" Label="Herd Book Number" @bind-Value="animal.HerdBookNumber"/>
+                        <MudTextField T="string" Label="Production Type" @bind-Value="animal.ProductionType"/>
+
+                        <MudButton Variant="Variant.Text" Color="Color.Error" OnClick="() => RemoveAnimal(animal)">
+                            Remove
+                        </MudButton>
+                    </div>
+                </MudPaper>
+            }
+
+            <MudButton Class="w-100" Variant="Variant.Outlined" Color="Color.Primary" OnClick="AddAnimal">
+                Add Another Animal
+            </MudButton>
+
+            <MudTextField T="string" Label="Herd Book Number" @bind-Value="_landParcel.Size"/>
+            <MudTextField T="string" Label="Production Type" @bind-Value="_landParcel.Size"/>
         </MudStep>
         
         <MudStep Title="Add insurances" SecondaryText="Optional" Skippable="true">
@@ -87,23 +109,20 @@
     IList<IBrowserFile> _files = new List<IBrowserFile>();
     private LandParcel _landParcel = new();
     private List<Crop> _crops = new();
+    private List<Animal> _livestock = new();
     private string _agriculturalPractice = "";
-    
+
     private void UploadFiles(IBrowserFile file)
     {
         _files.Add(file);
         //TODO upload the files to the server
     }
-    
-    private void AddCrop()
-    {
-        _crops.Add(new Crop());
-    }
 
-    private void RemoveCrop(Crop crop)
-    {
-        _crops.Remove(crop);
-    }
+    private void AddCrop() => _crops.Add(new Crop());
+    private void RemoveCrop(Crop crop) => _crops.Remove(crop);
+
+    private void AddAnimal() => _livestock.Add(new Animal());
+    private void RemoveAnimal(Animal animal) => _livestock.Remove(animal);
 
     public class LandParcel
     {
@@ -115,5 +134,13 @@
     {
         public string Type { get; set; } = "";
         public string CultivatedArea { get; set; } = "";
+    }
+
+    public class Animal
+    {
+        public string Type { get; set; } = "";
+        public string Count { get; set; } = "";
+        public string HerdBookNumber { get; set; } = "";
+        public string ProductionType { get; set; } = "";
     }
 }
