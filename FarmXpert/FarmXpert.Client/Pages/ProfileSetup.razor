@@ -1,10 +1,52 @@
 @page "/profile-setup"
+@inject HttpClient Http
+@using System.Net.Http.Json
 @using FarmXpert.Client.Components
+@rendermode InteractiveWebAssembly
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
     <MudText Typo="Typo.h4" GutterBottom="true">Profile Setup</MudText>
 </MudContainer>
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="d-flex justify-content-center" Style="margin-bottom: 5rem;">
-    <Stepper />
+    @if (isLoading)
+    {
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+    }
+    else if (profileSetupCompleted)
+    {
+        <MudText Typo="Typo.body1">Profile setup already completed ✅</MudText>
+    }
+    else
+    {
+        <Stepper />
+    }
 </MudContainer>
+
+@code {
+    private bool profileSetupCompleted;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var result = await Http.GetFromJsonAsync<ProfileStatus>("api/users/profile-status");
+            profileSetupCompleted = result?.ProfileSetupCompleted ?? false;
+            Console.WriteLine(profileSetupCompleted);
+        }
+        catch
+        {
+            profileSetupCompleted = false;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private class ProfileStatus
+    {
+        public bool ProfileSetupCompleted { get; set; }
+    }
+}
