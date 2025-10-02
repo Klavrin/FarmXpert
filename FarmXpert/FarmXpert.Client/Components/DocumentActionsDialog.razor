@@ -1,0 +1,41 @@
+@using MudBlazor
+@inject IDialogService DialogService
+
+@code {
+    [Parameter] public int Index { get; set; }
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+
+    private void Download()
+    {
+        Console.WriteLine($"Download document {Index}");
+        MudDialog.Close();
+    }
+
+    private void Delete()
+    {
+        Console.WriteLine($"Delete document {Index}");
+        MudDialog.Close();
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+}
+
+<MudDialog>
+    <DialogContent>
+        <MudText Typo="Typo.h6" Class="mb-4">Choose an action</MudText>
+        <MudStack Spacing="2">
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Download"
+                       OnClick="Download" Class="w-100">
+                Download
+            </MudButton>
+
+            <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete"
+                       OnClick="Delete" Class="w-100">
+                Delete
+            </MudButton>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Text" OnClick="Cancel">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
