@@ -31,4 +31,14 @@ public class UserController : ControllerBase
         
         return BadRequest(result.Errors);
     }
+    
+    [HttpGet("profile-status")]
+    public async Task<IActionResult> GetProfileStatus()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null) return NotFound();
+
+        return Ok(new { profileSetupCompleted = user.ProfileSetupCompleted });
+    }
+
 }
