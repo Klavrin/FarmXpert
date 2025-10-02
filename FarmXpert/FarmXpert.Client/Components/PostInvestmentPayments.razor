@@ -1,0 +1,29 @@
+<MudText Class="mt-4" Typo="Typo.body2">
+    Post-investment payments are subsidies provided to farmers after the completion of a project or investment. These payments are intended to reimburse farmers for eligible expenses incurred during the implementation of their agricultural activities. The post-investment payment is usually based on the actual costs incurred and is subject to verification and approval by the relevant authorities.
+</MudText>
+
+<MudText Class="mt-2" Typo="Typo.body2">
+    Conditions:
+    <ul>
+        <li>Viable investment project completed</li>
+        <li>Costs fully supported and proven with invoices.</li>
+        <li>Must own the assets created / purchased.</li>
+    </ul>
+</MudText>
+
+<UploadDocument Title="Declaration on own responsibility" ButtonText="Upload Declaration" FilesChanged="UploadFiles" />
+<UploadDocument Title="Farm registration certificate / registry extract" ButtonText="Upload Certificate" FilesChanged="UploadFiles" />
+<UploadDocument Title="Proof of land rights (if applicable) (optional)" ButtonText="Upload Proof" FilesChanged="UploadFiles" />
+<UploadDocument Title="Full set of invoices and proof of payment (bank orders, receipts)" ButtonText="Upload invoices" FilesChanged="UploadFiles" />
+<UploadDocument Title="Certificate of putting into operation" ButtonText="Upload Certificate" FilesChanged="UploadFiles" />
+<UploadDocument Title="Other approvals (environmental, utilities, etc., if relevant ) (optional)" ButtonText="Upload Approvals" FilesChanged="UploadFiles" />
+
+@code {
+    IList<IBrowserFile> _files = new List<IBrowserFile>();
+    
+    private void UploadFiles(IBrowserFile file)
+    {
+        _files.Add(file);
+        //TODO upload the files to the server
+    }
+}

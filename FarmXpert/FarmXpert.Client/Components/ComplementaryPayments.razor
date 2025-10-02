@@ -1,0 +1,23 @@
+<MudText Class="mt-4" Typo="Typo.body2">
+    Complementary payments are additional subsidies provided to farmers to supplement other forms of financial assistance they may receive. These payments are designed to enhance the overall support available to farmers and may be used in conjunction with other subsidy programs. Complementary payments can help address specific needs or challenges faced by farmers, such as market fluctuations or unexpected expenses.
+</MudText>
+
+<MudText Class="mt-2" Typo="Typo.body2">
+    Conditions: Must prove actual costs, insurance premiums, or losses from disasters/loans.
+</MudText>
+
+<UploadDocument Title="Declaration on own responsibility" ButtonText="Upload Declaration" FilesChanged="UploadFiles" />
+<UploadDocument Title="Farm registration certificate / registry extract" ButtonText="Upload Certificate" FilesChanged="UploadFiles" />
+<UploadDocument Title="For insurance: copy of contract, policy, payment proof" ButtonText="Upload Insurance" FilesChanged="UploadFiles" />
+<UploadDocument Title="For interest compensation: bank loan agreement + interest statements" ButtonText="Upload Compensation" FilesChanged="UploadFiles" />
+<UploadDocument Title="For losses: official damage assessment act" ButtonText="Upload Losses" FilesChanged="UploadFiles" />
+
+@code {
+    IList<IBrowserFile> _files = new List<IBrowserFile>();
+    
+    private void UploadFiles(IBrowserFile file)
+    {
+        _files.Add(file);
+        //TODO upload the files to the server
+    }
+}

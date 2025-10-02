@@ -1,0 +1,30 @@
+<MudText Class="mt-4" Typo="Typo.body2">
+    Direct payments are subsidies provided directly to farmers without any specific project or investment requirements. These payments are often aimed at supporting farmers' income, promoting sustainable agricultural practices, or encouraging specific types of farming activities. Direct payments may be based on factors such as farm size, production levels, or environmental stewardship.
+</MudText>
+
+<MudText Class="mt-2" Typo="Typo.body2">
+    Conditions:
+    <ul>
+        <li>Vegetal sector: minimum eligible surface (set by Government).</li>
+        <li>Zootechnical: minimum number of animals, proof of production & delivery to processor.</li>
+        <li>Ecological: farm must hold an organic farming certificate <br /> ⚠️ Animals must be registered and insured.</li>
+    </ul>
+</MudText>
+
+<UploadDocument Title="Declaration on own responsibility" ButtonText="Upload Declaration" FilesChanged="UploadFiles" />
+<UploadDocument Title="Farm registration certificate / registry extract" ButtonText="Upload Certificate" FilesChanged="UploadFiles" />
+<UploadDocument Title="Land/cadastral certificates (for crops)" ButtonText="Upload Certificates" FilesChanged="UploadFiles" />
+<p class="text-danger">TODO: allow to upload multiple files</p>
+<UploadDocument Title="Livestock registry proof (for animals)" ButtonText="Upload Proof" FilesChanged="UploadFiles" />
+<UploadDocument Title="Insurance policy (for animals)" ButtonText="Upload Insurance" FilesChanged="UploadFiles" />
+<UploadDocument Title="Organic certification (for ecological farming)" ButtonText="Upload Certification" FilesChanged="UploadFiles" />
+
+@code {
+    IList<IBrowserFile> _files = new List<IBrowserFile>();
+    
+    private void UploadFiles(IBrowserFile file)
+    {
+        _files.Add(file);
+        //TODO upload the files to the server
+    }
+}

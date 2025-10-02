@@ -43,6 +43,17 @@
                 <label for="Input.ConfirmPassword">Confirm Password</label>
                 <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger"/>
             </div>
+            <div class="form-floating mb-3">
+                <InputText type="tel" @bind-Value="Input.PhoneNumber" id="Input.PhoneNumber" class="form-control" autocomplete="new-phone-number" aria-required="true" placeholder="number"/>
+                <label for="Input.PhoneNumber">Phone Number</label>
+                <ValidationMessage For="() => Input.PhoneNumber" class="text-danger"/>
+            </div>
+            <div class="form-floating mb-3">
+                <InputText type="tel" @bind-Value="Input.Idno" id="Input.Idnp" class="form-control" autocomplete="new-password" aria-required="true" placeholder="id"/>
+                <label for="Input.Idnp">IDNO</label>
+                <ValidationMessage For="() => Input.Idno" class="text-danger"/>
+            </div>
+
             <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </EditForm>
     </div>
@@ -141,6 +152,14 @@
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = "";
+        
+        [Phone]
+        [Display(Name = "Phone number")]
+        public string PhoneNumber { get; set; } = "";
+        
+        [DataType(DataType.Text)]
+        [Display(Name = "Idno")]
+        public string Idno { get; set; } = "";
     }
 
 }

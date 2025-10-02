@@ -1,0 +1,29 @@
+<MudText Class="mt-4" Typo="Typo.body2">
+    Advance payments are pre-financed subsidies provided to farmers before the commencement of a project or investment. These payments help farmers cover initial costs and expenses associated with their agricultural activities. The advance payment is typically a percentage of the total subsidy amount and is disbursed based on the approved project plan and budget.
+</MudText>
+
+<MudText Class="mt-2" Typo="Typo.body2">
+    Conditions:
+    <ul>
+        <li>Own contribution of at least 10%.</li>
+        <li>Viable investment project.</li>
+        <li>Project duration max. 24 months.</li>
+    </ul>
+</MudText>
+
+<UploadDocument Title="Declaration on own responsibility" ButtonText="Upload Declaration" FilesChanged="UploadFiles" />
+<UploadDocument Title="Farm registration certificate / registry extract" ButtonText="Upload Certificate" FilesChanged="UploadFiles" />
+<UploadDocument Title="Proof of land rights (property, lease, or use certificate)" ButtonText="Upload Proof" FilesChanged="UploadFiles" />
+<UploadDocument Title="Project plan / technical design + budget" ButtonText="Upload Project Plan" FilesChanged="UploadFiles" />
+<UploadDocument Title="Bank guarantee or performance commitment (optional)" ButtonText="Upload Bank Guarantee" FilesChanged="UploadFiles" />
+
+@code {
+    IList<IBrowserFile> _files = new List<IBrowserFile>();
+    
+    private void UploadFiles(IBrowserFile file)
+    {
+        _files.Add(file);
+        //TODO upload the files to the server
+    }
+
+}

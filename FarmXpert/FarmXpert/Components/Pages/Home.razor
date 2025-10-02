@@ -1,7 +1,78 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<MudContainer Class="mt-6 d-flex flex-column gap-4" Style="max-width: 45rem; padding-bottom: 5rem;">
+        @foreach (var post in posts)
+        {
+            <MudCard Class="p-3 bg-white" Style="cursor: pointer;">
+                <div class="d-flex">
+                    <MudAvatar Style="margin-right: 0.5rem;" Color="Color.Primary">FX</MudAvatar>
+                    <div class="mt-1">
+                        <MudText Class="fw-bold" Typo="Typo.h5">
+                            @post.Title
+                        </MudText>
+                        <MudText Class="opacity-75 mb-3" Typo="Typo.body1">
+                            @post.Description
+                        </MudText>
+                        
+                        <MudText Class="opacity-75" Typo="Typo.body2" Style="mask-image: linear-gradient(to bottom, black 50%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </MudText>
+                        
+                        <div class="mt-4 d-flex justify-content-between align-items-center">
+                            <div>
+                                <MudButton>
+                                    <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Favorite" Size="Size.Small"/>
+                                    <span>30</span>
+                                </MudButton>
 
-Welcome to your new app.
+                                <MudButton>
+                                    <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Comment" Size="Size.Small"/>
+                                    <span>7</span>
+                                </MudButton>
+                            </div>
+                            
+                            <MudButton>
+                                <MudIcon Icon="@Icons.Material.Filled.Download" Size="Size.Small"/>
+                            </MudButton>
+                        </div>
+                    </div>
+                </div>
+            </MudCard>
+        }
+</MudContainer>
+
+@code {
+    private List<Post> posts = new()
+    {
+        new Post
+        {
+            Title = "Subsidy for Agricultural Equipment",
+            Description = "Financial support for purchasing modern agricultural machinery to improve productivity."
+        },
+        new Post
+        {
+            Title = "Irrigation System Subsidy",
+            Description = "Grants for implementing irrigation systems to ensure water availability during droughts."
+        },
+        new Post
+        {
+            Title = "Organic Farming Support",
+            Description = "Subsidies for farmers transitioning to organic practices, including certification assistance."
+        },
+        new Post
+        {
+            Title = "Young Farmer Program",
+            Description = "Special subsidies aimed at encouraging young people to start agricultural businesses."
+        }
+    };
+
+    private class Post
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+    }
+}

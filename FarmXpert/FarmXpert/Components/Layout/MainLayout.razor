@@ -1,25 +1,42 @@
-﻿@inherits LayoutComponentBase
-@inject NavigationManager NavigationManager
+﻿@using FarmXpert.Client.Components
+@inherits LayoutComponentBase
+@inject NavigationManager Navigation
 
 <div class="page">
-    <MudThemeProvider />
-    <MudPopoverProvider/>
+    <MudThemeProvider/>
     <MudDialogProvider/>
     <MudSnackbarProvider/>
 
+    
     <MudLayout>
         <MudAppBar Elevation="1" Style="display: block">
             <MudIconButton
                 id="nav-drawer-toggle-button"
-                Icon="@Icons.Material.Filled.Menu" 
-                Color="Color.Inherit" 
-                Edge="Edge.Start" 
-                OnClick="@(() => _navMenu?.ToggleDrawer())" />
+                Icon="@Icons.Material.Filled.Menu"
+                Color="Color.Inherit"
+                Edge="Edge.Start"
+                OnClick="@(() => _navMenu?.ToggleDrawer())"/>
+            <MudSpacer/>
+            <UserAvatar/>
         </MudAppBar>
-
+        
         <NavMenu @ref="_navMenu"/>
 
-        <MudMainContent Style="min-height: calc(100vh);">
+        <MudMainContent Style="min-height: calc(100vh); background: #fafafa;">
+            <AuthorizeView>
+                <Authorized>
+                    <MudAlert
+                        Class="sticky-alert"
+                        Variant="Variant.Filled"
+                        Severity="Severity.Warning"
+                        ShowCloseIcon>
+                        Please complete your profile setup.
+                        <MudLink Href="/profile-setup" Color="Color.Inherit" Style="text-decoration: underline; font-size: 14px;">
+                            Complete setup
+                        </MudLink>
+                    </MudAlert>
+                </Authorized>
+            </AuthorizeView>
             <MudContainer Class="mt-6">
                 <article class="content">
                     @Body
