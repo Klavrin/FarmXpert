@@ -12,6 +12,7 @@ public class ApplicationUser: MongoUser
     public required string BusinessId { get; set; }
     public string FarmName { get; set; } = string.Empty;
     public List<LandParcel> LandParcels = new();
+    public DateTime FarmDateOfRegistration { get; set; }
     public bool IsVerified { get; set; }
     public bool ProfileSetupCompleted { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
