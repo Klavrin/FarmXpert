@@ -1,4 +1,5 @@
 @rendermode InteractiveWebAssembly
+@inject HttpClient Http
 
 <MudPaper Class="w-100">
     <MudStepper>
@@ -124,11 +125,13 @@
                 </MudButton>
             </MudStep>
         </ChildContent>
-        <CompletedContent>
+        <CompletedContent >
             <MudStack Row Class="ma-3">
                 <MudIcon Icon="@Icons.Material.Filled.Done" Color="Color.Success"/>
                 <MudText>
-                    Profile setup is complete! You can now start using the application.
+                    Profile setup is complete! You can now activate your account.
+                    
+                    <MudButton OnClick="ActivateAccount">Activate Account</MudButton>
                 </MudText>
             </MudStack>
         </CompletedContent>
@@ -143,8 +146,28 @@
     private List<Animal> _livestock = new();
     private List<Insurance> _insurances = new();
     private string _agriculturalPractice = "";
-    
+
     private bool _certificatesStepVisited = false;
+
+    private async Task ActivateAccount()
+    {
+        var model = new User()
+        {
+            ProfileSetupCompleted = true,
+        };
+        
+        var response = await Http.PostAsJsonAsync("api/users/complete-profile-setup", model);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+            Console.WriteLine("Success: " + result["message"]);
+        }
+        else
+        {
+            Console.WriteLine("Error: " + response.StatusCode);
+        } 
+    }
 
     private void UploadFiles(IBrowserFile file)
     {
@@ -193,5 +216,10 @@
         public string CoverageAmount { get; set; } = "";
         public DateTime? ExpiryDate { get; set; }
         public List<IBrowserFile> Documents { get; set; } = new();
+    }
+
+    public class User
+    {
+        public bool ProfileSetupCompleted { get; set; }
     }
 }
