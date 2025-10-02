@@ -2,6 +2,10 @@
 
 This repository contains the **frontend and backend services** for **FarmXpert**, a platform that streamlines the subsidy application process for farmers in the Republic of Moldova. The system enables digital management of subsidy forms and required documents, ensuring compliance with local regulations and improving user experience.
 
+For the Python AI features, access the backend repository here: 
+```bash
+https://github.com/Klavrin/FarmXpert-backend
+```
 ---
 
 ## Features
