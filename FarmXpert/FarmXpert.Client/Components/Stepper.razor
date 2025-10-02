@@ -97,8 +97,45 @@
             <MudTextField T="string" Label="Production Type" @bind-Value="_landParcel.Size"/>
         </MudStep>
         
-        <MudStep Title="Add insurances" SecondaryText="Optional" Skippable="true">
-            How do we add insurances?
+        <MudStep Title="Add insurances" SecondaryText="Optional" Skippable="true" Class="d-flex flex-column gap-2">
+            <MudText Class="fw-bold" Typo="Typo.body1">Insurance Documents:</MudText>
+
+            @foreach (var insurance in _insurances)
+            {
+                <MudPaper Class="p-3 mb-2" Style="border: 1px solid #ccc; border-radius: 8px;">
+                    <div class="d-flex flex-column gap-2">
+                        <MudTextField T="string" Label="Insurance Type" @bind-Value="insurance.Type"/>
+                        <MudTextField T="string" Label="Coverage Amount" @bind-Value="insurance.CoverageAmount"/>
+                        <MudDatePicker Label="Expiry Date" @bind-Date="insurance.ExpiryDate"/>
+
+                        <MudFileUpload T="IBrowserFile" FilesChanged="files => UploadInsuranceDocument(files, insurance)">
+                            <ActivatorContent>
+                                <MudButton Class="w-100" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.CloudUpload">
+                                    Upload Insurance Document
+                                </MudButton>
+                            </ActivatorContent>
+                        </MudFileUpload>
+
+                        @if (insurance.Documents.Count > 0)
+                        {
+                            <MudList T="string">
+                                @foreach (var doc in insurance.Documents)
+                                {
+                                    <MudListItem T="string">@doc.Name</MudListItem>
+                                }
+                            </MudList>
+                        }
+
+                        <MudButton Variant="Variant.Text" Color="Color.Error" OnClick="() => RemoveInsurance(insurance)">
+                            Remove
+                        </MudButton>
+                    </div>
+                </MudPaper>
+            }
+
+            <MudButton Class="w-100" Variant="Variant.Outlined" Color="Color.Primary" OnClick="AddInsurance">
+                Add Another Insurance
+            </MudButton>
         </MudStep>
 
     </MudStepper>
@@ -110,12 +147,13 @@
     private LandParcel _landParcel = new();
     private List<Crop> _crops = new();
     private List<Animal> _livestock = new();
+    private List<Insurance> _insurances = new();
     private string _agriculturalPractice = "";
 
     private void UploadFiles(IBrowserFile file)
     {
         _files.Add(file);
-        //TODO upload the files to the server
+        //TODO: upload the files to the server
     }
 
     private void AddCrop() => _crops.Add(new Crop());
@@ -123,6 +161,15 @@
 
     private void AddAnimal() => _livestock.Add(new Animal());
     private void RemoveAnimal(Animal animal) => _livestock.Remove(animal);
+
+    private void AddInsurance() => _insurances.Add(new Insurance());
+    private void RemoveInsurance(Insurance insurance) => _insurances.Remove(insurance);
+
+    private void UploadInsuranceDocument(IBrowserFile file, Insurance insurance)
+    {
+        insurance.Documents.Add(file);
+        // TODO: upload to server
+    }
 
     public class LandParcel
     {
@@ -142,5 +189,13 @@
         public string Count { get; set; } = "";
         public string HerdBookNumber { get; set; } = "";
         public string ProductionType { get; set; } = "";
+    }
+
+    public class Insurance
+    {
+        public string Type { get; set; } = "";
+        public string CoverageAmount { get; set; } = "";
+        public DateTime? ExpiryDate { get; set; }
+        public List<IBrowserFile> Documents { get; set; } = new();
     }
 }
