@@ -20,6 +20,14 @@
 <UploadDocument Title="Evidence of fulfilling previous stage before next" ButtonText="Upload Evidence" FilesChanged="UploadFiles" />
 <UploadDocument Title="Updated technical or financial documents, if modified (optional)" ButtonText="Upload Updated Documents" FilesChanged="UploadFiles" />
 
+<hr style="margin-block: 2rem;" />
+
+<div class="w-100 d-flex justify-content-end mt-4">
+    <MudButton StartIcon="@Icons.Material.Filled.AutoAwesome" Color="Color.Primary" Variant="Variant.Filled">Generate Application</MudButton>
+</div>
+
+
+
 @code {
     IList<IBrowserFile> _files = new List<IBrowserFile>();
     
