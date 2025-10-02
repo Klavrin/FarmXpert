@@ -18,22 +18,6 @@
                     </ActivatorContent>
                 </MudFileUpload>
             </div>
-            
-            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-sm-center gap-3 mt-4" style="padding-bottom: 1.5rem;">
-                <MudText Class="text-nowrap mb-2 mb-sm-0" Typo="Typo.body1">Upload Certificate of Farm Household</MudText>
-                <div class="bg-body-secondary line d-none d-lg-block" style="min-height: 2px; width: 100%;"></div>
-                <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
-                    <ActivatorContent>
-                        <MudButton
-                            Style="width: max-content"
-                            Variant="Variant.Filled"
-                            Color="Color.Primary"
-                            StartIcon="@Icons.Material.Filled.CloudUpload">
-                            Upload Certificate
-                        </MudButton>
-                    </ActivatorContent>
-                </MudFileUpload>
-            </div>
         </MudStep>
         
         <MudStep Title="Add farm details" Class="d-flex flex-column gap-1">
@@ -43,7 +27,7 @@
             <MudDatePicker Label="Date of Registration" @bind-Date="_date" Style="margin-bottom: 1.5rem;" />
         </MudStep>
         
-        <MudStep Title="Add crops" Class="d-flex flex-column gap-2" SecondaryText="Optional" Skippable="true">
+        <MudStep Title="Add crops" Class="d-flex flex-column gap-2" SecondaryText="If applicable" Skippable="true">
             <MudText Class="fw-bold" Typo="Typo.body1">Land parcel:</MudText>
             <MudTextField T="string" Label="Size" @bind-Value="_landParcel.Size"/>
             <MudTextField T="string" Label="Location" @bind-Value="_landParcel.Location"/>
@@ -70,7 +54,7 @@
             <MudTextField Style="margin-bottom: 1.5rem;" T="string" Label="Agricultural Practice" @bind-Value="_agriculturalPractice"/>
         </MudStep>
         
-        <MudStep Title="Add livestock" SecondaryText="Optional" Skippable="true">
+        <MudStep Title="Add livestock" SecondaryText="If applicable" Skippable="true">
             <MudText Class="fw-bold" Typo="Typo.body1">Animal Types:</MudText>
 
             @foreach (var animal in _livestock)
@@ -97,7 +81,7 @@
             <MudTextField T="string" Label="Production Type" @bind-Value="_landParcel.Size"/>
         </MudStep>
         
-        <MudStep Title="Add insurances" SecondaryText="Optional" Skippable="true" Class="d-flex flex-column gap-2">
+        <MudStep Title="Add insurances" SecondaryText="If applicable" Skippable="true" Class="d-flex flex-column gap-2">
             <MudText Class="fw-bold" Typo="Typo.body1">Insurance Documents:</MudText>
 
             @foreach (var insurance in _insurances)
