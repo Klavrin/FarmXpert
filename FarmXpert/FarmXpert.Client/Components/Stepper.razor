@@ -78,7 +78,7 @@
             </MudButton>
 
             <MudTextField T="string" Label="Herd Book Number" @bind-Value="_landParcel.Size"/>
-            <MudTextField T="string" Label="Production Type" @bind-Value="_landParcel.Size"/>
+            <MudTextField T="string" Label="Production Type" @bind-Value="_landParcel.Size" Style="margin-bottom: 1.5rem;" />
         </MudStep>
         
         <MudStep Title="Add insurances" SecondaryText="If applicable" Skippable="true" Class="d-flex flex-column gap-2">
@@ -117,7 +117,7 @@
                 </MudPaper>
             }
 
-            <MudButton Class="w-100" Variant="Variant.Outlined" Color="Color.Primary" OnClick="AddInsurance">
+            <MudButton Class="w-100" Variant="Variant.Outlined" Color="Color.Primary" OnClick="AddInsurance" Style="padding-bottom: 1.5rem;" >
                 Add Another Insurance
             </MudButton>
         </MudStep>
