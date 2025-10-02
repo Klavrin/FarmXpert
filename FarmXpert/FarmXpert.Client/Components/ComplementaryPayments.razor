@@ -12,6 +12,14 @@
 <UploadDocument Title="For interest compensation: bank loan agreement + interest statements" ButtonText="Upload Compensation" FilesChanged="UploadFiles" />
 <UploadDocument Title="For losses: official damage assessment act" ButtonText="Upload Losses" FilesChanged="UploadFiles" />
 
+<hr style="margin-block: 2rem;" />
+
+<div class="w-100 d-flex justify-content-end mt-4">
+    <MudButton StartIcon="@Icons.Material.Filled.AutoAwesome" Color="Color.Primary" Variant="Variant.Filled">Generate Application</MudButton>
+</div>
+
+
+
 @code {
     IList<IBrowserFile> _files = new List<IBrowserFile>();
     
