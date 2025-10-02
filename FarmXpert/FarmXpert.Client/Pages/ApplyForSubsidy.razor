@@ -7,7 +7,6 @@
 </MudContainer>
 
 <MudContainer Class="mt-6 pb-5">
-    <MudCheckBox @bind-Value="_selectDisabled" Color="Color.Primary">DEV ONLY: ignore profile setup completion.</MudCheckBox>
     @if (_selectDisabled)
     {
         <MudText Class="mb-2 text-danger" Typo="Typo.body2">
