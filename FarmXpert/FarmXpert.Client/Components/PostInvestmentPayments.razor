@@ -18,6 +18,12 @@
 <UploadDocument Title="Certificate of putting into operation" ButtonText="Upload Certificate" FilesChanged="UploadFiles" />
 <UploadDocument Title="Other approvals (environmental, utilities, etc., if relevant ) (optional)" ButtonText="Upload Approvals" FilesChanged="UploadFiles" />
 
+<hr style="margin-block: 2rem;" />
+
+<div class="w-100 d-flex justify-content-end mt-4">
+    <MudButton StartIcon="@Icons.Material.Filled.AutoAwesome" Color="Color.Primary" Variant="Variant.Filled">Generate Application</MudButton>
+</div>
+
 @code {
     IList<IBrowserFile> _files = new List<IBrowserFile>();
     
