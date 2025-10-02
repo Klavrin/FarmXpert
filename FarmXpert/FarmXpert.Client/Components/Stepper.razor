@@ -39,8 +39,36 @@
         <MudStep Title="Add farm details" Class="d-flex flex-column gap-1">
             <MudTextField T="string" Label="Farm Name" />
             <MudTextField T="string" Label="Farm Location" />
-            <MudTextField T="string" Label="Land parcels and size" />
+            <MudTextField T="string" Label="IDNO" />
             <MudDatePicker Label="Date of Registration" @bind-Date="_date" Style="margin-bottom: 1.5rem;" />
+        </MudStep>
+        
+        <MudStep Title="Add crops" Class="d-flex flex-column gap-2">
+            <MudText Typo="Typo.body2">Land parcel:</MudText>
+            <MudTextField T="string" Label="Size" @bind-Value="_landParcel.Size"/>
+            <MudTextField T="string" Label="Location" @bind-Value="_landParcel.Location"/>
+
+            <MudText Typo="Typo.body2" Class="mt-4">Crop types:</MudText>
+
+            @foreach (var crop in _crops)
+            {
+                <MudPaper Class="p-3 mb-2" Style="border: 1px solid #ccc; border-radius: 8px;">
+                    <div class="d-flex flex-column gap-2">
+                        <MudTextField T="string" Label="Crop Type" @bind-Value="crop.Type"/>
+                        <MudTextField T="string" Label="Cultivated Area" @bind-Value="crop.CultivatedArea"/>
+                        <MudButton Variant="Variant.Text" Color="Color.Error" OnClick="() => RemoveCrop(crop)">
+                            Remove
+                        </MudButton>
+                    </div>
+                </MudPaper>
+            }
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="AddCrop">
+                Add Another Crop
+            </MudButton>
+
+            <MudText Typo="Typo.body2" Class="mt-4">Agricultural Practice:</MudText>
+            <MudTextField T="string" Label="Agricultural Practice" @bind-Value="_agriculturalPractice"/>
         </MudStep>
         
         <MudStep Title="Add livestock" SecondaryText="Optional" Skippable="true">
@@ -57,10 +85,35 @@
 @code {
     private DateTime? _date = DateTime.Today;
     IList<IBrowserFile> _files = new List<IBrowserFile>();
+    private LandParcel _landParcel = new();
+    private List<Crop> _crops = new();
+    private string _agriculturalPractice = "";
     
     private void UploadFiles(IBrowserFile file)
     {
         _files.Add(file);
         //TODO upload the files to the server
+    }
+    
+    private void AddCrop()
+    {
+        _crops.Add(new Crop());
+    }
+
+    private void RemoveCrop(Crop crop)
+    {
+        _crops.Remove(crop);
+    }
+
+    public class LandParcel
+    {
+        public string Size { get; set; } = "";
+        public string Location { get; set; } = "";
+    }
+
+    public class Crop
+    {
+        public string Type { get; set; } = "";
+        public string CultivatedArea { get; set; } = "";
     }
 }
