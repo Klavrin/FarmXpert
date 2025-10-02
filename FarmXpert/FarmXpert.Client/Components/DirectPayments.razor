@@ -19,6 +19,13 @@
 <UploadDocument Title="Insurance policy (for animals)" ButtonText="Upload Insurance" FilesChanged="UploadFiles" />
 <UploadDocument Title="Organic certification (for ecological farming)" ButtonText="Upload Certification" FilesChanged="UploadFiles" />
 
+<hr style="margin-block: 2rem;" />
+
+<div class="w-100 d-flex justify-content-end mt-4">
+    <MudButton StartIcon="@Icons.Material.Filled.AutoAwesome" Color="Color.Primary" Variant="Variant.Filled">Generate Application</MudButton>
+</div>
+
+
 @code {
     IList<IBrowserFile> _files = new List<IBrowserFile>();
     
