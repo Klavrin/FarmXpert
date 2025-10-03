@@ -20,16 +20,35 @@
 <hr style="margin-block: 2rem;" />
 
 <div class="w-100 d-flex justify-content-end mt-4">
-    <MudButton StartIcon="@Icons.Material.Filled.AutoAwesome" Color="Color.Primary" Variant="Variant.Filled">Generate Application</MudButton>
+    <MudButton StartIcon="@Icons.Material.Filled.AutoAwesome" 
+               Color="Color.Primary" 
+               Variant="Variant.Filled" 
+               Disabled="@_applicationGenerated"
+               OnClick="GenerateApplication">
+        @(_applicationGenerated ? "Application Generated" : "Generate Application")
+    </MudButton>
 </div>
+
+@if (_applicationGenerated)
+{
+    <MudText Class="mt-4" Typo="Typo.body1" Color="Color.Success">
+        ✅ Your application has been generated successfully!
+    </MudText>
+}
 
 @code {
     IList<IBrowserFile> _files = new List<IBrowserFile>();
-    
+    private bool _applicationGenerated = false;
+
     private void UploadFiles(IBrowserFile file)
     {
         _files.Add(file);
         //TODO upload the files to the server
     }
 
+    private void GenerateApplication()
+    {
+        // TODO: Generate application logic here
+        _applicationGenerated = true;
+    }
 }
