@@ -1,4 +1,6 @@
 @page "/subsidies"
+@rendermode InteractiveWebAssembly
+@inject IJSRuntime Js
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
     <MudText Typo="Typo.h4" GutterBottom="true">Recommended Subsidies</MudText>
@@ -33,7 +35,8 @@
             <MudText Class="mt-2" Typo="Typo.body2">@subsidy.Description</MudText>
             
             <MudStack Justify="Justify.FlexEnd">
-                <MudButton Variant="Variant.Filled" Color="Color.Success" Class="mt-4">
+                <MudButton Variant="Variant.Filled" Color="Color.Success" Class="mt-4"
+                           OnClick="@(() => OnDownload(subsidy.Title))">
                     Download Document
                 </MudButton>
             </MudStack>
@@ -49,6 +52,18 @@
         public string Color { get; set; } = "#ffffff";
         public bool HasStar { get; set; } = false;
     }
+    
+    private async Task OnDownload(string title)
+    {
+        var pdfBase64 = "JVBERi0xLjQKJeLjz9MKNCAwIG9iago8PC9UeXBlIC9QYWdlL1BhcmVudCAxIDAgUi9SZXNvdXJjZXMgMiAwIFIvQ29udGVudHMgNSAwIFIvTWVkaWFCb3hbMCAwIDYxMiA3OTJdPj4KZW5kb2JqCjUgMCBvYmoKPDwvTGVuZ3RoIDY2Pj4Kc3RyZWFtCkJUIC9GMCAxMiBUZgowIDUwIFRkCihIZWxsbyBmcm9tIEJsYXpvciBERVBDUCkgVGoKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNgowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAxMDUgMDAwMDAgbiAKMDAwMDAwMDE1MCAwMDAwMCBuIAowMDAwMDAwMjAwIDAwMDAwIG4gCjAwMDAwMDAzMDIgMDAwMDAgbiAKMDAwMDAwMDQyMCAwMDAwMCBuIAp0cmFpbGVyCjw8L1Jvb3QgMSAwIFIvU2l6ZSA2Pj4Kc3RhcnR4cmVmCjU0NQolJUVPRgo=";
+
+        await Js.InvokeVoidAsync("downloadFileAnotherFile",
+            "Investiții în bazine de acumulare a apei pentru irigare.pdf",
+            "application/pdf",
+            pdfBase64
+        );
+    }
+
 
     private List<Subsidy> RecommendedSubsidies = new()
     {
