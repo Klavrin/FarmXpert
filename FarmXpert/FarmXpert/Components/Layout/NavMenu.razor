@@ -1,7 +1,6 @@
 ﻿@* @implements IDisposable *@
 
 @inject NavigationManager NavigationManager
-
 <MudDrawer 
     id="nav-drawer" 
     @bind-Open="_open" 
@@ -15,14 +14,18 @@
     </MudDrawerHeader>
 
     <MudNavMenu Class="h-100 d-flex flex-column justify-content-between pb-5">
-        <div>
-            <MudNavLink Icon="@Icons.Material.Filled.Home" Match="NavLinkMatch.All" Href="/">Home</MudNavLink>
-            <MudNavLink Icon="@Icons.Material.Filled.Map" Match="NavLinkMatch.All" Href="/map">Map</MudNavLink>
-            <MudNavLink Icon="@Icons.Material.Filled.RequestPage" Match="NavLinkMatch.All" Href="/subsidies">Recommended Subsidies</MudNavLink>
-            <MudNavLink Icon="@Icons.Material.Filled.EditNote" Match="NavLinkMatch.All" Href="/apply-for-subsidy">Apply for Subsidy</MudNavLink>
-            <MudNavLink Icon="@Icons.Material.Filled.Article" Match="NavLinkMatch.All" Href="/my-documents">My Documents</MudNavLink>
-            <MudNavLink Icon="@Icons.Material.Filled.History" Match="NavLinkMatch.All" Href="/application-history">Application History</MudNavLink>
-        </div>
+        <AuthorizeView>
+            <Authorized>
+                <div>
+                    <MudNavLink Icon="@Icons.Material.Filled.Home" Match="NavLinkMatch.All" Href="/">Home</MudNavLink>
+                    <MudNavLink Icon="@Icons.Material.Filled.Map" Match="NavLinkMatch.All" Href="/map">Map</MudNavLink>
+                    <MudNavLink Icon="@Icons.Material.Filled.RequestPage" Match="NavLinkMatch.All" Href="/subsidies">Recommended Subsidies</MudNavLink>
+                    <MudNavLink Icon="@Icons.Material.Filled.EditNote" Match="NavLinkMatch.All" Href="/apply-for-subsidy">Apply for Subsidy</MudNavLink>
+                    <MudNavLink Icon="@Icons.Material.Filled.Article" Match="NavLinkMatch.All" Href="/my-documents">My Documents</MudNavLink>
+                    <MudNavLink Icon="@Icons.Material.Filled.History" Match="NavLinkMatch.All" Href="/application-history">Application History</MudNavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
 
         <div>
             <AuthorizeView>
