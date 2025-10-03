@@ -19,6 +19,18 @@
 <Routes/>
 <script src="_framework/blazor.web.js"></script>
 <script src="@Assets["_content/MudBlazor/MudBlazor.min.js"]"></script>
+<script>
+    window.downloadFile = function (fileName, contentType, content) {
+        // Create a blob from the base64 content
+        const link = document.createElement('a');
+        link.download = fileName;
+        link.href = "data:" + contentType + ";base64," + content;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+</script>
+
 </body>
 
 </html>

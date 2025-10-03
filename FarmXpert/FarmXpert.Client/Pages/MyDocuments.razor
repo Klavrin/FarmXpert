@@ -1,5 +1,6 @@
 @page "/my-documents"
 @rendermode InteractiveWebAssembly
+@inject IJSRuntime Js
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
     <MudText Typo="Typo.h4" GutterBottom="true">My Documents</MudText>
@@ -125,9 +126,21 @@
     private void OpenOverlay(int index) => openOverlayIndex = index;
     private void CloseOverlay() => openOverlayIndex = null;
 
-    private void OnDownload(int index)
+    private async void OnDownload(int index)
     {
-        Console.WriteLine($"Download document {filteredDocuments.ElementAt(index).Title}");
+        var doc = filteredDocuments.ElementAt(index);
+
+        if (doc.Title == "Declaration on own responsibility")
+        {
+            var pdfBase64 = "JVBERi0xLjQKJeLjz9MKNCAwIG9iago8PC9UeXBlIC9QYWdlL1BhcmVudCAxIDAgUi9SZXNvdXJjZXMgMiAwIFIvQ29udGVudHMgNSAwIFIvTWVkaWFCb3hbMCAwIDYxMiA3OTJdPj4KZW5kb2JqCjUgMCBvYmoKPDwvTGVuZ3RoIDY2Pj4Kc3RyZWFtCkJUIC9GMCAxMiBUZgowIDUwIFRkCihIZWxsbyBmcm9tIEJsYXpvciBERVBDUCkgVGoKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNgowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAxMDUgMDAwMDAgbiAKMDAwMDAwMDE1MCAwMDAwMCBuIAowMDAwMDAwMjAwIDAwMDAwIG4gCjAwMDAwMDAzMDIgMDAwMDAgbiAKMDAwMDAwMDQyMCAwMDAwMCBuIAp0cmFpbGVyCjw8L1Jvb3QgMSAwIFIvU2l6ZSA2Pj4Kc3RhcnR4cmVmCjU0NQolJUVPRgo=";
+
+            await Js.InvokeVoidAsync("downloadFile",
+                "Declaration_on_own_responsibility.pdf",
+                "application/pdf",
+                pdfBase64
+            );
+        }
+
         CloseOverlay();
     }
 
