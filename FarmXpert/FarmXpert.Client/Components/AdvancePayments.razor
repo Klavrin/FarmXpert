@@ -11,18 +11,67 @@
     </ul>
 </MudText>
 
-<UploadDocument Title="Declaration on own responsibility" ButtonText="Upload Declaration" FilesChanged="UploadFiles" />
-<UploadDocument Title="Farm registration certificate / registry extract" ButtonText="Upload Certificate" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of land rights (property, lease, or use certificate)" ButtonText="Upload Proof" FilesChanged="UploadFiles" />
-<UploadDocument Title="Project plan / technical design + budget" ButtonText="Upload Project Plan" FilesChanged="UploadFiles" />
-<UploadDocument Title="Bank guarantee or performance commitment (optional)" ButtonText="Upload Bank Guarantee" FilesChanged="UploadFiles" />
+<UploadDocument Title="Declaration on own responsibility"
+                ButtonText="Upload Declaration"
+                FilesChanged="OnDeclarationUploaded" />
+
+@if (_uploadedFiles.ContainsKey("Declaration"))
+{
+    <MudText Typo="Typo.caption" Color="Color.Success">
+        ✅ @(_uploadedFiles["Declaration"].Name) uploaded successfully
+    </MudText>
+}
+
+<UploadDocument Title="Farm registration certificate / registry extract"
+                ButtonText="Upload Certificate"
+                FilesChanged="OnCertificateUploaded" />
+
+@if (_uploadedFiles.ContainsKey("Certificate"))
+{
+    <MudText Typo="Typo.caption" Color="Color.Success">
+        ✅ @(_uploadedFiles["Certificate"].Name) uploaded successfully
+    </MudText>
+}
+
+<UploadDocument Title="Proof of land rights (property, lease, or use certificate)"
+                ButtonText="Upload Proof"
+                FilesChanged="OnProofUploaded" />
+
+@if (_uploadedFiles.ContainsKey("Proof"))
+{
+    <MudText Typo="Typo.caption" Color="Color.Success">
+        ✅ @(_uploadedFiles["Proof"].Name) uploaded successfully
+    </MudText>
+}
+
+<UploadDocument Title="Project plan / technical design + budget"
+                ButtonText="Upload Project Plan"
+                FilesChanged="OnProjectPlanUploaded" />
+
+@if (_uploadedFiles.ContainsKey("ProjectPlan"))
+{
+    <MudText Typo="Typo.caption" Color="Color.Success">
+        ✅ @(_uploadedFiles["ProjectPlan"].Name) uploaded successfully
+    </MudText>
+}
+
+<UploadDocument Title="Bank guarantee or performance commitment (optional)"
+                ButtonText="Upload Bank Guarantee"
+                FilesChanged="OnBankGuaranteeUploaded" />
+
+@if (_uploadedFiles.ContainsKey("BankGuarantee"))
+{
+    <MudText Typo="Typo.caption" Color="Color.Success">
+        ✅ @(_uploadedFiles["BankGuarantee"].Name) uploaded successfully
+    </MudText>
+}
 
 <hr style="margin-block: 2rem;" />
 
 <div class="w-100 d-flex justify-content-end mt-4">
-    <MudButton StartIcon="@Icons.Material.Filled.AutoAwesome" 
-               Color="Color.Primary" 
-               Variant="Variant.Filled" 
+    <MudButton StartIcon="@Icons.Material.Filled.AutoAwesome"
+               Color="Color.Primary"
+               Variant="Variant.Filled"
                Disabled="@_applicationGenerated"
                OnClick="GenerateApplication">
         @(_applicationGenerated ? "Application Generated" : "Generate Application")
@@ -37,13 +86,19 @@
 }
 
 @code {
-    IList<IBrowserFile> _files = new List<IBrowserFile>();
+    private Dictionary<string, IBrowserFile> _uploadedFiles = new();
     private bool _applicationGenerated = false;
 
-    private void UploadFiles(IBrowserFile file)
+    private void OnDeclarationUploaded(IBrowserFile file) => UploadFiles(file, "Declaration");
+    private void OnCertificateUploaded(IBrowserFile file) => UploadFiles(file, "Certificate");
+    private void OnProofUploaded(IBrowserFile file) => UploadFiles(file, "Proof");
+    private void OnProjectPlanUploaded(IBrowserFile file) => UploadFiles(file, "ProjectPlan");
+    private void OnBankGuaranteeUploaded(IBrowserFile file) => UploadFiles(file, "BankGuarantee");
+
+    private void UploadFiles(IBrowserFile file, string key)
     {
-        _files.Add(file);
-        //TODO upload the files to the server
+        _uploadedFiles[key] = file;
+        // TODO: Upload to the server here
     }
 
     private void GenerateApplication()
