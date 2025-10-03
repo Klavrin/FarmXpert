@@ -5,11 +5,20 @@
     <MudText Typo="Typo.h4" GutterBottom="true">My Documents</MudText>
 </MudContainer>
 
-<MudContainer MaxWidth="MaxWidth.Large">
-    @if (documentCount > 0)
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-bottom: 2.5rem;">
+    <div style="margin-inline: 1.6rem; margin-bottom: 1.5rem;">
+    <MudTextField @bind-Value="searchQuery"
+                  Placeholder="Search documents..."
+                  Variant="Variant.Outlined"
+                  Adornment="Adornment.Start"
+                  AdornmentIcon="@Icons.Material.Filled.Search"
+                  Class="mt-4 w-100"/>
+    </div>
+
+    @if (filteredDocuments.Any())
     {
         <div class="grid-container">
-            @foreach (var index in Enumerable.Range(1, documentCount))
+            @foreach (var (doc, index) in filteredDocuments.Select((doc, i) => (doc, i)))
             {
                 <MudPaper Class="d-flex position-relative">
                     <div class="d-flex flex-column" style="width: 100%;">
@@ -18,17 +27,17 @@
                         </div>
 
                         <div class="pa-4" style="text-align: left;">
-                            <MudText Class="fw-bold" Typo="Typo.body1">Document title</MudText>
+                            <MudText Class="fw-bold" Typo="Typo.body1">@doc.Title</MudText>
                             <div class="d-flex align-items-center justify-content-between mt-1">
                                 <div class="d-flex gap-1">
                                     <MudIcon Icon="@Icons.Material.Filled.DateRange" Size="Size.Small"/>
-                                    <MudText Typo="Typo.body2">01.10.2025</MudText>
+                                    <MudText Typo="Typo.body2">@doc.Date.ToString("dd.MM.yyyy")</MudText>
                                 </div>
 
-                                <MudIconButton 
+                                <MudIconButton
                                     Color="Color.Default" Size="Size.Small"
                                     Icon="@Icons.Material.Filled.MoreVert"
-                                    OnClick="@(() => OpenOverlay(index))" />
+                                    OnClick="@(() => OpenOverlay(index))"/>
                             </div>
                         </div>
                     </div>
@@ -41,7 +50,7 @@
         <div class="d-flex flex-column justify-center align-center text-center" style="height: 50vh;">
             <MudIcon Icon="@Icons.Material.Filled.FolderOff" Size="Size.Large" Color="Color.Default" Class="mb-4" Style="font-size: 4rem; opacity: 0.5;"/>
             <MudText Typo="Typo.h5" Class="mb-2">No documents</MudText>
-            <MudText Typo="Typo.body1" Color="Color.Secondary">You don't have any documents yet.</MudText>
+            <MudText Typo="Typo.body1" Color="Color.Secondary">No matching documents found.</MudText>
         </div>
     }
 </MudContainer>
@@ -51,9 +60,8 @@
     <MudOverlay Visible="true" DarkBackground="true" Class="d-flex justify-center align-center">
         <MudPaper Class="p-3" Style="min-width: 16rem;">
             <div>
-            <MudText Typo="Typo.h6" Class="mb-2">Choose an action</MudText>
+                <MudText Typo="Typo.h6" Class="mb-2">Choose an action</MudText>
             </div>
-
 
             <MudButton
                 Variant="Variant.Filled"
@@ -94,7 +102,24 @@
 </style>
 
 @code {
-    private int documentCount = 5;
+    private string searchQuery = string.Empty;
+
+    private List<DocumentItem> documents = new()
+    {
+        new DocumentItem { Title = "Declaration on own responsibility", Date = new DateTime(2025, 10, 3) },
+        new DocumentItem { Title = "Farm registration certificate", Date = new DateTime(2025, 10, 3) },
+        new DocumentItem { Title = "Proof of land rights", Date = new DateTime(2025, 10, 3) },
+        new DocumentItem { Title = "Project plan / technical design + budget", Date = new DateTime(2025, 10, 3) },
+        new DocumentItem { Title = "Bank guarantee or performance commitment", Date = new DateTime(2025, 10, 3) },
+        new DocumentItem { Title = "Certificate of putting into operation", Date = new DateTime(2025, 10, 1) },
+        new DocumentItem { Title = "Invoices", Date = new DateTime(2025, 10, 1) },
+        new DocumentItem { Title = "Proof of payment", Date = new DateTime(2025, 10, 1) },
+    };
+
+    private IEnumerable<DocumentItem> filteredDocuments =>
+        documents.Where(d => string.IsNullOrWhiteSpace(searchQuery) ||
+                             d.Title.Contains(searchQuery, StringComparison.OrdinalIgnoreCase));
+
     private int? openOverlayIndex = null;
 
     private void OpenOverlay(int index) => openOverlayIndex = index;
@@ -102,13 +127,19 @@
 
     private void OnDownload(int index)
     {
-        Console.WriteLine($"Download document {index}");
+        Console.WriteLine($"Download document {filteredDocuments.ElementAt(index).Title}");
         CloseOverlay();
     }
 
     private void OnDelete(int index)
     {
-        Console.WriteLine($"Delete document {index}");
+        Console.WriteLine($"Delete document {filteredDocuments.ElementAt(index).Title}");
         CloseOverlay();
+    }
+
+    private class DocumentItem
+    {
+        public required string Title { get; set; }
+        public DateTime Date { get; set; }
     }
 }
