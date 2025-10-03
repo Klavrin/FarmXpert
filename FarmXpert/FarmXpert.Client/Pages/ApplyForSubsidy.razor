@@ -1,5 +1,6 @@
 @page "/apply-for-subsidy"
 @using FarmXpert.Client.Components
+@inject HttpClient Http
 @rendermode InteractiveWebAssembly
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
@@ -51,12 +52,7 @@
     private string _value;
     IList<IBrowserFile> _files = new List<IBrowserFile>();
     private bool _selectDisabled = true;
-    
-    private void UploadFiles(IBrowserFile file)
-    {
-        _files.Add(file);
-        //TODO upload the files to the server
-    }
+    private bool isLoading = true;
 
     private readonly string[] _subsidyTypes =
     {
@@ -66,4 +62,32 @@
         "Direct payments", 
         "Complementary payments"
     };
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var result = await Http.GetFromJsonAsync<ProfileStatus>("api/users/profile-status");
+            _selectDisabled = !(result?.ProfileSetupCompleted ?? false);
+        }
+        catch
+        {
+            _selectDisabled = true;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void UploadFiles(IBrowserFile file)
+    {
+        _files.Add(file);
+        //TODO upload the files to the server
+    }
+
+    private class ProfileStatus
+    {
+        public bool ProfileSetupCompleted { get; set; }
+    }
 }
