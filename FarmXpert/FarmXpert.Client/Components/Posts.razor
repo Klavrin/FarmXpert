@@ -1,0 +1,113 @@
+@inject AuthenticationStateProvider AuthStateProvider
+@rendermode InteractiveWebAssembly
+
+<MudContainer Class="mt-6 d-flex flex-column gap-4" Style="max-width: 45rem; padding-bottom: 5rem;">
+    <AuthorizeView>
+        <Authorized>
+            <MudCard Class="p-3">
+                <div class="d-flex gap-2">
+                    <MudAvatar Color="Color.Secondary">@context.User.Identity?.Name[0]</MudAvatar>
+                    <textarea 
+                        class="w-100 pt-2"
+                        style="outline: none; resize: none; font-size: 1rem;"
+                        @bind="newPostContent"
+                        rows="5"
+                        placeholder="What's growing on?">
+                    </textarea>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center">
+                    <MudIconButton Icon="@Icons.Material.Filled.Image"/>
+                    <MudButton OnClick="AddPost" Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PostAdd">
+                        Post
+                    </MudButton>
+                </div>
+            </MudCard>
+        </Authorized>
+    </AuthorizeView>
+
+    @foreach (var post in posts.AsEnumerable().Reverse())
+    {
+        <MudCard Class="p-3 bg-white" Style="cursor: pointer;">
+            <div class="d-flex">
+                <MudAvatar Style="margin-right: 0.5rem;" Color="Color.Primary">@post.Poster[0]</MudAvatar>
+                <div class="mt-1 w-100">
+                    <MudText Typo="Typo.body1">
+                        @post.Poster
+                    </MudText>
+                    
+                    <MudText Class="opacity-75 w-100" Typo="Typo.body2">
+                        @post.Content
+                    </MudText>
+
+                    <div class="mt-4 d-flex justify-content-between align-items-center">
+                        <div>
+                            <MudButton>
+                                <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Favorite" Size="Size.Small"/>
+                                <span>@post.Likes</span>
+                            </MudButton>
+
+                            <MudButton>
+                                <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Comment" Size="Size.Small"/>
+                                <span>@post.Comments</span>
+                            </MudButton>
+                        </div>
+
+                        <MudButton>
+                            <MudIcon Icon="@Icons.Material.Filled.Download" Size="Size.Small"/>
+                        </MudButton>
+                    </div>
+                </div>
+            </div>
+        </MudCard>
+    }
+</MudContainer>
+
+@code {
+    private List<Post> posts = new()
+    {
+        new Post
+        {
+            Content = "Just harvested my first batch of organic tomatoes! 🍅🌿 #FarmLife #OrganicFarming",
+            Poster = "Alice",
+            Likes = 30,
+            Comments = 7
+        },
+        new Post
+        {
+            Content = "Excited to announce that our farm will be hosting a community market this weekend! 🛒🌽 #SupportLocal #FarmersMarket",
+            Poster = "Bob",
+            Likes = 45,
+            Comments = 12
+        },
+    };
+
+    private string newPostContent = string.Empty;
+
+    private async Task AddPost()
+    {
+        if (!string.IsNullOrWhiteSpace(newPostContent))
+        {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var userName = authState.User.Identity?.Name ?? "Unknown";
+
+            posts.Add(new Post
+            {
+                Content = newPostContent,
+                Poster = userName,
+                Likes = 0,
+                Comments = 0
+            });
+
+            newPostContent = string.Empty;
+        }
+    }
+
+    private class Post
+    {
+        public string Content { get; set; } = string.Empty;
+        public string Poster { get; set; } = string.Empty;
+        public int Likes { get; set; }
+        public int Comments { get; set; }
+    }
+}
