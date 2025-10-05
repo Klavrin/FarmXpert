@@ -26,6 +26,10 @@ builder.Services.AddHttpClient();
 builder.Services.AddMudServices();
 builder.Services.AddHttpContextAccessor();
 
+///////////////////////////////////
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddIdentityMongoDbProvider<ApplicationUser>(identityOptions =>
 {
     identityOptions.Password.RequireDigit = true;
@@ -54,6 +58,8 @@ builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IFieldRepository, FieldRepository>();
+builder.Services.AddScoped<IPersonalDocumentRepository, PersonalDocumentRepository>();
+builder.Services.AddScoped<IFileStorageService, FileStorageServiceRepository>();
 
 var app = builder.Build();
 
@@ -78,5 +84,9 @@ app.MapRazorComponents<App>()
 
 app.MapControllers();
 app.MapAdditionalIdentityEndpoints();
+
+///////
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.Run();
