@@ -485,3 +485,6 @@ $RECYCLE.BIN/
 
 # Sensitive Dev appsettings
 FarmXpert/FarmXpert/appsettings.Development.json
+
+# Local file storage directory
+FarmXpert/FarmXpert/FileStorage
