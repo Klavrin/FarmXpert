@@ -26,10 +26,6 @@ builder.Services.AddHttpClient();
 builder.Services.AddMudServices();
 builder.Services.AddHttpContextAccessor();
 
-///////////////////////////////////
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 builder.Services.AddIdentityMongoDbProvider<ApplicationUser>(identityOptions =>
 {
     identityOptions.Password.RequireDigit = true;
@@ -84,9 +80,5 @@ app.MapRazorComponents<App>()
 
 app.MapControllers();
 app.MapAdditionalIdentityEndpoints();
-
-///////
-app.UseSwagger();
-app.UseSwaggerUI();
 
 app.Run();
