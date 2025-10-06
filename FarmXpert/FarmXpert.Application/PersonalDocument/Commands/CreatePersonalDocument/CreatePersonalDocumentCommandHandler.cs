@@ -18,7 +18,7 @@ public class CreatePersonalDocumentCommandHandler : IRequestHandler<CreatePerson
     public async Task<FarmXpert.Domain.Entities.PersonalDocument> Handle(CreatePersonalDocumentCommand request, CancellationToken cancellationToken)
     {
         var NewId = Guid.NewGuid();
-        var fileUrl = await _fileStorageService.SaveFileAsync(request.FileStream, request.OwnerId + "."+ NewId.ToString());
+        var fileUrl = await _fileStorageService.SaveFileAsync(request.FileStream, request.OwnerId + "."+ NewId.ToString() + ".document" );
 
         var personaldocument = new FarmXpert.Domain.Entities.PersonalDocument
         {
