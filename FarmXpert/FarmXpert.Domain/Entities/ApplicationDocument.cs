@@ -20,6 +20,8 @@ namespace FarmXpert.Domain.Entities
         public string Url { get; set; }
         [Required]
         public string FileExtension { get; set; }
+        [Required]
+        public string OwnerId { get; set; }
         public DateTime UploadDate { get; set; } = DateTime.UtcNow;
         public string Status { get; set; }
         public string RejectionReason { get; set; }
