@@ -97,10 +97,9 @@ public class PersonalDocumentController : ControllerBase
     {
         var userId = CurrentUserId();
         var personalDocument = await _mediator.Send(new GetPersonalDocumentByIdQuery(id, userId));
-        var command = new DeletePersonalDocumentCommand(id, userId);
         if (personalDocument == null)
             return NotFound();
-        
+        var command = new DeletePersonalDocumentCommand(id, userId);
         await _mediator.Send(command);
         return Ok(personalDocument);
     }
