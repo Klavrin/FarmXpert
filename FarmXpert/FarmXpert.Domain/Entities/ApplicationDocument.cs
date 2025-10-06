@@ -23,7 +23,7 @@ namespace FarmXpert.Domain.Entities
         [Required]
         public string OwnerId { get; set; }
         public DateTime UploadDate { get; set; } = DateTime.UtcNow;
-        public string Status { get; set; }
-        public string RejectionReason { get; set; }
+        public string Status { get; set; } = string.Empty;
+        public string RejectionReason { get; set; } = string.Empty;
     }
 }
