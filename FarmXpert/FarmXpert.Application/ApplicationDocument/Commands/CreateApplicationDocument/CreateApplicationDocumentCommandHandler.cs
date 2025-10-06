@@ -18,7 +18,7 @@ public class CreateApplicationDocumentCommandHandler : IRequestHandler<CreateApp
     {
         if (request.FileExtension != ".pdf")
         {
-            throw new ArgumentException("Invalid file type. Only PDF files are allowed.");
+            return null;
         }
 
         var NewId = Guid.NewGuid();

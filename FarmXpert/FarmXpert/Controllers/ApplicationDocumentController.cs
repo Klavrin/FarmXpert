@@ -92,6 +92,10 @@ public class ApplicationDocumentController : ControllerBase
         var command = new CreateApplicationDocumentCommand(Title, stream, extension, userId);
 
         var created = await _mediator.Send(command);
+
+        if (created == null)
+            return BadRequest("Invalid file type. Only PDF files are allowed.");
+
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
