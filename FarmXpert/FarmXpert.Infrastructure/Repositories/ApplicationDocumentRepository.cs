@@ -4,7 +4,7 @@ using MongoDB.Driver;
 
 namespace FarmXpert.Infrastructure.Repositories;
 
-public class ApplicationDocumentRepository : IApplicationDocument
+public class ApplicationDocumentRepository : IApplicationDocumentRepository
 {
     private readonly IMongoCollection<ApplicationDocument> _applicationDocument;
 
