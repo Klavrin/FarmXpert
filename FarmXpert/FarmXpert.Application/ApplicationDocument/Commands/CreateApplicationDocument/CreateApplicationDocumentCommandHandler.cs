@@ -16,6 +16,11 @@ public class CreateApplicationDocumentCommandHandler : IRequestHandler<CreateApp
 
     public async Task<FarmXpert.Domain.Entities.ApplicationDocument> Handle(CreateApplicationDocumentCommand request, CancellationToken cancellationToken)
     {
+        if (request.FileExtension != ".pdf")
+        {
+            throw new ArgumentException("Invalid file type. Only PDF files are allowed.");
+        }
+
         var NewId = Guid.NewGuid();
         var fileUrl = await _fileStorageService.SaveFileAsync(request.FileStream, request.OwnerId + "." + NewId.ToString() + ".application");
         var applicationDocument = new FarmXpert.Domain.Entities.ApplicationDocument
