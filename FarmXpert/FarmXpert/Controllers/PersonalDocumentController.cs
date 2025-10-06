@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FarmXpert.Controllers;
 
 [ApiController]
-[Route("api/documents")]
+[Route("api/personalDocuments")]
 [Authorize]
 
 public class PersonalDocumentController : ControllerBase
