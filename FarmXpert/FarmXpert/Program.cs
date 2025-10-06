@@ -56,6 +56,7 @@ builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IFieldRepository, FieldRepository>();
 builder.Services.AddScoped<IPersonalDocumentRepository, PersonalDocumentRepository>();
 builder.Services.AddScoped<IFileStorageService, FileStorageServiceRepository>();
+builder.Services.AddScoped<IApplicationDocumentRepository, ApplicationDocumentRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
