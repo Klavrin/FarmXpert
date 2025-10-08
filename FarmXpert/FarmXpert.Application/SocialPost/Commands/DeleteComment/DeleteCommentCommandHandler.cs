@@ -12,7 +12,7 @@ public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand,
 
     public async Task<FarmXpert.Domain.Entities.SocialPost> Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
     {
-        var socialPost = await _socialPostRepository.GetByIdAsync(request.Id, cancellationToken);
+        var socialPost = await _socialPostRepository.GetByIdAsync(request.PostId, cancellationToken);
         if (socialPost == null)
         {
             return null;
@@ -21,7 +21,7 @@ public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand,
         {
             return null;
         }
-        var comment = socialPost.Comments.FirstOrDefault(c => c.Id == request.Id);
+        var comment = socialPost.Comments.FirstOrDefault(c => c.Id == request.CommentId);
         if (comment == null)
         {
             return null;
