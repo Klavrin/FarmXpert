@@ -15,12 +15,9 @@ public class SocialPost
     public string Url { get; set; }
 
     [Required]
-    public string OwnerId { get; set; }
-
+    public string BusinessId { get; set; }
     public DateTime UploadDate { get; set; } = DateTime.UtcNow;
-
     public string Content { get; set; } = string.Empty;
-
     public List<Comment> Comments { get; set; } = new List<Comment>();
     public int LikesCount { get; set; } = 0;
     public int CommentsCount { get; set; } = 0;
