@@ -13,7 +13,8 @@ public class SocialPost
     public string Title { get; set; }
     [Required]
     public string Url { get; set; }
-
+    [Required]
+    public string FileExtension { get; set; }
     [Required]
     public string BusinessId { get; set; }
     public DateTime UploadDate { get; set; } = DateTime.UtcNow;
