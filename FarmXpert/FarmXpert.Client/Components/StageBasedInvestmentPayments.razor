@@ -1,7 +1,9 @@
 <MudSelect @bind-Value="_selectedSubtype"
            Variant="Variant.Filled"
-           Label="Subsidy subtype"
-           Disabled="@_selectDisabled">
+           Label="Subsidy Subtype"
+           Disabled="@_selectDisabled"
+           Class="mt-4"
+           >
     @foreach (var subtype in _subsidySubtypes)
     {
         <MudSelectItem Value="subtype">@subtype</MudSelectItem>
