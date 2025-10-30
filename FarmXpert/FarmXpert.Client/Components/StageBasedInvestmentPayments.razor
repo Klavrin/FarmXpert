@@ -1,47 +1,69 @@
-<MudText Class="mt-4" Typo="Typo.body2">
-    Stage-based investment payments are subsidies that are disbursed in multiple stages or installments based on the progress of a project or investment. Farmers receive payments at specific milestones or stages of their agricultural activities, allowing them to manage cash flow and ensure the successful completion of their projects. Each stage payment is typically contingent upon meeting predefined criteria and delivering required documentation.
-</MudText>
+<MudSelect @bind-Value="_selectedSubtype"
+           Variant="Variant.Filled"
+           Label="Subsidy subtype"
+           Disabled="@_selectDisabled">
+    @foreach (var subtype in _subsidySubtypes)
+    {
+        <MudSelectItem Value="subtype">@subtype</MudSelectItem>
+    }
+</MudSelect>
 
-<MudText Class="mt-2" Typo="Typo.body2">
-    Conditions:
-    <ul>
-        <li>At least 50% co-financing by the farmer.</li>
-        <li>Max. 3 stages over 36 months.</li>
-        <li>Each stage must be fully completed before the next is paid.</li>
-    </ul>
-</MudText>
-
-<UploadDocument Title="Project plan / technical design + budget" ButtonText="Upload Project Plan" FilesChanged="UploadFiles" />
-@* <UploadDocument Title="Farm registration certificate / registry extract" ButtonText="Upload Certificate" FilesChanged="UploadFiles" /> *@
-<UploadDocument Title="Proof of land rights (if applicable) (optional)" ButtonText="Upload Proof" FilesChanged="UploadFiles" />
-<UploadDocument Title="Full set of invoices and proof of payment (bank orders, receipts)" ButtonText="Upload invoices" FilesChanged="UploadFiles" />
-<UploadDocument Title="Interim reports for each stage" ButtonText="Upload Reports" FilesChanged="UploadFiles" />
-<p class="text-danger">TODO: allow to upload multiple files</p>
-<UploadDocument Title="Evidence of fulfilling previous stage before next" ButtonText="Upload Evidence" FilesChanged="UploadFiles" />
-<UploadDocument Title="Updated technical or financial documents, if modified (optional)" ButtonText="Upload Updated Documents" FilesChanged="UploadFiles" />
-
-<hr style="margin-block: 2rem;" />
-
-<div class="w-100 d-flex justify-content-end mt-4">
-    <MudButton StartIcon="@Icons.Material.Filled.AutoAwesome" 
-               Color="Color.Primary" 
-               Variant="Variant.Filled" 
-               Disabled="@_applicationGenerated"
-               OnClick="GenerateApplication">
-        @(_applicationGenerated ? "Application Generated" : "Generate Application")
-    </MudButton>
-</div>
-
-@if (_applicationGenerated)
+@if (!string.IsNullOrWhiteSpace(_selectedSubtype))
 {
-    <MudText Class="mt-4" Typo="Typo.body1" Color="Color.Success">
-        ✅ Your application has been generated successfully!
+    <MudText Class="mt-4" Typo="Typo.body2">
+        Stage-based investment payments are subsidies that are disbursed in multiple stages or installments based on the progress of a project or investment. Farmers receive payments at specific milestones or stages of their agricultural activities, allowing them to manage cash flow and ensure the successful completion of their projects. Each stage payment is typically contingent upon meeting predefined criteria and delivering required documentation.
     </MudText>
+    <MudText Class="mt-2" Typo="Typo.body2">
+
+        Conditions:
+        <ul>
+            <li>At least 50% co-financing by the farmer.</li>
+            <li>Max. 3 stages over 36 months.</li>
+            <li>Each stage must be fully completed before the next is paid.</li>
+        </ul>
+    </MudText>
+
+    <UploadDocument Title="Project plan / technical design + budget" ButtonText="Upload Project Plan" FilesChanged="UploadFiles" />
+    @* <UploadDocument Title="Farm registration certificate / registry extract" ButtonText="Upload Certificate" FilesChanged="UploadFiles" /> *@
+    <UploadDocument Title="Proof of land rights (if applicable) (optional)" ButtonText="Upload Proof" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Full set of invoices and proof of payment (bank orders, receipts)" ButtonText="Upload invoices" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Interim reports for each stage" ButtonText="Upload Reports" FilesChanged="UploadFiles" />
+    <p class="text-danger">TODO: allow to upload multiple files</p>
+    <UploadDocument Title="Evidence of fulfilling previous stage before next" ButtonText="Upload Evidence" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Updated technical or financial documents, if modified (optional)" ButtonText="Upload Updated Documents" FilesChanged="UploadFiles" />
+
+    <hr style="margin-block: 2rem;" />
+
+    <div class="w-100 d-flex justify-content-end mt-4">
+        <MudButton StartIcon="@Icons.Material.Filled.AutoAwesome" 
+                   Color="Color.Primary" 
+                   Variant="Variant.Filled" 
+                   Disabled="@_applicationGenerated"
+                   OnClick="GenerateApplication">
+            @(_applicationGenerated ? "Application Generated" : "Generate Application")
+        </MudButton>
+    </div>
+
+    @if (_applicationGenerated)
+    {
+        <MudText Class="mt-4" Typo="Typo.body1" Color="Color.Success">
+            ✅ Your application has been generated successfully!
+        </MudText>
+    }
+
 }
 
 @code {
     IList<IBrowserFile> _files = new List<IBrowserFile>();
     private bool _applicationGenerated = false;
+    private string? _selectedSubtype;
+    private bool _selectDisabled = false;
+    private readonly string[] _subsidySubtypes =
+    {
+        "Crop sector",
+        "Livestock sector",
+        "Mixed farming sector"
+    };
 
     private void UploadFiles(IBrowserFile file)
     {
