@@ -2,8 +2,7 @@
            Variant="Variant.Filled"
            Label="Subsidy Subtype"
            Disabled="@_selectDisabled"
-           Class="mt-4"
-           >
+           Class="mt-4">
     @foreach (var subtype in _subsidySubtypes)
     {
         <MudSelectItem Value="subtype">@subtype</MudSelectItem>
@@ -24,15 +23,57 @@
             <li>Each stage must be fully completed before the next is paid.</li>
         </ul>
     </MudText>
+    @*CROP SECTOR*@
+    <UploadDocument Title="Copy of the extract from the State Register of Legal Entities / copy of the registration certificate" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Declaration on own responsibility regarding the truthfulness of the information and submitted documents" ButtonText="Upload" FilesChanged="UploadFiles" /> 
+    <UploadDocument Title="Proof of having a bank account in Moldovan lei (MDL), opened at a commercial bank in the Republic of Moldova" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Stage-based investment project" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Proof of relevant professional competence of the administrator or an employee: diplomas, employment order, or training certificate" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Applicant’s commitment to contribute at least 50% of the total eligible investment cost" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Copy of the project sketch, prepared by the supplier or authorized designer, showing technical parameters" ButtonText="Upload" FilesChanged="UploadFiles" /> 
+    <UploadDocument Title="Copy of the detailed cost estimate for materials and installation services" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Offers from suppliers for the goods, works, or services to be subsidized" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Copy of the perennial plantation establishment project, with attached general plan of the plantation" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Proof of legal ownership of the immovable property and/or its components where the investment will be made" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Copy of the authorization documents for the planned investment, according to Law No. 160/2011 on the regulation of business activities through authorization" ButtonText="Upload" FilesChanged="UploadFiles" /> 
+    <UploadDocument Title="Copy of the technical project prepared by licensed companies, in case of new constructions or extensions" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Copy of the detailed cost estimate for materials and services, verified by certified technical specialists" ButtonText="Upload" FilesChanged="UploadFiles" />
+    
+    @*LIVESTOCK SECTOR*
+    <UploadDocument Title="Copy of the extract from the State Register of Legal Entities / copy of the registration certificate" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Declaration on own responsibility regarding the truthfulness of the information and submitted documents" ButtonText="Upload" FilesChanged="UploadFiles" /> 
+    <UploadDocument Title="Proof of having a bank account in Moldovan lei (MDL), opened at a commercial bank in the Republic of Moldova" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Stage-based investment project" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Proof of zootechnical competence: diplomas in animal husbandry/veterinary field, employment or service contract" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Applicant’s commitment to contribute at least 50% of the total eligible investment cost" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Copy of the certificate proving membership in a professional livestock association" ButtonText="Upload" FilesChanged="UploadFiles" /> 
+    <UploadDocument Title="Copy of the technical project prepared by licensed companies" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Copy of the detailed cost estimate for materials and services, verified by certified specialists" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Copy of the detailed cost estimate for materials and installation services" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Offers from suppliers for the goods, works, or services to be subsidized" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Reception act, accompanied by the environmental agreement " ButtonText="Upload" FilesChanged="UploadFiles" /> 
+    <UploadDocument Title="Proof of legal ownership of the immovable property and/or its components where the investment will be made" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Copy of the authorization documents for the planned investment, according to Law No. 160/2011" ButtonText="Upload" FilesChanged="UploadFiles" />
+    
+    @*WINE SECTOR*@
+    <UploadDocument Title="Copy of the extract from the State Register of Legal Entities / copy of the registration certificate" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Declaration on own responsibility regarding the truthfulness of the information and submitted documents" ButtonText="Upload" FilesChanged="UploadFiles" /> 
+    <UploadDocument Title="Proof of having a bank account in Moldovan lei (MDL), opened at a commercial bank in the Republic of Moldova" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Stage-based investment project" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Proof of viticulture-related competence: diplomas, employment order, or training certificate" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Proof of membership in a wine producers’ association with protected geographical indication or designation of origin" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Applicant’s commitment to contribute at least 50% of the total eligible investment cost" ButtonText="Upload" FilesChanged="UploadFiles" /> 
+    <UploadDocument Title="Copy of the technical project prepared by licensed companies" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Copy of the detailed cost estimate for materials and services, verified by authorized specialists" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Offers from suppliers for the goods, works, or services to be subsidized" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Copy of the vineyard establishment project, with attached general plan" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Proof of legal ownership of the immovable property and/or its components where the investment will be made" ButtonText="Upload" FilesChanged="UploadFiles" /> 
+    <UploadDocument Title="Copy of the authorization documents for the planned investment, according to Law No. 160/2011" ButtonText="Upload" FilesChanged="UploadFiles" />
+    
 
-    <UploadDocument Title="Project plan / technical design + budget" ButtonText="Upload Project Plan" FilesChanged="UploadFiles" />
-    @* <UploadDocument Title="Farm registration certificate / registry extract" ButtonText="Upload Certificate" FilesChanged="UploadFiles" /> *@
-    <UploadDocument Title="Proof of land rights (if applicable) (optional)" ButtonText="Upload Proof" FilesChanged="UploadFiles" />
-    <UploadDocument Title="Full set of invoices and proof of payment (bank orders, receipts)" ButtonText="Upload invoices" FilesChanged="UploadFiles" />
-    <UploadDocument Title="Interim reports for each stage" ButtonText="Upload Reports" FilesChanged="UploadFiles" />
-    <p class="text-danger">TODO: allow to upload multiple files</p>
-    <UploadDocument Title="Evidence of fulfilling previous stage before next" ButtonText="Upload Evidence" FilesChanged="UploadFiles" />
-    <UploadDocument Title="Updated technical or financial documents, if modified (optional)" ButtonText="Upload Updated Documents" FilesChanged="UploadFiles" />
+    @* <p class="text-danger">TODO: allow to upload multiple files</p>*@
+    <UploadDocument Title="Evidence of fulfilling previous stage before next" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <UploadDocument Title="Updated technical or financial documents, if modified (optional)" ButtonText="Upload" FilesChanged="UploadFiles" />
 
     <hr style="margin-block: 2rem;" />
 
