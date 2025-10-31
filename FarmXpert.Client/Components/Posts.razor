@@ -2,52 +2,128 @@
 @inject IJSRuntime JS
 @rendermode InteractiveWebAssembly
 
+<!-- Compact horizontal emoji styles and popover nudge -->
+<style>
+	.emoji-container {
+		display: flex;
+		gap: 6px;
+		padding: 4px;
+		align-items: center;
+		justify-content: center;
+	}
+	/* Make menu items render inline and small */
+	.emoji-menu .mud-menu-item {
+		display: inline-flex;
+		padding: 6px 8px;
+		min-width: 34px;
+		height: 34px;
+		align-items: center;
+		justify-content: center;
+		border-radius: 6px;
+		font-size: 1.1rem;
+	}
+	.emoji-menu .mud-menu-item:hover {
+		background-color: rgba(0,0,0,0.06);
+	}
+	/* Tighter menu paper */
+	.emoji-menu .mud-paper {
+		padding: 4px 6px;
+	}
+	/* Nudge the popover to sit right next to the button (override MudBlazor's transform) */
+	.emoji-menu .mud-popover {
+		transform: translate(-6px, 2px) !important;
+	}
+
+    /* Add: wrapper + popover styles so the bar sits directly under the smile button */
+    .emoji-wrapper { position: relative; display: inline-block; }
+    .emoji-popover {
+        position: absolute;
+        top: 42px;               /* distance below the button */
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 6px;
+        padding: 6px 8px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        z-index: 1200;
+        white-space: nowrap;
+    }
+    .emoji-popover .emoji-button {
+        border: none;
+        background: transparent;
+        font-size: 1.15rem;
+        height: 34px;
+        width: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        cursor: pointer;
+        padding: 0;
+    }
+    .emoji-popover .emoji-button:hover {
+        background: rgba(0,0,0,0.06);
+    }
+</style>
+
 <MudContainer Class="mt-6 d-flex flex-column gap-4 align-items-start" Style="width:100%; padding-bottom: 5rem;">
-    <AuthorizeView>
-        <Authorized>
-            <MudCard Class="p-3" Style="width:45rem">
-                <div class="d-flex gap-2">
-                    <MudAvatar Color="Color.Secondary">@context.User.Identity?.Name[0]</MudAvatar>
-                    <textarea 
-                        @ref="postTextarea"
-                        class="w-100 pt-2"
-                        style="outline: none; resize: none; font-size: 1rem;"
-                        @bind="newPostContent"
-                        rows="5"
-                        placeholder="What's growing on?">
-                    </textarea>
-                </div>
-                
-                <div class="d-flex justify-content-between align-items-center" style="position:relative;">
-                    <div class="d-flex align-items-center gap-1">
-                        <MudIconButton Icon="@Icons.Material.Filled.Image"/>
-                        <!-- smile face emoji picker toggle -->
-                        <MudIconButton Icon="@Icons.Material.Filled.SentimentSatisfied" OnClick="ToggleEmojiPicker" AriaLabel="Emoji picker"/>
-                    </div>
+	<AuthorizeView>
+		<Authorized>
+			<MudCard Class="p-3" Style="width:45rem">
+				<div class="d-flex gap-2">
+					<MudAvatar Color="Color.Secondary">@context.User.Identity?.Name[0]</MudAvatar>
+					<textarea 
+						class="w-100 pt-2"
+						style="outline: none; resize: none; font-size: 1rem;"
+						@bind="newPostContent"
+						rows="5"
+						placeholder="What's growing on?">
+					</textarea>
+				</div>
+				
+				<div class="d-flex justify-content-between align-items-center">
+-					<div class="d-flex align-items-center gap-1">
+-						<MudIconButton Icon="@Icons.Material.Filled.Image" />
+-
+-						<!-- Emoji picker menu (max 10 emojis) -->
+-						<MudMenu Icon="@Icons.Material.Filled.SentimentSatisfied" Variant="Variant.Text" Dense="true">
+-							@foreach (var emoji in emojis)
+-							{
+-								<MudMenuItem OnClick="@(()=>InsertEmoji(emoji))">@emoji</MudMenuItem>
+-							}
+-						</MudMenu>
+-					</div>
++					<!-- remove gap so emoji button sits right next to image button -->
++					<div class="d-flex align-items-center gap-0">
++                        <MudIconButton Icon="@Icons.Material.Filled.Image" />
++
++
++                        <div class="emoji-wrapper ms-2">
++                            <MudIconButton Icon="@Icons.Material.Filled.SentimentSatisfied" OnClick="@(()=>showEmojiPicker = !showEmojiPicker)" />
++
++                            @if (showEmojiPicker)
++                            {
++                                <div class="emoji-popover" @onclick:stopPropagation>
++                                    @foreach (var emoji in emojis)
++                                    {
++                                        <button class="emoji-button" @onclick="async ()=> { await InsertEmoji(emoji); showEmojiPicker = false; }">@emoji</button>
++                                    }
++                                </div>
++                            }
++                        </div>
++                    </div>
+ 
+ 					<MudButton OnClick="AddPost" Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PostAdd">
+ 						Post
+ 					</MudButton>
+ 				</div>
+ 			</MudCard>
+ 		</Authorized>
+ 	</AuthorizeView>
 
-                    <MudButton OnClick="AddPost" Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PostAdd">
-                        Post
-                    </MudButton>
-
-                    @if (showEmojiPicker)
-                    {
-                        <div style="position:absolute; left:3.5rem; bottom:3rem; z-index:60; background:white; border:1px solid rgba(0,0,0,0.12); border-radius:6px; padding:8px; box-shadow:0 8px 16px rgba(0,0,0,0.08);">
-                            <div style="display:grid; grid-template-columns:repeat(8,1fr); gap:6px; max-width:320px;">
-                                @foreach (var e in emojis)
-                                {
-                                    <button class="mud-button-root mud-button-text" style="font-size:18px; padding:6px; border-radius:6px; background:transparent; border:none; cursor:pointer;" @onclick="() => SelectEmoji(e)">
-                                        @e
-                                    </button>
-                                }
-                            </div>
-                        </div>
-                    }
-                </div>
-            </MudCard>
-        </Authorized>
-    </AuthorizeView>
-
-    @foreach (var post in posts.AsEnumerable().Reverse())
+ 	@foreach (var post in posts.AsEnumerable().Reverse())
     {
         <MudCard Class="p-3 bg-white" Style="cursor: pointer; width:45rem;">
             <div class="d-flex">
@@ -106,11 +182,28 @@
     private string newPostContent = string.Empty;
     private ElementReference postTextarea;
     private bool showEmojiPicker = false;
-    private readonly string[] emojis = new[]
+
+    private readonly List<string> emojis = new()
     {
-        "😀","😁","😂","🤣","😊","😇","🙂","😉","😍","😘","😜","🤪","🤩","😎",
-        "😭","😡","😅","👍","👏","🌽","🍅","🌱","🌾","🧑‍🌾"
+        "😀","😂","😍","😅","😎","😊","😉","🤩","😭","👍"
     };
+
+    // Insert emoji at caret position using JS helper; falls back to append
+    private async Task InsertEmoji(string emoji)
+    {
+        try
+        {
+            var updated = await JS.InvokeAsync<string>("insertEmojiAtCursor", postTextarea, emoji + " ");
+            if (!string.IsNullOrEmpty(updated))
+                newPostContent = updated;
+            else
+                newPostContent += emoji + " ";
+        }
+        catch
+        {
+            newPostContent += emoji + " ";
+        }
+    }
 
     private async Task AddPost()
     {
@@ -134,16 +227,6 @@
     private void ToggleEmojiPicker()
     {
         showEmojiPicker = !showEmojiPicker;
-    }
-
-    private async Task SelectEmoji(string emoji)
-    {
-        // insert emoji at caret via JS and get updated value back
-        var updated = await JS.InvokeAsync<string>("insertEmojiAtCursor", postTextarea, emoji);
-        newPostContent = updated;
-        showEmojiPicker = false;
-        StateHasChanged();
-        await Task.Yield();
     }
 
     private class Post

@@ -1,7 +1,75 @@
 @inject AuthenticationStateProvider AuthStateProvider
+@inject IJSRuntime JS
 @rendermode InteractiveWebAssembly
 
-<MudContainer Class="mt-6 d-flex flex-column gap-4 align-items-start" Style="width:100%; padding-bottom: 5rem;">
+<!-- Add compact horizontal emoji tab -->
+<style>
+    .emoji-container {
+        display: flex;
+        gap: 6px;
+        padding: 4px 6px;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+    }
+    /* Render menu items inline and compact */
+    .emoji-menu .mud-menu-item {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 34px;
+        height: 34px;
+        padding: 4px 6px;
+        border-radius: 6px;
+        font-size: 1.15rem;
+    }
+    .emoji-menu .mud-menu-item:hover {
+        background-color: rgba(0,0,0,0.06);
+    }
+    /* Tighter menu paper */
+    .emoji-menu .mud-paper {
+        padding: 4px 6px;
+    }
+    /* Nudge the popover so it sits adjacent to the emoji button */
+    .emoji-menu .mud-popover {
+        transform: translate(-4px, 2px) !important;
+    }
+
+    /* popover to place bar directly beneath the button */
+    .emoji-wrapper { position: relative; display: inline-block; }
+    .emoji-popover {
+        position: absolute;
+        top: 40px;               /* distance below the button */
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 6px;
+        padding: 6px 8px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        z-index: 1200;
+        white-space: nowrap;
+    }
+    .emoji-popover .emoji-button {
+        border: none;
+        background: transparent;
+        font-size: 1.15rem;
+        height: 34px;
+        width: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        cursor: pointer;
+        padding: 0;
+    }
+    .emoji-popover .emoji-button:hover {
+        background: rgba(0,0,0,0.06);
+    }
+</style>
+
+<MudContainer @onclick="() => showEmojiPicker = false" Class="mt-6 d-flex flex-column gap-4 align-items-start" Style="width:100%; padding-bottom: 5rem;">
     <AuthorizeView>
         <Authorized>
             <MudCard Class="p-3" Style="width:45rem">
@@ -11,22 +79,30 @@
                         class="w-100 pt-2"
                         style="outline: none; resize: none; font-size: 1rem;"
                         @bind="newPostContent"
+                        @ref="postTextarea"
                         rows="5"
                         placeholder="What's growing on?">
                     </textarea>
                 </div>
                 
                 <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center gap-1">
+                    <!-- remove gap so emoji button sits right next to image button -->
+                    <div class="d-flex align-items-center gap-0">
                         <MudIconButton Icon="@Icons.Material.Filled.Image" />
 
-                        <!-- Emoji picker menu (max 10 emojis) -->
-                        <MudMenu Icon="@Icons.Material.Filled.SentimentSatisfied" Variant="Variant.Text" Dense="true">
-                            @foreach (var emoji in emojis)
+                        <div class="emoji-wrapper ms-2">
+                            <MudIconButton Icon="@Icons.Material.Filled.SentimentSatisfied" OnClick="@(()=> showEmojiPicker = !showEmojiPicker)" />
+
+                            @if (showEmojiPicker)
                             {
-                                <MudMenuItem OnClick="@(()=>InsertEmoji(emoji))">@emoji</MudMenuItem>
+                                <div class="emoji-popover" @onclick:stopPropagation>
+                                    @foreach (var emoji in emojis)
+                                    {
+                                        <button class="emoji-button" @onclick="async ()=> { await InsertEmoji(emoji); }">@emoji</button>
+                                    }
+                                </div>
                             }
-                        </MudMenu>
+                        </div>
                     </div>
 
                     <MudButton OnClick="AddPost" Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PostAdd">
@@ -94,16 +170,13 @@
     };
 
     private string newPostContent = string.Empty;
+    private ElementReference postTextarea;
+    private bool showEmojiPicker = false;
 
     private readonly List<string> emojis = new()
     {
         "😀","😂","😍","😅","😎","😊","😉","🤩","😭","👍"
     };
-
-    private void InsertEmoji(string emoji)
-    {
-        newPostContent += emoji;
-    }
 
     private async Task AddPost()
     {
@@ -121,7 +194,26 @@
             });
 
             newPostContent = string.Empty;
+            await Task.Yield();
         }
+    }
+
+    // Insert emoji at caret position using JS helper; close picker after insert.
+    private async Task InsertEmoji(string emoji)
+    {
+        try
+        {
+            var updated = await JS.InvokeAsync<string>("insertEmojiAtCursor", postTextarea, emoji + " ");
+            if (!string.IsNullOrEmpty(updated))
+                newPostContent = updated;
+            else
+                newPostContent += emoji + " ";
+        }
+        catch
+        {
+            newPostContent += emoji + " ";
+        }
+        showEmojiPicker = false;
     }
 
     private class Post
@@ -132,3 +224,27 @@
         public int Comments { get; set; }
     }
 }
+
+<script>
+    // JS helper to insert emoji at caret and return updated value (works with ElementReference)
+    window.insertEmojiAtCursor = (el, emoji) => {
+        if (!el) return "";
+        try {
+            const start = el.selectionStart ?? el.value.length;
+            const end = el.selectionEnd ?? el.value.length;
+            const before = el.value.substring(0, start);
+            const after = el.value.substring(end);
+            const newVal = before + emoji + after;
+            el.value = newVal;
+            const caret = start + emoji.length;
+            el.selectionStart = el.selectionEnd = caret;
+            // dispatch input event so Blazor binding updates if present
+            const evt = new Event('input', { bubbles: true });
+            el.dispatchEvent(evt);
+            el.focus();
+            return newVal;
+        } catch (e) {
+            return el.value || "";
+        }
+    };
+</script>
