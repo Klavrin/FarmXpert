@@ -1,4 +1,5 @@
 @inject AuthenticationStateProvider AuthStateProvider
+@inject IJSRuntime JS
 @rendermode InteractiveWebAssembly
 
 <MudContainer Class="mt-6 d-flex flex-column gap-4 align-items-start" Style="width:100%; padding-bottom: 5rem;">
@@ -8,6 +9,7 @@
                 <div class="d-flex gap-2">
                     <MudAvatar Color="Color.Secondary">@context.User.Identity?.Name[0]</MudAvatar>
                     <textarea 
+                        @ref="postTextarea"
                         class="w-100 pt-2"
                         style="outline: none; resize: none; font-size: 1rem;"
                         @bind="newPostContent"
@@ -16,22 +18,30 @@
                     </textarea>
                 </div>
                 
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center" style="position:relative;">
                     <div class="d-flex align-items-center gap-1">
-                        <MudIconButton Icon="@Icons.Material.Filled.Image" />
-
-                        <!-- Emoji picker menu (max 10 emojis) -->
-                        <MudMenu Icon="@Icons.Material.Filled.SentimentSatisfied" Variant="Variant.Text" Dense="true">
-                            @foreach (var emoji in emojis)
-                            {
-                                <MudMenuItem OnClick="@(()=>InsertEmoji(emoji))">@emoji</MudMenuItem>
-                            }
-                        </MudMenu>
+                        <MudIconButton Icon="@Icons.Material.Filled.Image"/>
+                        <!-- smile face emoji picker toggle -->
+                        <MudIconButton Icon="@Icons.Material.Filled.SentimentSatisfied" OnClick="ToggleEmojiPicker" AriaLabel="Emoji picker"/>
                     </div>
 
                     <MudButton OnClick="AddPost" Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PostAdd">
                         Post
                     </MudButton>
+
+                    @if (showEmojiPicker)
+                    {
+                        <div style="position:absolute; left:3.5rem; bottom:3rem; z-index:60; background:white; border:1px solid rgba(0,0,0,0.12); border-radius:6px; padding:8px; box-shadow:0 8px 16px rgba(0,0,0,0.08);">
+                            <div style="display:grid; grid-template-columns:repeat(8,1fr); gap:6px; max-width:320px;">
+                                @foreach (var e in emojis)
+                                {
+                                    <button class="mud-button-root mud-button-text" style="font-size:18px; padding:6px; border-radius:6px; background:transparent; border:none; cursor:pointer;" @onclick="() => SelectEmoji(e)">
+                                        @e
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    }
                 </div>
             </MudCard>
         </Authorized>
@@ -94,16 +104,13 @@
     };
 
     private string newPostContent = string.Empty;
-
-    private readonly List<string> emojis = new()
+    private ElementReference postTextarea;
+    private bool showEmojiPicker = false;
+    private readonly string[] emojis = new[]
     {
-        "😀","😂","😍","😅","😎","😊","😉","🤩","😭","👍"
+        "😀","😁","😂","🤣","😊","😇","🙂","😉","😍","😘","😜","🤪","🤩","😎",
+        "😭","😡","😅","👍","👏","🌽","🍅","🌱","🌾","🧑‍🌾"
     };
-
-    private void InsertEmoji(string emoji)
-    {
-        newPostContent += emoji;
-    }
 
     private async Task AddPost()
     {
@@ -124,6 +131,21 @@
         }
     }
 
+    private void ToggleEmojiPicker()
+    {
+        showEmojiPicker = !showEmojiPicker;
+    }
+
+    private async Task SelectEmoji(string emoji)
+    {
+        // insert emoji at caret via JS and get updated value back
+        var updated = await JS.InvokeAsync<string>("insertEmojiAtCursor", postTextarea, emoji);
+        newPostContent = updated;
+        showEmojiPicker = false;
+        StateHasChanged();
+        await Task.Yield();
+    }
+
     private class Post
     {
         public string Content { get; set; } = string.Empty;
@@ -132,3 +154,26 @@
         public int Comments { get; set; }
     }
 }
+<script>
+    // JS helper to insert emoji at caret and return updated value (works with ElementReference)
+    window.insertEmojiAtCursor = (el, emoji) => {
+        if (!el) return "";
+        try {
+            const start = el.selectionStart ?? el.value.length;
+            const end = el.selectionEnd ?? el.value.length;
+            const before = el.value.substring(0, start);
+            const after = el.value.substring(end);
+            const newVal = before + emoji + after;
+            el.value = newVal;
+            const caret = start + emoji.length;
+            el.selectionStart = el.selectionEnd = caret;
+            // dispatch input event so Blazor binding updates if present
+            const evt = new Event('input', { bubbles: true });
+            el.dispatchEvent(evt);
+            el.focus();
+            return newVal;
+        } catch (e) {
+            return el.value;
+        }
+    };
+</script>
