@@ -1,10 +1,10 @@
 @inject AuthenticationStateProvider AuthStateProvider
 @rendermode InteractiveWebAssembly
 
-<MudContainer Class="mt-6 d-flex flex-column gap-4" Style="max-width: 45rem; padding-bottom: 5rem;">
+<MudContainer Class="mt-6 d-flex flex-column gap-4 align-items-start" Style="width:100%; padding-bottom: 5rem;">
     <AuthorizeView>
         <Authorized>
-            <MudCard Class="p-3">
+            <MudCard Class="p-3" Style="width:45rem">
                 <div class="d-flex gap-2">
                     <MudAvatar Color="Color.Secondary">@context.User.Identity?.Name[0]</MudAvatar>
                     <textarea 
@@ -28,7 +28,7 @@
 
     @foreach (var post in posts.AsEnumerable().Reverse())
     {
-        <MudCard Class="p-3 bg-white" Style="cursor: pointer;">
+        <MudCard Class="p-3 bg-white" Style="cursor: pointer; width:45rem;">
             <div class="d-flex">
                 <MudAvatar Style="margin-right: 0.5rem;" Color="Color.Primary">@post.Poster[0]</MudAvatar>
                 <div class="mt-1 w-100">
