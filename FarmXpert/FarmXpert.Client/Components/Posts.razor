@@ -75,7 +75,27 @@
 
     /* trends card styling */
     .trends-card { padding: 0.75rem; border-radius: 6px; }
-    .trends-title { text-align: center; font-weight: 600; padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .trends-title { 
+        text-align: center; 
+        font-weight: 700; 
+        padding: 0.6rem 0; 
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+        font-size: 1.15rem; /* made bigger */
+    }
+
+    /* make each trend render as a full-width, unstyled button so it's clearly clickable */
+    .trend-button {
+        all: unset;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        cursor: pointer;
+        padding: 0.05rem 0.25rem;
+        border-radius: 999px;
+    }
+    .trend-button:hover { background: rgba(0,0,0,0.04); }
+
     .trend-list { margin: 0; padding: 0.75rem; list-style: none; }
     .trend-item {
         display: flex;
@@ -193,9 +213,11 @@
                     <ul class="trend-list">
                         @for (int i = 0; i < trends.Count; i++)
                         {
-                            <li class="trend-item mb-2">
-                                <span class="trend-index">@($"{i+1}.")</span>
-                                <span class="trend-tag">@trends[i]</span>
+                            <li class="trend-item">
+                                <button class="trend-button" @onclick="() => OnTrendClick(trends[i])">
+                                    <span class="trend-index">@($"{i+1}.")</span>
+                                    <span class="trend-tag">@trends[i]</span>
+                                </button>
                             </li>
                         }
                     </ul>
@@ -279,6 +301,23 @@
             newPostContent += emoji + " ";
         }
         showEmojiPicker = false;
+    }
+
+    // new handler: insert clicked hashtag into the post textarea (uses existing JS helper)
+    private async Task OnTrendClick(string tag)
+    {
+        try
+        {
+            var updated = await JS.InvokeAsync<string>("insertEmojiAtCursor", postTextarea, tag + " ");
+            if (!string.IsNullOrEmpty(updated))
+                newPostContent = updated;
+            else
+                newPostContent += tag + " ";
+        }
+        catch
+        {
+            newPostContent += tag + " ";
+        }
     }
 
     private class Post
