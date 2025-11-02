@@ -18,7 +18,7 @@ public class UpdateVehicleCommandHandler : IRequestHandler<UpdateVehicleCommand,
         var existingVehicle = await _vehicleRepository.GetByIdAsync(request.Vehicle.OwnerId,request.Vehicle.Id, cancellationToken);
         if (existingVehicle == null)
         {
-            return null;
+            throw new KeyNotFoundException($"Vehicle with ID {request.Vehicle.Id} not found.");
         }
 
         existingVehicle.BusinessId = request.Vehicle.BusinessId;
