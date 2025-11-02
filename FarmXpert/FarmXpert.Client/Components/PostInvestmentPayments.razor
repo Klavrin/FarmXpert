@@ -1,125 +1,147 @@
-<MudText Class="mt-4" Typo="Typo.body2">
-    Post-investment payments are subsidies provided to farmers after the completion of a project or investment. These payments are intended to reimburse farmers for eligible expenses incurred during the implementation of their agricultural activities. The post-investment payment is usually based on the actual costs incurred and is subject to verification and approval by the relevant authorities.
-</MudText>
+<MudSelect @bind-Value="_selectedSubtype"
+           Variant="Variant.Filled"
+           Label="Subsidy Subtype"
+           Disabled="@_selectDisabled"
+           Class="mt-4">
+    @foreach (var subtype in _subsidySubtypes)
+    {
+    <MudSelectItem Value="@subtype">@subtype</MudSelectItem>
+    }
+</MudSelect>
 
-<MudText Class="mt-2" Typo="Typo.body2">
-    Conditions:
-    <ul>
-        <li>Viable investment project completed</li>
-        <li>Costs fully supported and proven with invoices.</li>
-        <li>Must own the assets created / purchased.</li>
-    </ul>
-</MudText>
-
-@*Investments in Protected-Ground Production*@
-<UploadDocument Title="Copy of the extract from the State Register of Legal Entities / copy of the registration certificate" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Declaration on own responsibility regarding the accuracy of the information and submitted documents" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of having a bank account in Moldovan lei MDL, opened at a commercial bank in the Republic of Moldova" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Investment project" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of relevant professional competence of the administrator or an employee" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the primary accounting document confirming the registration of the fixed asset – for machinery, equipment, and other eligible goods requiring installation" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of primary accounting documents" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of payment orders confirming full payment, stamped by the issuing bank" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the registration certificate for the machinery or equipment used for soil cultivation, plant protection, and crop maintenance (if applicable)" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the project sketch, prepared by the supplier or authorized designer, indicating technical parameters" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the detailed cost estimate for materials used and installation services" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the works execution report (completion certificate)" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of legal ownership of the immovable property and/or its components where the investment was made" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the authorization documents for the completed investment, according to Law No. 160/2011 on the regulation of entrepreneurial activity through authorization" ButtonText="Upload" FilesChanged="UploadFiles" />
-
-@*Crop Sector*@
-<UploadDocument Title="Copy of the extract from the State Register of Legal Entities / copy of the registration certificate" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Declaration on own responsibility regarding the accuracy of the information and submitted documentsInvestment project" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of having a bank account in Moldovan lei MDL, opened at a commercial bank in the Republic of Moldova" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Investment project" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of relevant professional competence of the administrator or an employee" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the certificate proving that the farmer is a member of a professional association in the crop/vegetal sector" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of legal ownership of the immovable property and/or its components where the investment was made" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copies of primary accounting documents" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the sale-purchase contract, if applicable" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of payment orders confirming full payment, stamped by the issuing bank" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Act confirming the establishment of perennial plantations in their first year of vegetation" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the works execution report (completion certificate)" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the plantation establishment project, passport, and the general plan of the plantation, prepared by a certified project designer" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the plantation’s general plan showing the dimensions, boundaries, and planting scheme, prepared by a designer specializing in fruit-bearing shrubs, strawberries, aromatic, medicinal, or essential-oil crops" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the biological value certificate of planting material or the seed quality certificate (for aromatic crops), issued by the producer and certified by the National Food Safety Agency (ANSA)" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of a long-term contract (7-10 years, after the plantation becomes productive) for the sale of produce to a fruit and vegetable processing unit registered with ANSA — applicable to apple plantations established for processing purposes" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the project sketch for the installation and/or modernization of support systems in plantations or vegetable areas, prepared as appropriate by a design office, producer, or supplier" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the primary accounting document confirming the registration of the fixed asset" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Act of commissioning (putting into operation) the support system in young orchards, the modernized support system in orchards, and/or vegetable surfaces" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the registration certificate of the agricultural machinery (if applicable)" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the 4-ARG report and proof of ownership of irrigated vegetable land" ButtonText="Upload" FilesChanged="UploadFiles" />
-
-@*Livestock Sector*@
-<UploadDocument Title="Copy of the extract from the State Register of Legal Entities / copy of the registration certificate" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Declaration on own responsibility regarding the accuracy of the information and submitted documents" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of having a bank account in Moldovan lei MDL, opened at a commercial bank in the Republic of Moldova" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Investment project" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of professional competence in the zootechnic field" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the certificate proving that the farmer is a member of a professional association in the relevant livestock sector" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copies of primary accounting documents" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of payment orders confirming full payment, stamped by the issuing bank" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the primary accounting document confirming registration of the fixed asset" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the technical documentation issued by the manufacturer, describing the technical characteristics of the technological equipment" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Reception handover act, accompanied by the environmental agreement, if applicable" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the technical project (design sketch) prepared by licensed companies, in case of new constructions or extensions" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the detailed cost estimate for materials and installation services, prepared and verified by specialists holding professional technical certification, where applicable" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the works execution report (completion certificate)" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the authorization or sanitary-veterinary registration certificate of the farm, and for beekeeping farms – the copy of the apiary passport" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the registration certificate of the machinery or technological equipment" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the insurance policy for purchased breeding animals (except for the purchase of queen bees / bee swarms and semen material)" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the documents issued by ANSA on the placement and release from prophylactic quarantine of imported breeding animals except semen material" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Extract from the State Animal Register, issued by the National Food Safety Agency (ANSA)" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the breed (pedigree) certificate of each animal or of each group of animals for small species and poultry" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the breed certificate of queen bees, for bee swarms" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the breed certificate of the male breeder from which the semen material was obtained (in case of semen acquisition)" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of legal ownership of the immovable property and/or its components where the investment was made" ButtonText="Upload" FilesChanged="UploadFiles" />
-
-@*Wine Sector*@
-<UploadDocument Title="Copy of the extract from the State Register of Legal Entities / copy of the registration certificate" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Declaration on own responsibility regarding the accuracy of the information and submitted documents" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of having a bank account in Moldovan lei (MDL), opened at a commercial bank in the Republic of Moldova" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Investment project" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of relevant professional competence of the administrator or an employee" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the certificate proving membership in a wine-producers association with protected geographical indication (PGI) or protected designation of origin (PDO) in whose area the investment is located" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of legal ownership of the immovable property and/or its components where the investment was made" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copies of primary accounting documents" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the sale-purchase contract, if applicable" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of payment orders confirming full payment, stamped by the issuing bank" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Extract from the Wine and Vine Register (Viticultural Register)" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Act confirming the establishment of vineyard plantations in accordance with the Law on Vine and Wine No. 57/2006" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Act regarding the accounting record of vineyard plantations in accordance with Law No. 57/2006 on Vine and Wine" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the plantation passport including the general plan of the vineyard establishment project, prepared by a certified designer in the field" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the biological category certificate of the vine planting material" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the project sketch for the installation and/or modernization of support systems in plantations, prepared as appropriate by a design office, manufacturer, or supplier" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the primary accounting document confirming the registration of the fixed asset" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Act of commissioning the support system in young vineyard plantations or the modernized support system in existing vineyards (standard form)" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the registration certificate of the agricultural machinery or equipment (if applicable)" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the primary accounting document confirming the registration of the fixed asset" ButtonText="Upload" FilesChanged="UploadFiles" />
-
-<hr style="margin-block: 2rem;" />
-
-<div class="w-100 d-flex justify-content-end mt-4">
-    <MudButton StartIcon="@Icons.Material.Filled.AutoAwesome" 
-               Color="Color.Primary" 
-               Variant="Variant.Filled" 
-               Disabled="@_applicationGenerated"
-               OnClick="GenerateApplication">
-        @(_applicationGenerated ? "Application Generated" : "Generate Application")
-    </MudButton>
-</div>
-
-@if (_applicationGenerated)
+@if (!string.IsNullOrWhiteSpace(_selectedSubtype))
 {
-    <MudText Class="mt-4" Typo="Typo.body1" Color="Color.Success">
-        ✅ Your application has been generated successfully!
+    <MudText Class="mt-4" Typo="Typo.body2">
+        Post-investment payments are subsidies provided to farmers after the completion of a project or investment. These payments are intended to reimburse farmers for eligible expenses incurred during the implementation of their agricultural activities. The post-investment payment is usually based on the actual costs incurred and is subject to verification and approval by the relevant authorities.
     </MudText>
+
+    <MudText Class="mt-2" Typo="Typo.body2">
+        Conditions:
+        <ul>
+            <li>Viable investment project completed</li>
+            <li>Costs fully supported and proven with invoices.</li>
+            <li>Must own the assets created / purchased.</li>
+        </ul>
+    </MudText>
+    
+    @*Investments in Protected-Ground Production*@
+    <UploadDocument Title="Copy of the extract from the State Register of Legal Entities" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Declaration on own responsibility regarding the accuracy of the information and submitted documents" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Proof of having a bank account in Moldovan lei (MDL)" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Investment project" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Proof of relevant professional competence of the administrator or an employee" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the primary accounting document" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of primary accounting documents" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of payment orders confirming full payment, stamped by the issuing bank" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the registration certificate for the machinery or equipment" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the project sketch, prepared by the supplier or authorized designer, indicating technical parameters" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the detailed cost estimate for materials used and installation services" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the works execution report" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Proof of legal ownership of the immovable property and/or its components" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the authorization documents for the completed investment" ButtonText="Upload" FilesChanged="UploadFiles"/>
+
+    @*Crop Sector*@
+    <UploadDocument Title="Copy of the extract from the State Register of Legal Entities" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Declaration on own responsibility" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Proof of having a bank account in Moldovan lei (MDL)" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Investment project" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Proof of relevant professional competence of the administrator or an employee" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the certificate proving that the farmer is a member of a professional association in the crop/vegetal sector" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Proof of legal ownership of the immovable property and/or its components" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copies of primary accounting documents" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the sale-purchase contract" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of payment orders confirming full payment" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Act confirming the establishment of perennial plantations in their first year of vegetation" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the works execution report" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the plantation establishment project, passport, and the general plan of the plantation" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the plantation’s general plan showing the dimensions, boundaries, and planting scheme" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the biological value certificate of planting material or the seed quality certificate for aromatic crops" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of a long-term contract for the sale of produce to a fruit and vegetable processing unit" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the project sketch for the installation and/or modernization of support systems in plantations or vegetable areasr" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the primary accounting document confirming the registration of the fixed asset" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Act of commissioning the support system in young orchards and/or vegetable surfaces" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the registration certificate of the agricultural machinery" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the 4-ARG report and proof of ownership of irrigated vegetable land" ButtonText="Upload" FilesChanged="UploadFiles"/>
+
+    @*Livestock Sector*@
+    <UploadDocument Title="Copy of the extract from the State Register of Legal Entities" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Declaration on own responsibility" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Proof of having a bank account in Moldovan lei (MDL)" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Investment project" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Proof of professional competence in the zootechnic field" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the certificate proving that the farmer is a member of a professional association" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copies of primary accounting documents" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of payment orders confirming full payment" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the primary accounting document confirming registration of the fixed asset" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the technical documentation issued by the manufacturer" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Reception handover act, accompanied by the environmental agreement, if applicable" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the technical project prepared by licensed companies" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the detailed cost estimate for materials and installation services" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the works execution report" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the authorization or sanitary-veterinary registration certificate of the farm or the copy of the apiary passport" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the registration certificate of the machinery or technological equipment" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the insurance policy for purchased breeding animals" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the ANSA documents on the placement and release from prophylactic quarantine of imported breeding animals" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Extract from the State Animal Register" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the breed certificate of each animal or of each group of animals for small species and poultry" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the breed certificate of queen bees, for bee swarms" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the breed certificate of the male breeder from which the semen material was obtained" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Proof of legal ownership of the immovable property and/or its components where the investment was made" ButtonText="Upload" FilesChanged="UploadFiles"/>
+
+    @*Wine Sector*@
+    <UploadDocument Title="Copy of the extract from the State Register of Legal Entities" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Declaration on own responsibility" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Proof of having a bank account in Moldovan lei (MDL)" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Investment project" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Proof of relevant professional competence of the administrator or an employee" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the certificate proving membership in a wine-producers association" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Proof of legal ownership of the immovable property and/or its components" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copies of primary accounting documents" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the sale-purchase contract" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of payment orders confirming full payment" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Extract from the Wine and Vine Register" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Act confirming the establishment of vineyard plantations" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Act regarding the accounting record of vineyard plantations" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the plantation passport including the general plan of the vineyard establishment project" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the biological category certificate of the vine planting material" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the project sketch for the installation and/or modernization of support systems in plantations" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the primary accounting document confirming the registration of the fixed asset" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Act of commissioning the support system in young vineyard plantations or the modernized support system" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the registration certificate of the agricultural machinery or equipment" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the primary accounting document confirming the registration of the fixed asset" ButtonText="Upload" FilesChanged="UploadFiles"/>
+
+    <hr style="margin-block: 2rem;"/>
+
+    <div class="w-100 d-flex justify-content-end mt-4">
+        <MudButton StartIcon="@Icons.Material.Filled.AutoAwesome"
+                   Color="Color.Primary"
+                   Variant="Variant.Filled"
+                   Disabled="@_applicationGenerated"
+                   OnClick="GenerateApplication">
+            @(_applicationGenerated ? "Application Generated" : "Generate Application")
+        </MudButton>
+    </div>
+
+    @if (_applicationGenerated)
+    {
+        <MudText Class="mt-4" Typo="Typo.body1" Color="Color.Success">
+            ✅ Your application has been generated successfully!
+        </MudText>
+    }
 }
 
 @code {
     IList<IBrowserFile> _files = new List<IBrowserFile>();
     private bool _applicationGenerated = false;
-
+    private string? _selectedSubtype;
+    private bool _selectDisabled = false;
+    private readonly string[] _subsidySubtypes =
+    {
+        "Crop sector",  
+        "Investments in Protected-Ground Production",
+        "Livestock sector",
+        "Wine sector"
+    };
     private void UploadFiles(IBrowserFile file)
     {
         _files.Add(file);
