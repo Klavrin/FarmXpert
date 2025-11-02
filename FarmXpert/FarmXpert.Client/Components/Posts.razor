@@ -67,87 +67,142 @@
     .emoji-popover .emoji-button:hover {
         background: rgba(0,0,0,0.06);
     }
+
+    /* new layout for main + sidebar */
+    .posts-row { display: flex; gap: 1.5rem; width: 100%; align-items: flex-start; }
+    .main-col { flex: 1 1 auto; min-width: 40rem; max-width: calc(100% - 20rem); }
+    .sidebar-col { width: 18rem; flex: 0 0 18rem; }
+
+    /* trends card styling */
+    .trends-card { padding: 0.75rem; border-radius: 6px; }
+    .trends-title { text-align: center; font-weight: 600; padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .trend-list { margin: 0; padding: 0.75rem; list-style: none; }
+    .trend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(0,0,0,0.03);
+        padding: 0.45rem 0.6rem;
+        border-radius: 999px;
+        width: 100%;
+        justify-content: flex-start; /* keep number + hashtag at the left */
+    }
+    .trend-index {
+        min-width: 1.6rem;
+        text-align: left;
+        color: rgba(0,0,0,0.6);
+        font-weight: 600;
+        margin-left: 0.1rem;
+    }
+    .trend-tag {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: rgba(0,0,0,0.8);
+    }
 </style>
 
-<MudContainer @onclick="() => showEmojiPicker = false" Class="mt-6 d-flex flex-column gap-4 align-items-start" Style="width:100%; padding-bottom: 5rem;">
-    <AuthorizeView>
-        <Authorized>
-            <MudCard Class="p-3" Style="width:45rem">
-                <div class="d-flex gap-2">
-                    <MudAvatar Color="Color.Secondary">@context.User.Identity?.Name[0]</MudAvatar>
-                    <textarea 
-                        class="w-100 pt-2"
-                        style="outline: none; resize: none; font-size: 1rem;"
-                        @bind="newPostContent"
-                        @ref="postTextarea"
-                        rows="5"
-                        placeholder="What's growing on?">
-                    </textarea>
-                </div>
-                
-                <div class="d-flex justify-content-between align-items-center">
-                    <!-- remove gap so emoji button sits right next to image button -->
-                    <div class="d-flex align-items-center gap-0">
-                        <MudIconButton Icon="@Icons.Material.Filled.Image" />
+<MudContainer @onclick="() => showEmojiPicker = false" Class="mt-6" Style="width:100%; padding-bottom: 5rem;">
+    <div class="posts-row">
+        <div class="main-col">
+            <AuthorizeView>
+                <Authorized>
+                    <MudCard Class="p-3" Style="width:100%">
+                        <div class="d-flex gap-2">
+                            <MudAvatar Color="Color.Secondary">@context.User.Identity?.Name[0]</MudAvatar>
+                            <textarea 
+                                class="w-100 pt-2"
+                                style="outline: none; resize: none; font-size: 1rem;"
+                                @bind="newPostContent"
+                                @ref="postTextarea"
+                                rows="5"
+                                placeholder="What's growing on?">
+                            </textarea>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- remove gap so emoji button sits right next to image button -->
+                            <div class="d-flex align-items-center gap-0">
+                                <MudIconButton Icon="@Icons.Material.Filled.Image" />
 
-                        <div class="emoji-wrapper ms-2">
-                            <MudIconButton Icon="@Icons.Material.Filled.SentimentSatisfied" OnClick="@(()=> showEmojiPicker = !showEmojiPicker)" />
+                                <div class="emoji-wrapper ms-2">
+                                    <MudIconButton Icon="@Icons.Material.Filled.SentimentSatisfied" OnClick="@(()=> showEmojiPicker = !showEmojiPicker)" />
 
-                            @if (showEmojiPicker)
-                            {
-                                <div class="emoji-popover" @onclick:stopPropagation>
-                                    @foreach (var emoji in emojis)
+                                    @if (showEmojiPicker)
                                     {
-                                        <button class="emoji-button" @onclick="async ()=> { await InsertEmoji(emoji); }">@emoji</button>
+                                        <div class="emoji-popover" @onclick:stopPropagation>
+                                            @foreach (var emoji in emojis)
+                                            {
+                                                <button class="emoji-button" @onclick="async ()=> { await InsertEmoji(emoji); }">@emoji</button>
+                                            }
+                                        </div>
                                     }
                                 </div>
-                            }
-                        </div>
-                    </div>
+                            </div>
 
-                    <MudButton OnClick="AddPost" Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PostAdd">
-                        Post
-                    </MudButton>
-                </div>
-            </MudCard>
-        </Authorized>
-    </AuthorizeView>
-
-    @foreach (var post in posts.AsEnumerable().Reverse())
-    {
-        <MudCard Class="p-3 bg-white" Style="cursor: pointer; width:45rem;">
-            <div class="d-flex">
-                <MudAvatar Style="margin-right: 0.5rem;" Color="Color.Primary">@post.Poster[0]</MudAvatar>
-                <div class="mt-1 w-100">
-                    <MudText Typo="Typo.body1">
-                        @post.Poster
-                    </MudText>
-                    
-                    <MudText Class="opacity-75 w-100" Typo="Typo.body2">
-                        @post.Content
-                    </MudText>
-
-                    <div class="mt-4 d-flex justify-content-between align-items-center">
-                        <div>
-                            <MudButton>
-                                <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Favorite" Size="Size.Small"/>
-                                <span>@post.Likes</span>
-                            </MudButton>
-
-                            <MudButton>
-                                <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Comment" Size="Size.Small"/>
-                                <span>@post.Comments</span>
+                            <MudButton OnClick="AddPost" Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PostAdd">
+                                Post
                             </MudButton>
                         </div>
+                    </MudCard>
+                </Authorized>
+            </AuthorizeView>
 
-                        <MudButton>
-                            <MudIcon Icon="@Icons.Material.Filled.Download" Size="Size.Small"/>
-                        </MudButton>
+            @foreach (var post in posts.AsEnumerable().Reverse())
+            {
+                <MudCard Class="p-3 bg-white mt-3" Style="cursor: pointer; width:100%;">
+                    <div class="d-flex">
+                        <MudAvatar Style="margin-right: 0.5rem;" Color="Color.Primary">@post.Poster[0]</MudAvatar>
+                        <div class="mt-1 w-100">
+                            <MudText Typo="Typo.body1">
+                                @post.Poster
+                            </MudText>
+                            
+                            <MudText Class="opacity-75 w-100" Typo="Typo.body2">
+                                @post.Content
+                            </MudText>
+
+                            <div class="mt-4 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <MudButton>
+                                        <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Favorite" Size="Size.Small"/>
+                                        <span>@post.Likes</span>
+                                    </MudButton>
+
+                                    <MudButton>
+                                        <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Comment" Size="Size.Small"/>
+                                        <span>@post.Comments</span>
+                                    </MudButton>
+                                </div>
+
+                                <MudButton>
+                                    <MudIcon Icon="@Icons.Material.Filled.Download" Size="Size.Small"/>
+                                </MudButton>
+                            </div>
+                        </div>
                     </div>
+                </MudCard>
+            }
+        </div>
+
+        <div class="sidebar-col">
+            <MudPaper Class="trends-card">
+                <div class="trends-title">Trends</div>
+
+                <div>
+                    <ul class="trend-list">
+                        @for (int i = 0; i < trends.Count; i++)
+                        {
+                            <li class="trend-item mb-2">
+                                <span class="trend-index">@($"{i+1}.")</span>
+                                <span class="trend-tag">@trends[i]</span>
+                            </li>
+                        }
+                    </ul>
                 </div>
-            </div>
-        </MudCard>
-    }
+            </MudPaper>
+        </div>
+    </div>
 </MudContainer>
 
 @code {
@@ -176,6 +231,16 @@
     private readonly List<string> emojis = new()
     {
         "😀","😂","😍","😅","😎","😊","😉","🤩","😭","👍"
+    };
+
+    // new trends list for the sidebar
+    private readonly List<string> trends = new()
+    {
+        "#crop",
+        "#farm",
+        "#potato",
+        "#love",
+        "#autumn"
     };
 
     private async Task AddPost()
