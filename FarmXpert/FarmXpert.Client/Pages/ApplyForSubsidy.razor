@@ -37,15 +37,16 @@
     {
         <DirectPayments/>
     }
+    else if (_value == "Payments of investments in stages")
+    {
+        <PaymentsOfInvestmentsInStages/> 
+    }
+
     else if (_value == "Post-investment payments")
     {
         <PostInvestmentPayments/> 
     }
-    else if (_value == "Stage-based investment payments")
-    {
-        <StageBasedInvestmentPayments/> 
-    }
-
+    
 </MudContainer>
 
 @code {
@@ -59,9 +60,8 @@
         "Advance payments", 
         "Complementary payments",
         "Direct payments", 
-        "Post-investment payments", 
-        "Stage-based investment payments", 
-   
+        "Payments of investments in stages",
+        "Post-investment payments"
     };
 
     protected override async Task OnInitializedAsync()
