@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmXpert.Infrastructure", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmXpert.Shared", "FarmXpert\FarmXpert.Shared\FarmXpert.Shared.csproj", "{44E00201-E60E-4080-BF07-EDED133FFCFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmXpert.Tests", "FarmXpert\FarmXpert.Tests\FarmXpert.Tests.csproj", "{05104554-E036-4411-9A68-4F00E045671B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,18 @@ Global
 		{44E00201-E60E-4080-BF07-EDED133FFCFC}.Release|x64.Build.0 = Release|Any CPU
 		{44E00201-E60E-4080-BF07-EDED133FFCFC}.Release|x86.ActiveCfg = Release|Any CPU
 		{44E00201-E60E-4080-BF07-EDED133FFCFC}.Release|x86.Build.0 = Release|Any CPU
+		{05104554-E036-4411-9A68-4F00E045671B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05104554-E036-4411-9A68-4F00E045671B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05104554-E036-4411-9A68-4F00E045671B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{05104554-E036-4411-9A68-4F00E045671B}.Debug|x64.Build.0 = Debug|Any CPU
+		{05104554-E036-4411-9A68-4F00E045671B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{05104554-E036-4411-9A68-4F00E045671B}.Debug|x86.Build.0 = Debug|Any CPU
+		{05104554-E036-4411-9A68-4F00E045671B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05104554-E036-4411-9A68-4F00E045671B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05104554-E036-4411-9A68-4F00E045671B}.Release|x64.ActiveCfg = Release|Any CPU
+		{05104554-E036-4411-9A68-4F00E045671B}.Release|x64.Build.0 = Release|Any CPU
+		{05104554-E036-4411-9A68-4F00E045671B}.Release|x86.ActiveCfg = Release|Any CPU
+		{05104554-E036-4411-9A68-4F00E045671B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
