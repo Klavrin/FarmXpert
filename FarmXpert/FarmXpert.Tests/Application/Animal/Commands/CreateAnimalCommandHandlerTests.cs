@@ -4,14 +4,14 @@ using FarmXpert.Domain.Interfaces;
 using FluentAssertions;
 using Moq;
 
-namespace FarmXpert.Tests.Application.Animal;
+namespace FarmXpert.Tests.Application.Animal.Commands;
 
-public class CreateAnimalCommandHandlerTests
+public class GetAllAnimalsQueryHandler
 {
     private readonly Mock<IAnimalRepository> _mockRepo;
     private readonly CreateAnimalCommandHandler _handler;
 
-    public CreateAnimalCommandHandlerTests()
+    public GetAllAnimalsQueryHandler()
     {
         _mockRepo = new Mock<IAnimalRepository>();
         _handler = new CreateAnimalCommandHandler(_mockRepo.Object);

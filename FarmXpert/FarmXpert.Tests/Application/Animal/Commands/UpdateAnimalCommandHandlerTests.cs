@@ -3,7 +3,7 @@ using FarmXpert.Domain.Interfaces;
 using FluentAssertions;
 using Moq;
 
-namespace FarmXpert.Tests.Application.Animal;
+namespace FarmXpert.Tests.Application.Animal.Commands;
 
 public class UpdateAnimalCommandHandlerTests
 {
