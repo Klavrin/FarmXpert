@@ -120,6 +120,39 @@
         text-overflow: ellipsis;
         color: rgba(0,0,0,0.8);
     }
+
+    /* friends panel styles */
+    .friends-card {
+        margin-top: 1rem;
+        padding: 0.6rem;
+        border-radius: 6px;
+        height: auto; /* let the panel size naturally instead of stretching the full viewport */
+        display: flex;
+        flex-direction: column;
+    }
+    .friends-header {
+        font-weight: 700;
+        text-align: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .friend-list { list-style: none; margin: 0; padding: 0.6rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .friend-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.35rem 0.45rem; border-radius: 8px; background: transparent; }
+    .friend-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #6c63ff;
+        color: white;
+        font-weight: 700;
+    }
+    .friend-name { font-weight: 600; color: rgba(0,0,0,0.85); }
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; margin-left: auto; }
+    .status-online { background: #28a745; }
+    .status-offline { background: #6c757d; opacity: 0.95; }
 </style>
 
 <MudContainer @onclick="() => showEmojiPicker = false" Class="mt-6" Style="width:100%; padding-bottom: 5rem;">
@@ -223,6 +256,24 @@
                     </ul>
                 </div>
             </MudPaper>
+
+            <!-- Friends panel (fills down the right column) -->
+            <MudPaper Class="friends-card">
+                <div class="friends-header">Friends</div>
+
+                <div style="flex:1; overflow:auto;">
+                    <ul class="friend-list">
+                        @foreach (var f in friends)
+                        {
+                            <li class="friend-item">
+                                <div class="friend-avatar">@f.Name[0]</div>
+                                <div class="friend-name">@f.Name</div>
+                                <div class="status-dot @(f.Online ? "status-online" : "status-offline")" title="@(f.Online ? "Online" : "Offline")"></div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </MudPaper>
         </div>
     </div>
 </MudContainer>
@@ -263,6 +314,13 @@
         "#potato",
         "#love",
         "#autumn"
+    };
+
+    // hardcoded friends
+    private readonly List<Friend> friends = new()
+    {
+        new Friend { Name = "Bob", Online = false },
+        new Friend { Name = "Alice", Online = true }
     };
 
     private async Task AddPost()
@@ -326,6 +384,12 @@
         public string Poster { get; set; } = string.Empty;
         public int Likes { get; set; }
         public int Comments { get; set; }
+    }
+
+    private class Friend
+    {
+        public string Name { get; set; } = string.Empty;
+        public bool Online { get; set; }
     }
 }
 
