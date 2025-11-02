@@ -26,26 +26,27 @@
     </MudSelect>
 
     @if (_value == "Advance payments")
-    {
+    { 
         <AdvancePayments/>
-    }
-    else if (_value == "Post-investment payments")
-    {
-        <PostInvestmentPayments/>
-    }
-    else if (_value == "Stage-based investment payments")
-    {
-        <StageBasedInvestmentPayments/>
-    }
-    else if (_value == "Direct payments")
-    {
-        <DirectPayments/>
     }
     else if (_value == "Complementary payments")
     {
         <ComplementaryPayments/>
     }
+    else if (_value == "Direct payments")
+    {
+        <DirectPayments/>
+    }
+    else if (_value == "Payments of investments in stages")
+    {
+        <PaymentsOfInvestmentsInStages/> 
+    }
 
+    else if (_value == "Post-investment payments")
+    {
+        <PostInvestmentPayments/> 
+    }
+    
 </MudContainer>
 
 @code {
@@ -57,10 +58,10 @@
     private readonly string[] _subsidyTypes =
     {
         "Advance payments", 
-        "Post-investment payments", 
-        "Stage-based investment payments", 
+        "Complementary payments",
         "Direct payments", 
-        "Complementary payments"
+        "Payments of investments in stages",
+        "Post-investment payments"
     };
 
     protected override async Task OnInitializedAsync()
