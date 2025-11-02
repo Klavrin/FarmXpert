@@ -1,3 +1,14 @@
+<MudSelect @bind-Value="_selectedSubtype"
+           Variant="Variant.Filled"
+           Label="Subsidy Subtype"
+           Disabled="@_selectDisabled"
+           Class="mt-4">
+    @foreach (var subtype in _subsidySubtypes)
+    {
+        <MudSelectItem Value="@subtype">@subtype</MudSelectItem>
+    }
+</MudSelect>
+
 <MudText Class="mt-4" Typo="Typo.body2">
     Complementary payments are additional subsidies provided to farmers to supplement other forms of financial assistance they may receive. These payments are designed to enhance the overall support available to farmers and may be used in conjunction with other subsidy programs. Complementary payments can help address specific needs or challenges faced by farmers, such as market fluctuations or unexpected expenses.
 </MudText>
@@ -22,7 +33,15 @@
 
 @code {
     IList<IBrowserFile> _files = new List<IBrowserFile>();
-    
+    private bool _applicationGenerated = false;
+    private string? _selectedSubtype;
+    private bool _selectDisabled = false;
+    private readonly string[] _subsidySubtypes =
+    {
+        "Eco-agriculture",
+        "Irrigation systems",
+        "Promotion activities"
+    };
     private void UploadFiles(IBrowserFile file)
     {
         _files.Add(file);
