@@ -6,12 +6,12 @@ using Moq;
 
 namespace FarmXpert.Tests.Application.Animal.Commands;
 
-public class GetAllAnimalsQueryHandler
+public class CreateAnimalCommandHandlerHandler
 {
     private readonly Mock<IAnimalRepository> _mockRepo;
     private readonly CreateAnimalCommandHandler _handler;
 
-    public GetAllAnimalsQueryHandler()
+    public CreateAnimalCommandHandlerHandler()
     {
         _mockRepo = new Mock<IAnimalRepository>();
         _handler = new CreateAnimalCommandHandler(_mockRepo.Object);
