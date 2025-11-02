@@ -1,66 +1,281 @@
 @inject AuthenticationStateProvider AuthStateProvider
+@inject IJSRuntime JS
 @rendermode InteractiveWebAssembly
 
-<MudContainer Class="mt-6 d-flex flex-column gap-4" Style="max-width: 45rem; padding-bottom: 5rem;">
-    <AuthorizeView>
-        <Authorized>
-            <MudCard Class="p-3">
-                <div class="d-flex gap-2">
-                    <MudAvatar Color="Color.Secondary">@context.User.Identity?.Name[0]</MudAvatar>
-                    <textarea 
-                        class="w-100 pt-2"
-                        style="outline: none; resize: none; font-size: 1rem;"
-                        @bind="newPostContent"
-                        rows="5"
-                        placeholder="What's growing on?">
-                    </textarea>
-                </div>
-                
-                <div class="d-flex justify-content-between align-items-center">
-                    <MudIconButton Icon="@Icons.Material.Filled.Image"/>
-                    <MudButton OnClick="AddPost" Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PostAdd">
-                        Post
-                    </MudButton>
-                </div>
-            </MudCard>
-        </Authorized>
-    </AuthorizeView>
+<!-- Add compact horizontal emoji tab -->
+<style>
+    .emoji-container {
+        display: flex;
+        gap: 6px;
+        padding: 4px 6px;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+    }
+    /* Render menu items inline and compact */
+    .emoji-menu .mud-menu-item {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 34px;
+        height: 34px;
+        padding: 4px 6px;
+        border-radius: 6px;
+        font-size: 1.15rem;
+    }
+    .emoji-menu .mud-menu-item:hover {
+        background-color: rgba(0,0,0,0.06);
+    }
+    /* Tighter menu paper */
+    .emoji-menu .mud-paper {
+        padding: 4px 6px;
+    }
+    /* Nudge the popover so it sits adjacent to the emoji button */
+    .emoji-menu .mud-popover {
+        transform: translate(-4px, 2px) !important;
+    }
 
-    @foreach (var post in posts.AsEnumerable().Reverse())
-    {
-        <MudCard Class="p-3 bg-white" Style="cursor: pointer;">
-            <div class="d-flex">
-                <MudAvatar Style="margin-right: 0.5rem;" Color="Color.Primary">@post.Poster[0]</MudAvatar>
-                <div class="mt-1 w-100">
-                    <MudText Typo="Typo.body1">
-                        @post.Poster
-                    </MudText>
-                    
-                    <MudText Class="opacity-75 w-100" Typo="Typo.body2">
-                        @post.Content
-                    </MudText>
+    /* popover to place bar directly beneath the button */
+    .emoji-wrapper { position: relative; display: inline-block; }
+    .emoji-popover {
+        position: absolute;
+        top: 40px;               /* distance below the button */
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 6px;
+        padding: 6px 8px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        z-index: 1200;
+        white-space: nowrap;
+    }
+    .emoji-popover .emoji-button {
+        border: none;
+        background: transparent;
+        font-size: 1.15rem;
+        height: 34px;
+        width: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        cursor: pointer;
+        padding: 0;
+    }
+    .emoji-popover .emoji-button:hover {
+        background: rgba(0,0,0,0.06);
+    }
 
-                    <div class="mt-4 d-flex justify-content-between align-items-center">
-                        <div>
-                            <MudButton>
-                                <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Favorite" Size="Size.Small"/>
-                                <span>@post.Likes</span>
-                            </MudButton>
+    /* new layout for main + sidebar */
+    .posts-row { display: flex; gap: 1.5rem; width: 100%; align-items: flex-start; }
+    .main-col { flex: 1 1 auto; min-width: 40rem; max-width: calc(100% - 20rem); }
+    .sidebar-col { width: 18rem; flex: 0 0 18rem; }
 
-                            <MudButton>
-                                <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Comment" Size="Size.Small"/>
-                                <span>@post.Comments</span>
+    /* trends card styling */
+    .trends-card { padding: 0.75rem; border-radius: 6px; }
+    .trends-title { 
+        text-align: center; 
+        font-weight: 700; 
+        padding: 0.6rem 0; 
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+        font-size: 1.15rem; /* made bigger */
+    }
+
+    /* make each trend render as a full-width, unstyled button so it's clearly clickable */
+    .trend-button {
+        all: unset;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        cursor: pointer;
+        padding: 0.05rem 0.25rem;
+        border-radius: 999px;
+    }
+    .trend-button:hover { background: rgba(0,0,0,0.04); }
+
+    .trend-list { margin: 0; padding: 0.75rem; list-style: none; }
+    .trend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(0,0,0,0.03);
+        padding: 0.45rem 0.6rem;
+        border-radius: 999px;
+        width: 100%;
+        justify-content: flex-start; /* keep number + hashtag at the left */
+    }
+    .trend-index {
+        min-width: 1.6rem;
+        text-align: left;
+        color: rgba(0,0,0,0.6);
+        font-weight: 600;
+        margin-left: 0.1rem;
+    }
+    .trend-tag {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: rgba(0,0,0,0.8);
+    }
+
+    /* friends panel */
+    .friends-card {
+        margin-top: 1rem;
+        padding: 0.6rem;
+        border-radius: 6px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+    }
+    .friends-header {
+        font-weight: 700;
+        text-align: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .friend-list { list-style: none; margin: 0; padding: 0.6rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .friend-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.35rem 0.45rem; border-radius: 8px; background: transparent; }
+    .friend-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #6c63ff;
+        color: white;
+        font-weight: 700;
+    }
+    .friend-name { font-weight: 600; color: rgba(0,0,0,0.85); }
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; margin-left: auto; }
+    .status-online { background: #28a745; }
+    .status-offline { background: #6c757d; opacity: 0.95; }
+</style>
+
+<MudContainer @onclick="() => showEmojiPicker = false" Class="mt-6" Style="width:100%; padding-bottom: 5rem;">
+    <div class="posts-row">
+        <div class="main-col">
+            <AuthorizeView>
+                <Authorized>
+                    <MudCard Class="p-3" Style="width:100%">
+                        <div class="d-flex gap-2">
+                            <MudAvatar Color="Color.Secondary">@context.User.Identity?.Name[0]</MudAvatar>
+                            <textarea 
+                                class="w-100 pt-2"
+                                style="outline: none; resize: none; font-size: 1rem;"
+                                @bind="newPostContent"
+                                @ref="postTextarea"
+                                rows="5"
+                                placeholder="What's growing on?">
+                            </textarea>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- remove gap so emoji button sits right next to image button -->
+                            <div class="d-flex align-items-center gap-0">
+                                <MudIconButton Icon="@Icons.Material.Filled.Image" />
+
+                                <div class="emoji-wrapper ms-2">
+                                    <MudIconButton Icon="@Icons.Material.Filled.SentimentSatisfied" OnClick="@(()=> showEmojiPicker = !showEmojiPicker)" />
+
+                                    @if (showEmojiPicker)
+                                    {
+                                        <div class="emoji-popover" @onclick:stopPropagation>
+                                            @foreach (var emoji in emojis)
+                                            {
+                                                <button class="emoji-button" @onclick="async ()=> { await InsertEmoji(emoji); }">@emoji</button>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <MudButton OnClick="AddPost" Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PostAdd">
+                                Post
                             </MudButton>
                         </div>
+                    </MudCard>
+                </Authorized>
+            </AuthorizeView>
 
-                        <MudButton>
-                            <MudIcon Icon="@Icons.Material.Filled.Download" Size="Size.Small"/>
-                        </MudButton>
+            @foreach (var post in posts.AsEnumerable().Reverse())
+            {
+                <MudCard Class="p-3 bg-white mt-3" Style="cursor: pointer; width:100%;">
+                    <div class="d-flex">
+                        <MudAvatar Style="margin-right: 0.5rem;" Color="Color.Primary">@post.Poster[0]</MudAvatar>
+                        <div class="mt-1 w-100">
+                            <MudText Typo="Typo.body1">
+                                @post.Poster
+                            </MudText>
+                            
+                            <MudText Class="opacity-75 w-100" Typo="Typo.body2">
+                                @post.Content
+                            </MudText>
+
+                            <div class="mt-4 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <MudButton>
+                                        <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Favorite" Size="Size.Small"/>
+                                        <span>@post.Likes</span>
+                                    </MudButton>
+
+                                    <MudButton>
+                                        <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Comment" Size="Size.Small"/>
+                                        <span>@post.Comments</span>
+                                    </MudButton>
+                                </div>
+
+                                <MudButton>
+                                    <MudIcon Icon="@Icons.Material.Filled.Download" Size="Size.Small"/>
+                                </MudButton>
+                            </div>
+                        </div>
                     </div>
+                </MudCard>
+            }
+        </div>
+
+        <div class="sidebar-col">
+            <MudPaper Class="trends-card">
+                <div class="trends-title">Trends</div>
+
+                <div>
+                    <ul class="trend-list">
+                        @for (int i = 0; i < trends.Count; i++)
+                        {
+                            <li class="trend-item">
+                                <button class="trend-button" @onclick="() => OnTrendClick(trends[i])">
+                                    <span class="trend-index">@($"{i+1}.")</span>
+                                    <span class="trend-tag">@trends[i]</span>
+                                </button>
+                            </li>
+                        }
+                    </ul>
                 </div>
-            </div>
-        </MudCard>
-    }
+            </MudPaper>
+
+            <!-- Friends panel -->
+            <MudPaper Class="friends-card">
+                <div class="friends-header">Friends</div>
+
+                <div style="flex:1; overflow:auto;">
+                    <ul class="friend-list">
+                        @foreach (var f in friends)
+                        {
+                            <li class="friend-item">
+                                <div class="friend-avatar">@f.Name[0]</div>
+                                <div class="friend-name">@f.Name</div>
+                                <div class="status-dot @(f.Online ? "status-online" : "status-offline")" title="@(f.Online ? "Online" : "Offline")"></div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </MudPaper>
+        </div>
+    </div>
 </MudContainer>
 
 @code {
@@ -83,6 +298,30 @@
     };
 
     private string newPostContent = string.Empty;
+    private ElementReference postTextarea;
+    private bool showEmojiPicker = false;
+
+    private readonly List<string> emojis = new()
+    {
+        "😀","😂","😍","😅","😎","😊","😉","🤩","😭","👍"
+    };
+
+    // new trends list for the sidebar
+    private readonly List<string> trends = new()
+    {
+        "#crop",
+        "#farm",
+        "#potato",
+        "#love",
+        "#autumn"
+    };
+
+    // hardcoded friends
+    private readonly List<Friend> friends = new()
+    {
+        new Friend { Name = "Bob", Online = false },
+        new Friend { Name = "Alice", Online = true }
+    };
 
     private async Task AddPost()
     {
@@ -100,6 +339,42 @@
             });
 
             newPostContent = string.Empty;
+            await Task.Yield();
+        }
+    }
+
+    // Insert emoji at caret position using JS helper; close picker after insert.
+    private async Task InsertEmoji(string emoji)
+    {
+        try
+        {
+            var updated = await JS.InvokeAsync<string>("insertEmojiAtCursor", postTextarea, emoji + " ");
+            if (!string.IsNullOrEmpty(updated))
+                newPostContent = updated;
+            else
+                newPostContent += emoji + " ";
+        }
+        catch
+        {
+            newPostContent += emoji + " ";
+        }
+        showEmojiPicker = false;
+    }
+
+    // new handler: insert clicked hashtag into the post textarea (uses existing JS helper)
+    private async Task OnTrendClick(string tag)
+    {
+        try
+        {
+            var updated = await JS.InvokeAsync<string>("insertEmojiAtCursor", postTextarea, tag + " ");
+            if (!string.IsNullOrEmpty(updated))
+                newPostContent = updated;
+            else
+                newPostContent += tag + " ";
+        }
+        catch
+        {
+            newPostContent += tag + " ";
         }
     }
 
@@ -110,4 +385,34 @@
         public int Likes { get; set; }
         public int Comments { get; set; }
     }
+
+    private class Friend
+    {
+        public string Name { get; set; } = string.Empty;
+        public bool Online { get; set; }
+    }
 }
+
+<script>
+    // JS helper to insert emoji at caret and return updated value (works with ElementReference)
+    window.insertEmojiAtCursor = (el, emoji) => {
+        if (!el) return "";
+        try {
+            const start = el.selectionStart ?? el.value.length;
+            const end = el.selectionEnd ?? el.value.length;
+            const before = el.value.substring(0, start);
+            const after = el.value.substring(end);
+            const newVal = before + emoji + after;
+            el.value = newVal;
+            const caret = start + emoji.length;
+            el.selectionStart = el.selectionEnd = caret;
+            // dispatch input event so Blazor binding updates if present
+            const evt = new Event('input', { bubbles: true });
+            el.dispatchEvent(evt);
+            el.focus();
+            return newVal;
+        } catch (e) {
+            return el.value || "";
+        }
+    };
+</script>
