@@ -2,7 +2,7 @@
 
 Recent updates make FarmXpert more useful and social. We’ve improved how subsidy document requirements are shown by adding clearer subsidy types and subtypes, so the information is easier to understand. The home page now includes reactions, trending posts, and a friend list, while the backend is more stable thanks to new tests and better domain logic.
 
-## Release: [0.2.1] - 2025=11-01
+## Release: [0.2.1] - 2025-11-01
 
 ### Added
 - Unit test suite for command and query handlers of Vehicle, Animal, and Field, plus tests for FileStorageService (file stream recording helper).
