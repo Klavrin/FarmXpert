@@ -9,66 +9,106 @@
     }
 </MudSelect>
 
-<MudText Class="mt-4" Typo="Typo.body2">
-    Complementary payments are additional subsidies provided to farmers to supplement other forms of financial assistance they may receive. These payments are designed to enhance the overall support available to farmers and may be used in conjunction with other subsidy programs. Complementary payments can help address specific needs or challenges faced by farmers, such as market fluctuations or unexpected expenses.
-</MudText>
+@if (!string.IsNullOrWhiteSpace(_selectedSubtype))
+{
+    <MudText Class="mt-4" Typo="Typo.body2">
+        Complementary payments are additional subsidies provided to farmers to supplement other forms of financial assistance they may receive. These payments are designed to enhance the overall support available to farmers and may be used in conjunction with other subsidy programs. Complementary payments can help address specific needs or challenges faced by farmers, such as market fluctuations or unexpected expenses.
+    </MudText>
 
-<MudText Class="mt-2" Typo="Typo.body2">
-    Conditions: Must prove actual costs, insurance premiums, or losses from disasters/loans.
-</MudText>
+    <MudText Class="mt-2" Typo="Typo.body2">
+        Conditions: Must prove actual costs, insurance premiums, or losses from disasters/loans.
+    </MudText>
+    
+    @if (_selectedSubtype == "Eco-agriculture")
+    {
+        @*Eco-agriculture*@
+        <UploadDocument Title="Copy of the extract from the State Register of Legal Entities" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Declaration on own responsibility" ButtonText="Upload" FilesChanged="UploadFiles"/>
+        <UploadDocument
+            Title="Certificate proving that the farmer is a member of a professional organization in the agricultural sector"
+            ButtonText="Upload" FilesChanged="UploadFiles"/>
+        <UploadDocument
+            Title="Copy of the contract concluded between the farmer and an accredited inspection and certification body"
+            ButtonText="Upload" FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the certificate of conformity or conversion authorization" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Proof of the sale of certified organic products through primary accounting documents"
+                        ButtonText="Upload" FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the customs declaration and complementary declaration" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Farmer’s commitment to remain in the organic agriculture system" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Declaration from the inspection and certification body" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of documents attesting ownership or possession rights" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the certificate confirming ownership of a bank account in Moldovan lei (MDL)"
+                        ButtonText="Upload" FilesChanged="UploadFiles"/>
+    }
+    else if (_selectedSubtype == "Irrigation systems")
+    {
+        @*Irrigation systems*@
+        <UploadDocument Title="Copy of the extract from the State Register of Legal Entities" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the environmental authorization for special water use" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the service contract for water-pumping" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of primary documents confirming payment for energy resources" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Proof of meter readings" ButtonText="Upload" FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the approved reporting form 29-AGR for the reference year" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the register of contracts" ButtonText="Upload" FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the association’s membership register" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the sale-purchase contract" ButtonText="Upload" FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of payment orders confirming full payment" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the register of water volumes received by the Association" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the register of distributed water quantities or number of irrigations"
+                        ButtonText="Upload" FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the centralized water-pumping record per user" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the register of payments made by the Association’s member farmers"
+                        ButtonText="Upload" FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the environmental authorization for special water use" ButtonText="Upload"
+                    FilesChanged="UploadFiles"/>
+    <UploadDocument Title="Copy of the certificate confirming ownership of a bank account in Moldovan lei (MDL)"
+                    ButtonText="Upload" FilesChanged="UploadFiles"/>
+    }
+    else if (_selectedSubtype == "Promotion activities")
+    {
+        @*Promotion acivities*@
+        <UploadDocument Title="Copy of the extract from the State Register of Legal Entities" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Declaration on own responsibility" ButtonText="Upload" FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the rental or usage contract for the exhibition space" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of primary documents confirming participation" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of primary documents confirming full payment for the services provided"
+                        ButtonText="Upload" FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Confirmation of the applicant’s participation under the national country stand"
+                        ButtonText="Upload" FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the product conformity certificate for PDO, PGI, or TSG" ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Proof of registration of products with PGI, PDO, or TSG status " ButtonText="Upload"
+                        FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the contract concluded with the certification body" ButtonText="Upload" FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the certificate confirming product certification" ButtonText="Upload" FilesChanged="UploadFiles"/>
+        <UploadDocument Title="Copy of the certificate confirming ownership of a bank account in Moldovan lei (MDL)" ButtonText="Upload" FilesChanged="UploadFiles"/>
+    }
 
-@*Eco-agriculture*@
-<UploadDocument Title="Copy of the extract from the State Register of Legal Entities" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Declaration on own responsibility" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Certificate proving that the farmer is a member of a professional organization in the agricultural sector" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the contract concluded between the farmer and an accredited inspection and certification body" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the certificate of conformity or conversion authorization" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of the sale of certified organic products through primary accounting documents" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the customs declaration and complementary declaration" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Farmer’s commitment to remain in the organic agriculture system" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Declaration from the inspection and certification body" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of documents attesting ownership or possession rights" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the certificate confirming ownership of a bank account in Moldovan lei (MDL)" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <hr style="margin-block: 2rem;"/>
 
-@*Irrigation systems*@
-<UploadDocument Title="Copy of the extract from the State Register of Legal Entities" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the environmental authorization for special water use" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the service contract for water-pumping" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of primary documents confirming payment for energy resources" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of meter readings" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the approved reporting form 29-AGR for the reference year" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the register of contracts" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the association’s membership register" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the sale-purchase contract" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of payment orders confirming full payment" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the register of water volumes received by the Association" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the register of distributed water quantities or number of irrigations" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the centralized water-pumping record per user" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the register of payments made by the Association’s member farmers" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the environmental authorization for special water use" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the certificate confirming ownership of a bank account in Moldovan lei (MDL)" ButtonText="Upload" FilesChanged="UploadFiles" />
+    <div class="w-100 d-flex justify-content-end mt-4">
+        <MudButton StartIcon="@Icons.Material.Filled.AutoAwesome" Color="Color.Primary" Variant="Variant.Filled">Generate Application</MudButton>
+    </div>
 
-
-@*Promotion acivities*@ 
-<UploadDocument Title="Copy of the extract from the State Register of Legal Entities" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Declaration on own responsibility" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the rental or usage contract for the exhibition space" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of primary documents confirming participation" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of primary documents confirming full payment for the services provided" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Confirmation of the applicant’s participation under the national country stand" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the product conformity certificate for PDO, PGI, or TSG" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Proof of registration of products with PGI, PDO, or TSG status " ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the contract concluded with the certification body" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the certificate confirming product certification" ButtonText="Upload" FilesChanged="UploadFiles" />
-<UploadDocument Title="Copy of the certificate confirming ownership of a bank account in Moldovan lei (MDL)" ButtonText="Upload" FilesChanged="UploadFiles" />
-
-<hr style="margin-block: 2rem;" />
-
-<div class="w-100 d-flex justify-content-end mt-4">
-    <MudButton StartIcon="@Icons.Material.Filled.AutoAwesome" Color="Color.Primary" Variant="Variant.Filled">Generate Application</MudButton>
-</div>
-
-
+}
 
 @code {
     IList<IBrowserFile> _files = new List<IBrowserFile>();
