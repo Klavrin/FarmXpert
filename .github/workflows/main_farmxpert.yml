@@ -50,6 +50,7 @@ jobs:
   deploy:
     runs-on: windows-latest
     needs: build
+    if: ${{ github.repository == 'Klavrin/FarmXpert' && github.event_name != 'pull_request' }}
     permissions:
       id-token: write   # This is required for requesting the JWT
       contents: read    # This is required for actions/checkout
