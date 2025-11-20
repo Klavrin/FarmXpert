@@ -7,13 +7,16 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read # This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -23,31 +26,41 @@ jobs:
         with:
           dotnet-version: '9.x'
 
+      - name: Restore packages
+        run: dotnet restore
+
+      - name: Enforce code formatting
+        run: dotnet format FarmXpert.sln --verify-no-changes
+
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run unit tests
+        run: dotnet test --configuration Release --no-restore --no-build
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish -c Release -o "${{ env.DOTNET_ROOT }}/myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ${{ env.DOTNET_ROOT }}/myapp
 
   deploy:
     runs-on: windows-latest
     needs: build
+    if: ${{ github.repository == 'Klavrin/FarmXpert' && github.event_name != 'pull_request' }}
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write   # This is required for requesting the JWT
+      contents: read    # This is required for actions/checkout
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -59,7 +72,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'farmxpert'
-          slot-name: 'Production'
+          app-name: farmxpert
+          slot-name: Production
           package: .
-          
