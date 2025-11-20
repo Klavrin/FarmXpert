@@ -1,4 +1,4 @@
-﻿using FarmXpert.Application.Animal.Commands.DeleteAnimal;
+using FarmXpert.Application.Animal.Commands.DeleteAnimal;
 using FarmXpert.Domain.Interfaces;
 using FluentAssertions;
 using Moq;

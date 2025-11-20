@@ -1,6 +1,6 @@
-using MediatR;
-using FarmXpert.Domain.Interfaces;
 using FarmXpert.Domain.Entities;
+using FarmXpert.Domain.Interfaces;
+using MediatR;
 
 namespace FarmXpert.Application.Animal.Queries.GetAllAnimals;
 public class GetAllAnimalsQueryHandler : IRequestHandler<GetAllAnimalsQuery, List<FarmXpert.Domain.Entities.Animal>>

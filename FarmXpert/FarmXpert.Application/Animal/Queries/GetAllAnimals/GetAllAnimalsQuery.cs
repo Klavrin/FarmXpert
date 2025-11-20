@@ -1,5 +1,5 @@
-using MediatR;
 using FarmXpert.Domain.Entities;
+using MediatR;
 
 namespace FarmXpert.Application.Animal.Queries.GetAllAnimals;
 

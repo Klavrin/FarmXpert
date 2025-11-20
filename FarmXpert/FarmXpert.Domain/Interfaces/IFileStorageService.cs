@@ -1,4 +1,4 @@
-﻿namespace FarmXpert.Domain.Interfaces;
+namespace FarmXpert.Domain.Interfaces;
 
 public interface IFileStorageService
 {

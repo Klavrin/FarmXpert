@@ -1,5 +1,5 @@
-using MediatR;
 using FarmXpert.Domain.Interfaces;
+using MediatR;
 
 namespace FarmXpert.Application.Field.Queries.GetAllFields;
 public class GetAllFieldsQueryHandler : IRequestHandler<GetAllFieldsQuery, List<FarmXpert.Domain.Entities.Field>>

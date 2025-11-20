@@ -1,7 +1,7 @@
-﻿using Moq;
 using FarmXpert.Application.Animal.Queries.GetAllAnimals;
 using FarmXpert.Domain.Interfaces;
 using FluentAssertions;
+using Moq;
 
 namespace FarmXpert.Tests.Application.Animal.Queries;
 public class GetAllAnimalsQueryHandlerTests

@@ -1,4 +1,4 @@
-﻿using FarmXpert.Application.Animal.Commands.CreateAnimal;
+using FarmXpert.Application.Animal.Commands.CreateAnimal;
 using FarmXpert.Application.Field.Commands.CreateField;
 using FarmXpert.Domain.Enums;
 using FarmXpert.Domain.Interfaces;

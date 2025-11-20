@@ -18,7 +18,7 @@ public class AnimalRepository : IAnimalRepository
 
     public async Task<Animal?> GetByIdAsync(string OwnerId, Guid id, CancellationToken cancellationToken = default)
     {
-        var filter = Builders<Animal>.Filter.Eq(a=>a.OwnerId, OwnerId) & Builders<Animal>.Filter.Eq(a => a.Id, id);
+        var filter = Builders<Animal>.Filter.Eq(a => a.OwnerId, OwnerId) & Builders<Animal>.Filter.Eq(a => a.Id, id);
         return await _animals.Find(filter).FirstOrDefaultAsync(cancellationToken);
     }
 

@@ -1,5 +1,5 @@
 using FarmXpert.Application.Animal.Commands.CreateAnimal;
-using FarmXpert.Application.Animal.Commands.DeleteAnimal;   
+using FarmXpert.Application.Animal.Commands.DeleteAnimal;
 using FarmXpert.Application.Animal.Commands.UpdateAnimal;
 using FarmXpert.Application.Animal.Queries.GetAllAnimals;
 using FarmXpert.Application.Animal.Queries.GetAnimalById;
@@ -37,7 +37,7 @@ public class AnimalsController : ControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         var userId = CurrentUserId();
-        var animal = await _mediator.Send(new GetAnimalByIdQuery(userId,id));
+        var animal = await _mediator.Send(new GetAnimalByIdQuery(userId, id));
         if (animal == null)
         {
             return NotFound();
@@ -84,7 +84,7 @@ public class AnimalsController : ControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         var userId = CurrentUserId();
-        var animal = await _mediator.Send(new GetAnimalByIdQuery(userId,id));
+        var animal = await _mediator.Send(new GetAnimalByIdQuery(userId, id));
         if (animal == null)
         {
             return NotFound();

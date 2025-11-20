@@ -1,4 +1,4 @@
-﻿using FarmXpert.Application.Animal.Commands.UpdateAnimal;
+using FarmXpert.Application.Animal.Commands.UpdateAnimal;
 using FarmXpert.Domain.Interfaces;
 using FluentAssertions;
 using Moq;

@@ -1,23 +1,21 @@
-﻿using FarmXpert.Application.SocialPost.Commands.CreateSocialPost;
+using System.Threading.Tasks;
+using FarmXpert.Application.SocialPost.Commands.AddComment;
+using FarmXpert.Application.SocialPost.Commands.AddLike;
+using FarmXpert.Application.SocialPost.Commands.CreateSocialPost;
+using FarmXpert.Application.SocialPost.Commands.DeleteComment;
+using FarmXpert.Application.SocialPost.Commands.DeleteLike;
 using FarmXpert.Application.SocialPost.Commands.DeleteSocialPost;
 using FarmXpert.Application.SocialPost.Commands.EditSocialPost;
-using FarmXpert.Application.SocialPost.Commands.AddComment;
-using FarmXpert.Application.SocialPost.Commands.DeleteComment;
-using FarmXpert.Application.SocialPost.Commands.AddLike;
-using FarmXpert.Application.SocialPost.Commands.DeleteLike;
-using FarmXpert.Application.SocialPost.Queries.GetUserSocialPost;
-using FarmXpert.Application.SocialPost.Queries.GetSocialPostById;
 using FarmXpert.Application.SocialPost.Queries.GetAllSocialPosts;
-
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+using FarmXpert.Application.SocialPost.Queries.GetSocialPostById;
+using FarmXpert.Application.SocialPost.Queries.GetUserSocialPost;
 using FarmXpert.Data;
-using System.Threading.Tasks;
-
 using FarmXpert.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmXpert.Controllers;
@@ -81,7 +79,7 @@ public class SocialPostsController : ControllerBase
         }
 
         using var stream = request.File.OpenReadStream();
-        var command = new CreateSocialPostCommand(request.Title, request.Content, stream, extension,  businessId);
+        var command = new CreateSocialPostCommand(request.Title, request.Content, stream, extension, businessId);
         var created = await _mediator.Send(command);
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
@@ -101,7 +99,7 @@ public class SocialPostsController : ControllerBase
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Edit(Guid id, string Title, string Content)
     {
-        var result = await _mediator.Send(new EditSocialPostCommand(id,Title,Content));
+        var result = await _mediator.Send(new EditSocialPostCommand(id, Title, Content));
         if (result == null)
         {
             return NotFound();
@@ -151,7 +149,7 @@ public class SocialPostsController : ControllerBase
         var businessId = user.BusinessId;
 
         var comment = new Comment
-            {
+        {
             FirstName = user.FirstName,
             LastName = user.LastName,
             Content = Content,

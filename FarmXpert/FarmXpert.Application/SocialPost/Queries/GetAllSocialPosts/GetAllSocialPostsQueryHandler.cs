@@ -1,4 +1,4 @@
-﻿using FarmXpert.Domain.Interfaces;
+using FarmXpert.Domain.Interfaces;
 using MediatR;
 
 namespace FarmXpert.Application.SocialPost.Queries.GetAllSocialPosts;

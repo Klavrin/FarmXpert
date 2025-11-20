@@ -1,4 +1,4 @@
-﻿using FarmXpert.Application.Vehicle.Commands.DeleteVehicle;
+using FarmXpert.Application.Vehicle.Commands.DeleteVehicle;
 using FarmXpert.Domain.Interfaces;
 using FluentAssertions;
 using Moq;

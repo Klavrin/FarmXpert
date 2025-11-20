@@ -1,8 +1,8 @@
-﻿using FarmXpert.Application.PersonalDocument.Commands.CreatePersonalDocument;
+using FarmXpert.Application.PersonalDocument.Commands.CreatePersonalDocument;
 using FarmXpert.Application.PersonalDocument.Commands.DeletePersonalDocument;
+using FarmXpert.Application.PersonalDocument.Commands.UpdatePersonalDocument;
 using FarmXpert.Application.PersonalDocument.Queries.GetAllPersonalDocuments;
 using FarmXpert.Application.PersonalDocument.Queries.GetPersonalDocumentById;
-using FarmXpert.Application.PersonalDocument.Commands.UpdatePersonalDocument;
 using FarmXpert.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -33,12 +33,12 @@ public class PersonalDocumentController : ControllerBase
         var documents = await _mediator.Send(new GetAllPersonalDocumentsQuery(userId));
         return Ok(documents);
     }
-    
+
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var userId = CurrentUserId();
-        var document = await _mediator.Send(new GetPersonalDocumentByIdQuery(id,userId));
+        var document = await _mediator.Send(new GetPersonalDocumentByIdQuery(id, userId));
         if (document == null)
         {
             return NotFound();
@@ -62,7 +62,7 @@ public class PersonalDocumentController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id,string Title)
+    public async Task<IActionResult> Update(Guid id, string Title)
     {
         var userId = CurrentUserId();
         var command = new UpdatePersonalDocumentCommand(id, userId, Title);

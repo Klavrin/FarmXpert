@@ -1,4 +1,4 @@
-﻿using FarmXpert.Application.Vehicle.Commands.CreateVehicle;
+using FarmXpert.Application.Vehicle.Commands.CreateVehicle;
 using FarmXpert.Domain.Enums;
 using FarmXpert.Domain.Interfaces;
 using FluentAssertions;

@@ -1,4 +1,4 @@
-﻿using FarmXpert.Application.Vehicle.Commands.UpdateVehicle;
+using FarmXpert.Application.Vehicle.Commands.UpdateVehicle;
 using FarmXpert.Domain.Interfaces;
 using FluentAssertions;
 using Moq;

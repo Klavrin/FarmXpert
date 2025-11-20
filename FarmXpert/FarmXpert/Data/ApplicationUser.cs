@@ -5,7 +5,7 @@ using Mono.TextTemplating;
 
 namespace FarmXpert.Data;
 
-public class ApplicationUser: MongoUser
+public class ApplicationUser : MongoUser
 {
     public required string FirstName { get; set; }
     public required string LastName { get; set; }

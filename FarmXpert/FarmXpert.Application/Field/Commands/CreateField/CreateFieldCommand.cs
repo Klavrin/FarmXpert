@@ -1,5 +1,5 @@
-using MediatR;
 using FarmXpert.Domain.Enums;
+using MediatR;
 
 namespace FarmXpert.Application.Field.Commands.CreateField;
 public record CreateFieldCommand(

@@ -1,7 +1,7 @@
-﻿using Moq;
 using FarmXpert.Application.Field.Queries.GetAllFields;
 using FarmXpert.Domain.Interfaces;
 using FluentAssertions;
+using Moq;
 
 namespace FarmXpert.Tests.Application.Field.Queries;
 public class GetAllFieldsQueryHandlerTests

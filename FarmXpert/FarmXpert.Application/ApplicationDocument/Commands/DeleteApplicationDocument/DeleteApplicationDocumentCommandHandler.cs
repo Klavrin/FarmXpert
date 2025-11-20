@@ -1,4 +1,4 @@
-﻿using FarmXpert.Domain.Interfaces;
+using FarmXpert.Domain.Interfaces;
 using MediatR;
 
 namespace FarmXpert.Application.ApplicationDocument.Commands.DeleteApplicationDocument;
@@ -22,7 +22,7 @@ public class DeleteApplicationDocumentCommandHandler : IRequestHandler<DeleteApp
             return null;
         }
         var fileUrl = applicationDocument.Url;
-        if(fileUrl != null)
+        if (fileUrl != null)
         {
             await _fileStorageServiceRepository.DeleteFileAsync(fileUrl);
         }

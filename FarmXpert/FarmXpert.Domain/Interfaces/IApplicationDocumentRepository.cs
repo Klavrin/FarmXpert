@@ -1,4 +1,4 @@
-﻿using FarmXpert.Domain.Entities;
+using FarmXpert.Domain.Entities;
 
 namespace FarmXpert.Domain.Interfaces;
 public interface IApplicationDocumentRepository

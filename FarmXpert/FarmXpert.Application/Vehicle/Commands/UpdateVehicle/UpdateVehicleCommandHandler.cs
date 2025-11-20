@@ -15,7 +15,7 @@ public class UpdateVehicleCommandHandler : IRequestHandler<UpdateVehicleCommand,
 
     public async Task<FarmXpert.Domain.Entities.Vehicle?> Handle(UpdateVehicleCommand request, CancellationToken cancellationToken)
     {
-        var existingVehicle = await _vehicleRepository.GetByIdAsync(request.Vehicle.OwnerId,request.Vehicle.Id, cancellationToken);
+        var existingVehicle = await _vehicleRepository.GetByIdAsync(request.Vehicle.OwnerId, request.Vehicle.Id, cancellationToken);
         if (existingVehicle == null)
         {
             throw new KeyNotFoundException($"Vehicle with ID {request.Vehicle.Id} not found.");

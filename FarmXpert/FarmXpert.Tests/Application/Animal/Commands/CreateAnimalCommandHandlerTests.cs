@@ -1,4 +1,4 @@
-﻿using FarmXpert.Application.Animal.Commands.CreateAnimal;
+using FarmXpert.Application.Animal.Commands.CreateAnimal;
 using FarmXpert.Domain.Enums;
 using FarmXpert.Domain.Interfaces;
 using FluentAssertions;
@@ -47,10 +47,10 @@ public class CreateAnimalCommandHandlerHandler
     {
         // Arrange
         var command = new CreateAnimalCommand(
-            Guid.NewGuid(), 
-            "Cow", 
-            Sex.Female, 
-            DateTime.Now, 
+            Guid.NewGuid(),
+            "Cow",
+            Sex.Female,
+            DateTime.Now,
             "owner123");
 
         _mockRepo.Setup(r => r.CreateAsync(It.IsAny<Domain.Entities.Animal>(), It.IsAny<CancellationToken>()))

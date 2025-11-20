@@ -11,10 +11,10 @@ namespace FarmXpert.Controllers;
 
 [ApiController]
 [Route("api/todos")]
-public class TodosController: ControllerBase
+public class TodosController : ControllerBase
 {
     private readonly IMediator _mediator;
-    
+
     public TodosController(IMediator mediator)
     {
         _mediator = mediator;
@@ -37,7 +37,7 @@ public class TodosController: ControllerBase
         }
         return Ok(todo);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> Create(CreateTodoCommand command)
     {
@@ -51,7 +51,7 @@ public class TodosController: ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
+
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(UpdateTodoCommand command)
     {
@@ -62,9 +62,9 @@ public class TodosController: ControllerBase
             {
                 return BadRequest("Failed to modify salary.");
             }
-            
+
             return Ok(updatedTodo);
-        } 
+        }
         catch (Exception ex)
         {
             return BadRequest(ex.Message);
@@ -79,7 +79,7 @@ public class TodosController: ControllerBase
         {
             return NotFound();
         }
-        
+
         await _mediator.Send(new DeleteTodoCommand(id));
         return Ok(todo);
     }

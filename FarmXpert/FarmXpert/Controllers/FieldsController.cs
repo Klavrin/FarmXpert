@@ -52,16 +52,16 @@ public class FieldsController : ControllerBase
         var userId = CurrentUserId();
         var command = new CreateFieldCommand
         (
-            BusinessId : field.BusinessId,
+            BusinessId: field.BusinessId,
             CropType: field.CropType,
-            OtherCropType : field.OtherCropType,
-            SoilType : field.SoilType,
-            OtherSoilType : field.OtherSoilType,
-            Fertilizer : field.Fertilizer,
-            OtherFertilizer : field.OtherFertilizer,
-            Herbicide : field.Herbicide,
-            OtherHerbicide : field.OtherHerbicide,
-            Coords : field.Coords ?? new List<double[]>(),
+            OtherCropType: field.OtherCropType,
+            SoilType: field.SoilType,
+            OtherSoilType: field.OtherSoilType,
+            Fertilizer: field.Fertilizer,
+            OtherFertilizer: field.OtherFertilizer,
+            Herbicide: field.Herbicide,
+            OtherHerbicide: field.OtherHerbicide,
+            Coords: field.Coords ?? new List<double[]>(),
             OwnerId: userId
         );
 
@@ -91,7 +91,7 @@ public class FieldsController : ControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         var userid = CurrentUserId();
-        var field = await _mediator.Send(new GetFieldByIdQuery(userid,id));
+        var field = await _mediator.Send(new GetFieldByIdQuery(userid, id));
         if (field == null)
             return NotFound();
 

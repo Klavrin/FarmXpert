@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FarmXpert.Application.Todo.Commands.CreateTodo;
 
-public class CreateTodoCommandHanlder: IRequestHandler<CreateTodoCommand, Domain.Entities.Todo>
+public class CreateTodoCommandHanlder : IRequestHandler<CreateTodoCommand, Domain.Entities.Todo>
 {
     private readonly ITodoRepository _todoRepository;
 
@@ -19,7 +19,7 @@ public class CreateTodoCommandHanlder: IRequestHandler<CreateTodoCommand, Domain
             Title = request.Title,
             IsCompleted = request.IsCompleted
         };
-        
+
         await _todoRepository.CreateAsync(todo, cancellationToken);
         return todo;
     }

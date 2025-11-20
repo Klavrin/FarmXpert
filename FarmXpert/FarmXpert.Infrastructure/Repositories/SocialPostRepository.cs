@@ -1,4 +1,4 @@
-﻿using FarmXpert.Domain.Entities;
+using FarmXpert.Domain.Entities;
 using FarmXpert.Domain.Interfaces;
 using MongoDB.Driver;
 
@@ -12,9 +12,9 @@ public class SocialPostRepository : ISocialPostRepository
     {
         _socialPosts = database.GetCollection<SocialPost>("socialPosts");
     }
-    public async Task CreateAsync(Domain.Entities.SocialPost post, CancellationToken cancellationToken = default) 
+    public async Task CreateAsync(Domain.Entities.SocialPost post, CancellationToken cancellationToken = default)
         => await _socialPosts.InsertOneAsync(post, null, cancellationToken);
-    
+
     public async Task<IEnumerable<Domain.Entities.SocialPost>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _socialPosts.Find(_ => true).ToListAsync(cancellationToken);

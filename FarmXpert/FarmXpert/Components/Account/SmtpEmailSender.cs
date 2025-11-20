@@ -1,11 +1,11 @@
-using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Net;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 public class SmtpEmailSender : IEmailSender
 {
     private readonly IConfiguration _config;
-    
+
     public SmtpEmailSender(IConfiguration config)
     {
         _config = config;
