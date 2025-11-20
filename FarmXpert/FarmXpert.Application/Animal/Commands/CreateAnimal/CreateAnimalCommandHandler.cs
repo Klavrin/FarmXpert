@@ -1,5 +1,5 @@
-using FarmXpert.Domain.Interfaces;
 using FarmXpert.Domain.Entities;
+using FarmXpert.Domain.Interfaces;
 using MediatR;
 
 namespace FarmXpert.Application.Animal.Commands.CreateAnimal;

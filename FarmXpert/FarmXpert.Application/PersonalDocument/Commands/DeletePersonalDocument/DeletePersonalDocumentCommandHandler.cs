@@ -1,11 +1,11 @@
-﻿using MediatR;
+using MediatR;
 
 namespace FarmXpert.Application.PersonalDocument.Commands.DeletePersonalDocument;
 
 public class DeletePersonalDocumentCommandHandler : IRequestHandler<DeletePersonalDocumentCommand, FarmXpert.Domain.Entities.PersonalDocument?>
 {
     private readonly Domain.Interfaces.IPersonalDocumentRepository _personalDocumentRepository;
-    private readonly Domain.Interfaces.IFileStorageService _fileStorageServiceRepository;   
+    private readonly Domain.Interfaces.IFileStorageService _fileStorageServiceRepository;
     public DeletePersonalDocumentCommandHandler(Domain.Interfaces.IPersonalDocumentRepository personalDocumentRepository, Domain.Interfaces.IFileStorageService fileStorageServiceRepository)
     {
         _personalDocumentRepository = personalDocumentRepository;
@@ -21,7 +21,7 @@ public class DeletePersonalDocumentCommandHandler : IRequestHandler<DeletePerson
 
         var fileUrl = personaldocument.Url;
 
-        if(fileUrl != null)
+        if (fileUrl != null)
         {
             await _fileStorageServiceRepository.DeleteFileAsync(fileUrl);
         }

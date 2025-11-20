@@ -1,7 +1,7 @@
-﻿using Moq;
 using FarmXpert.Application.Vehicle.Queries.GetAllVehicles;
 using FarmXpert.Domain.Interfaces;
 using FluentAssertions;
+using Moq;
 
 namespace FarmXpert.Tests.Application.Vehicle.Queries;
 public class GetAllVehiclesQueryHandlerTests

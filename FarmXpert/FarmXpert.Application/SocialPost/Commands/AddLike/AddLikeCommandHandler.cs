@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 
 namespace FarmXpert.Application.SocialPost.Commands.AddLike;
 public class AddLikeCommandHandler : IRequestHandler<AddLikeCommand, FarmXpert.Domain.Entities.SocialPost>

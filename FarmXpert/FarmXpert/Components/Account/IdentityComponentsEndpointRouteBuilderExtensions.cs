@@ -1,14 +1,14 @@
 using System.Security.Claims;
 using System.Text.Json;
+using FarmXpert.Components.Account.Pages;
+using FarmXpert.Components.Account.Pages.Manage;
+using FarmXpert.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
-using FarmXpert.Components.Account.Pages;
-using FarmXpert.Components.Account.Pages.Manage;
-using FarmXpert.Data;
 
 namespace Microsoft.AspNetCore.Routing;
 

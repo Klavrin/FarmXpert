@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 
 namespace FarmXpert.Application.SocialPost.Commands.EditSocialPost;
 public class EditSocialPostCommandHandler : IRequestHandler<EditSocialPostCommand, FarmXpert.Domain.Entities.SocialPost>

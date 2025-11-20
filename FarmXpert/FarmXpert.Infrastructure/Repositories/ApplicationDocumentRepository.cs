@@ -1,4 +1,4 @@
-﻿using FarmXpert.Domain.Entities;
+using FarmXpert.Domain.Entities;
 using FarmXpert.Domain.Interfaces;
 using MongoDB.Driver;
 
@@ -23,7 +23,7 @@ public class ApplicationDocumentRepository : IApplicationDocumentRepository
     }
 
     public async Task<ApplicationDocument?> GetByIdAsync(string OwnerId, Guid id, CancellationToken cancellationToken = default)
-        {
+    {
         var filter = Builders<ApplicationDocument>.Filter.Eq(a => a.OwnerId, OwnerId) & Builders<ApplicationDocument>.Filter.Eq(a => a.Id, id);
         return await _applicationDocument.Find(filter).FirstOrDefaultAsync(cancellationToken);
     }
@@ -32,7 +32,7 @@ public class ApplicationDocumentRepository : IApplicationDocumentRepository
         => await _applicationDocument.ReplaceOneAsync(Builders<ApplicationDocument>.Filter.Eq(f => f.Id, document.Id), document, new ReplaceOptions(), cancellationToken);
 
     public async Task DeleteAsync(string OwnerId, Guid id, CancellationToken cancellationToken = default)
-        {
+    {
         var filter = Builders<ApplicationDocument>.Filter.Eq(a => a.OwnerId, OwnerId) & Builders<ApplicationDocument>.Filter.Eq(a => a.Id, id);
         await _applicationDocument.DeleteOneAsync(filter, cancellationToken);
     }

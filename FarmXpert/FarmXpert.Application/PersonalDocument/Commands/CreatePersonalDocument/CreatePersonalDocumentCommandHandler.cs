@@ -1,4 +1,4 @@
-﻿using FarmXpert.Domain.Interfaces;
+using FarmXpert.Domain.Interfaces;
 using MediatR;
 
 namespace FarmXpert.Application.PersonalDocument.Commands.CreatePersonalDocument;
@@ -18,13 +18,13 @@ public class CreatePersonalDocumentCommandHandler : IRequestHandler<CreatePerson
     public async Task<FarmXpert.Domain.Entities.PersonalDocument> Handle(CreatePersonalDocumentCommand request, CancellationToken cancellationToken)
     {
         var NewId = Guid.NewGuid();
-        var fileUrl = await _fileStorageService.SaveFileAsync(request.FileStream, request.OwnerId + "."+ NewId.ToString() + ".document" );
+        var fileUrl = await _fileStorageService.SaveFileAsync(request.FileStream, request.OwnerId + "." + NewId.ToString() + ".document");
 
         var personaldocument = new FarmXpert.Domain.Entities.PersonalDocument
         {
             Id = NewId,
             Title = request.Title,
-            UploadDate = DateTime.UtcNow, 
+            UploadDate = DateTime.UtcNow,
             Url = fileUrl,
             FileExtension = request.FileExtension,
             OwnerId = request.OwnerId

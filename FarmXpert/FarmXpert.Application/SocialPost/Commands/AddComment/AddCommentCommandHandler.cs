@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 
 namespace FarmXpert.Application.SocialPost.Commands.AddComment;
 public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand, FarmXpert.Domain.Entities.SocialPost>
@@ -15,7 +15,7 @@ public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand, FarmX
         {
             return null;
         }
-        if (request.comment ==null)
+        if (request.comment == null)
         {
             return null;
         }

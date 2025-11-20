@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 
 namespace FarmXpert.Application.ApplicationDocument.Commands.UpdateApplicationDocument;
 

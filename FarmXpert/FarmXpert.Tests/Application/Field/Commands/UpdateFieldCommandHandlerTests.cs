@@ -1,4 +1,4 @@
-﻿using FarmXpert.Application.Field.Commands.UpdateField;
+using FarmXpert.Application.Field.Commands.UpdateField;
 using FarmXpert.Domain.Interfaces;
 using FluentAssertions;
 using Moq;

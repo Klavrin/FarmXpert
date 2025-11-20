@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 
 namespace FarmXpert.Application.SocialPost.Commands.DeleteLike;
 public class DeleteLikeCommandHandler : IRequestHandler<DeleteLikeCommand, FarmXpert.Domain.Entities.SocialPost>

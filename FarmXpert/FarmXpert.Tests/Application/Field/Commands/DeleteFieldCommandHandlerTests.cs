@@ -1,4 +1,4 @@
-﻿using FarmXpert.Application.Field.Commands.DeleteField;
+using FarmXpert.Application.Field.Commands.DeleteField;
 using FarmXpert.Domain.Interfaces;
 using FluentAssertions;
 using Moq;
@@ -21,7 +21,7 @@ public class DeleteFieldCommandHandlerTests
     {
         // Arrange
         var fieldId = Guid.NewGuid();
-        var field = new Domain.Entities.Field { Id = fieldId, CropType = Domain.Enums.CropType.Garlic};
+        var field = new Domain.Entities.Field { Id = fieldId, CropType = Domain.Enums.CropType.Garlic };
         var command = new DeleteFieldCommand("owner123", field.Id);
 
         _mockRepo.Setup(r => r.GetByIdAsync("owner123", field.Id, It.IsAny<CancellationToken>()))

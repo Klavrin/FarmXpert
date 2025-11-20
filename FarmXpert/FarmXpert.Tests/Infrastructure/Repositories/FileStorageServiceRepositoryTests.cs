@@ -1,7 +1,7 @@
-﻿using FarmXpert.Infrastructure.Repositories;
+using System.Text;
+using FarmXpert.Infrastructure.Repositories;
 using FluentAssertions;
 using Moq;
-using System.Text;
 using Xunit;
 
 namespace FarmXpert.Tests.Infrastructure.Repositories;
@@ -36,7 +36,7 @@ public class FileStorageServiceRepositoryTests : IDisposable
         // Arrange
         var testDir = Path.Combine(_tempDir, "ConstructorTest");
         if (Directory.Exists(testDir))
-            Directory.Delete(testDir, recursive : true);
+            Directory.Delete(testDir, recursive: true);
 
         // Act
         var repo = new FileStorageServiceRepository(testDir);

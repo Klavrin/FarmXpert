@@ -1,5 +1,5 @@
-﻿using MediatR;
 using FarmXpert.Domain.Interfaces;
+using MediatR;
 
 namespace FarmXpert.Application.ApplicationDocument.Queries.GetAllApplicationDocuments;
 
