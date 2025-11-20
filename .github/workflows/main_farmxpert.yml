@@ -29,6 +29,9 @@ jobs:
       - name: Restore packages
         run: dotnet restore
 
+      - name: Enforce code formatting
+        run: dotnet format FarmXpert.sln --verify-no-changes
+
       - name: Build with dotnet
         run: dotnet build --configuration Release --no-restore
 
