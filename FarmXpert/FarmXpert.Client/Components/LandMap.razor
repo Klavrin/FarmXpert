@@ -1,0 +1,38 @@
+@inject IJSRuntime JS
+@rendermode InteractiveWebAssembly
+
+<div id="map" style="height: 500px; width:100%;"></div>
+
+<button @onclick="LocateUser">My Location</button>
+
+@code {
+    private DotNetObjectReference<LandMap>? objRef;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            objRef = DotNetObjectReference.Create(this);
+
+            await JS.InvokeVoidAsync("leafletMap.init", "map", 46.77, 23.59, 13);
+            await JS.InvokeVoidAsync("leafletMap.enableLandDrawing", objRef);
+        }
+    }
+
+    private async Task LocateUser()
+    {
+        await JS.InvokeVoidAsync("leafletMap.locateUser");
+    }
+
+    [JSInvokable]
+    public void ReceiveLandPoints(string json)
+    {
+        Console.WriteLine("Land coordinates: " + json);
+        // Save to DB here
+    }
+
+    public void Dispose()
+    {
+        objRef?.Dispose();
+    }
+}
