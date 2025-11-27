@@ -1,21 +1,34 @@
 @inject IJSRuntime JS
+@inject HttpClient Http
 @rendermode InteractiveWebAssembly
 
 <div id="map" style="height: 500px; width:100%;"></div>
 
-<button @onclick="LocateUser">My Location</button>
+<button class="btn btn-primary mt-2" @onclick="LocateUser">
+    My Location
+</button>
 
 @code {
     private DotNetObjectReference<LandMap>? objRef;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
+    {   
         if (firstRender)
         {
             objRef = DotNetObjectReference.Create(this);
 
-            await JS.InvokeVoidAsync("leafletMap.init", "map", 46.77, 23.59, 13);
-            await JS.InvokeVoidAsync("leafletMap.enableLandDrawing", objRef);
+            await JS.InvokeVoidAsync(
+                "leafletMap.init",
+                "map",
+                46.77, 23.59, 13,
+                objRef
+            );
+            
+            // var geoJson = await Http.GetStringAsync("api/land/my");
+            // if (!string.IsNullOrWhiteSpace(geoJson))
+            // {
+            //     await JS.InvokeVoidAsync("leafletMap.loadGeoJson", geoJson);
+            // }
         }
     }
 
@@ -25,10 +38,24 @@
     }
 
     [JSInvokable]
-    public void ReceiveLandPoints(string json)
+    public void ReceiveLandGeoJson(string geoJson)
     {
-        Console.WriteLine("Land coordinates: " + json);
-        // Save to DB here
+        Console.WriteLine("NEW LAND: " + geoJson);
+        // Save to DB
+    }
+
+    [JSInvokable]
+    public void ReceiveEditedLand(string geoJson)
+    {
+        Console.WriteLine("EDITED LAND: " + geoJson);
+        // Update DB
+    }
+
+    [JSInvokable]
+    public void LandDeleted()
+    {
+        Console.WriteLine("LAND DELETED");
+        // Delete from DB
     }
 
     public void Dispose()
