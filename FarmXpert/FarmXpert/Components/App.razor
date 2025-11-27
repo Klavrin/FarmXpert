@@ -119,6 +119,15 @@
       this.map.on('locationfound', e => {
         L.marker(e.latlng).addTo(this.map);
       });
+    },
+
+    loadGeoJson: function (geoJsonString) {
+      const feature = JSON.parse(geoJsonString);
+
+      const layer = L.geoJSON(feature);
+      layer.eachLayer(l => this.drawnItems.addLayer(l));
+
+      this.map.fitBounds(layer.getBounds());
     }
   };
 </script>
