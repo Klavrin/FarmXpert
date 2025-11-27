@@ -1,6 +1,142 @@
 @page "/profile"
-<h3>Profile</h3>
+@using MudBlazor
+
+<MudPaper Class="profile-page" Square Elevation="0" Style="background:transparent;">
+  <MudAppBar Elevation="0" Color="Color.Transparent" Class="topbar">
+    <!-- Title intentionally removed -->
+  </MudAppBar>
+
+  <section class="info-section">
+    <div class="info-row">
+      <div class="avatar-col">
+        <MudAvatar Size="Size.Large" Src="@AvatarUrl" Alt="avatar" Class="avatar" />
+
+        <div class="avatar-meta">
+          <div class="meta-line">
+            <MudText Typo="Typo.h5" Color="Color.Primary" Class="profile-name">@DisplayName</MudText>
+
+            @if (IsVerified)
+            {
+              <MudChip T="string" Color="Color.Info" Icon="@Icons.Material.Filled.Verified" Class="verified-chip">Verified</MudChip>
+            }
+            else
+            {
+              <MudChip T="string" Color="Color.Default" Class="unverified-chip">Unverified</MudChip>
+            }
+          </div>
+
+          <MudText Class="handle">@Handle</MudText>
+        </div>
+      </div>
+
+      <div class="right">
+        <MudButton Href="/Account/Manage" Variant="Variant.Outlined" Color="Color.Primary" Class="setup-btn">Set up profile</MudButton>
+      </div>
+    </div>
+  </section>
+</MudPaper>
+
+<style>
+  .profile-page {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    min-height: 100vh;
+    background: transparent;
+    color: #ffffff;
+  }
+
+  .topbar {
+    padding: 8px 16px;
+    border-bottom: 0;
+  }
+
+  .info-section {
+    padding: 18px 20px 32px;
+    position: relative;
+    background: transparent;
+  }
+
+  .info-row {
+    display:flex;
+    align-items:flex-start;
+    gap:24px;
+    justify-content:space-between;
+  }
+
+  .avatar-col {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+
+  /* Larger profile picture */
+  .avatar {
+    min-width:150px;
+    min-height:150px;
+    border-radius:50%;
+    box-shadow:0 6px 18px rgba(0,0,0,0.65);
+    object-fit:cover;
+    border:4px solid rgba(0,0,0,0.6);
+  }
+
+  .avatar-meta { display:flex; flex-direction:column; gap:6px; margin-top:6px; }
+
+  /* Name and chip aligned horizontally */
+  .meta-line {
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .profile-name { margin:0; font-weight:700; font-size:22px; }
+
+  .verified-chip {
+    background:rgba(15,96,156,0.12);
+    border:1px solid rgba(15,96,156,0.35);
+    color:#aee3ff;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:13px;
+    width:max-content;
+  }
+
+  .unverified-chip {
+    border:1px solid rgba(255,255,255,0.08);
+    background:#6b6b6b;
+    color:#e6e6e6;
+    padding:6px 10px;
+    font-size:13px;
+    border-radius:20px;
+    width:max-content;
+  }
+
+  .handle {
+    color:rgba(255,255,255,0.6);
+    font-size:14px;
+  }
+
+  .right { display:flex; align-items:center; }
+
+  .setup-btn {
+    border-radius:28px;
+  }
+
+@@media (max-width:1000px) {
+    .info-row { flex-direction:column; align-items:flex-start; gap:12px; }
+    .right { width:100%; display:flex; justify-content:flex-end; }
+    .avatar { width:180px; height:180px; }
+    .profile-name { font-size:18px; }
+  }
+</style>
 
 @code {
-    
+private string DisplayName { get; set; } = "serj";
+private string Handle { get; set; } = "@serjnyc";
+private bool IsVerified { get; set; } = false;
+private string AvatarUrl { get; set; } = "_content/FarmXpert.Client/images/default-avatar.png";
+
+protected override void OnInitialized()
+{
+// load real user data here
+}
 }
