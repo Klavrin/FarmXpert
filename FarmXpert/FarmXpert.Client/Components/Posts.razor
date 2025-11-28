@@ -223,9 +223,10 @@
                                         <span>@post.Likes</span>
                                     </MudButton>
 
-                                    <MudButton>
+                                    <!-- toggle comment area; show current comment count -->
+                                    <MudButton @onclick="() => ToggleCommentSection(post)">
                                         <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Comment" Size="Size.Small"/>
-                                        <span>@post.Comments</span>
+                                        <span>@post.Comments.Count</span>
                                     </MudButton>
                                 </div>
 
@@ -233,6 +234,32 @@
                                     <MudIcon Icon="@Icons.Material.Filled.Download" Size="Size.Small"/>
                                 </MudButton>
                             </div>
+
+                            @* Comment section: rendered when expanded for this post *@
+                            @if (expandedPostId == post.GetHashCode())
+                            {
+                                <div class="comments-section">
+                                    @foreach (var comment in post.Comments)
+                                    {
+                                        <div class="comment-item">
+                                            <div class="comment-avatar">@comment.Author[0]</div>
+                                            <div class="comment-content">
+                                                <div class="comment-author">@comment.Author</div>
+                                                <div class="comment-text">@comment.Content</div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <div class="comment-input-section">
+                                        <input 
+                                            type="text" 
+                                            placeholder="Write a comment..."
+                                            @bind="commentInputs[post.GetHashCode()]" />
+                                        <button @onclick="async () => await AddComment(post)">Post</button>
+                                    </div>
+                                </div>
+                            }
+
                         </div>
                     </div>
                 </MudCard>
@@ -287,20 +314,24 @@
             Content = "Just harvested my first batch of organic tomatoes! 🍅🌿 #FarmLife #OrganicFarming",
             Poster = "Alice",
             Likes = 30,
-            Comments = 7
+            Comments = new List<Comment>()
         },
         new Post
         {
             Content = "Excited to announce that our farm will be hosting a community market this weekend! 🛒🌽 #SupportLocal #FarmersMarket",
             Poster = "Bob",
             Likes = 45,
-            Comments = 12
+            Comments = new List<Comment>()
         },
     };
 
     private string newPostContent = string.Empty;
     private ElementReference postTextarea;
     private bool showEmojiPicker = false;
+
+    // track expanded post and per-post input text
+    private int? expandedPostId = null;
+    private Dictionary<int, string> commentInputs = new();
 
     private readonly List<string> emojis = new()
     {
@@ -336,12 +367,34 @@
                 Content = newPostContent,
                 Poster = userName,
                 Likes = 0,
-                Comments = 0
+                Comments = new List<Comment>()
             });
 
             newPostContent = string.Empty;
             await Task.Yield();
         }
+    }
+
+    private void ToggleCommentSection(Post post)
+    {
+        var postId = post.GetHashCode();
+        expandedPostId = expandedPostId == postId ? null : postId;
+        if (expandedPostId == postId && !commentInputs.ContainsKey(postId))
+            commentInputs[postId] = string.Empty;
+    }
+    
+    private async Task AddComment(Post post)
+    {
+        var postId = post.GetHashCode();
+        if (!commentInputs.TryGetValue(postId, out var text) || string.IsNullOrWhiteSpace(text))
+            return;
+
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name ?? "Unknown";
+
+        post.Comments.Add(new Comment { Author = userName, Content = text });
+        commentInputs[postId] = string.Empty;
+        await Task.Yield();
     }
 
     // Insert emoji at caret position using JS helper; close picker after insert.
@@ -384,7 +437,13 @@
         public string Content { get; set; } = string.Empty;
         public string Poster { get; set; } = string.Empty;
         public int Likes { get; set; }
-        public int Comments { get; set; }
+        public List<Comment> Comments { get; set; } = new();
+    }
+
+    private class Comment
+    {
+        public string Author { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
     }
 
     private class Friend
