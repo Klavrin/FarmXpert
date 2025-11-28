@@ -9,26 +9,26 @@
     </MudText>
 
     <MudPaper Elevation="2" Class="p-4 mb-4 text-center">
-        <img src="/images/doc-preview.png" style="max-width: 100%; height: auto;" />
+        <img src="images/Extras_202504.jpg" style="max-width: 100%; height: auto;" />
     </MudPaper>
 
-    <MudFileUpload T="IBrowserFile" FilesChanged="OnUpload">
-        <ActivatorContent>
-            <MudButton Variant="Variant.Filled" Color="Color.Primary"
-                       StartIcon="@Icons.Material.Filled.CloudUpload">
-                Upload Document
-            </MudButton>
-        </ActivatorContent>
-    </MudFileUpload>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary"
+               StartIcon="@Icons.Material.Filled.CloudUpload"
+               HtmlTag="label"
+               for="fileInput">
+        Upload Document
+    </MudButton>
+    
+    <InputFile id="fileInput" OnChange="OnUpload" hidden />
 
 </MudContainer>
 
 @code {
     [Parameter] public string Title { get; set; } = "";
 
-    private Task OnUpload(IBrowserFile file)
+    private async Task OnUpload(InputFileChangeEventArgs e)
     {
+        var file = e.File;
         Console.WriteLine($"Uploaded: {file.Name}");
-        return Task.CompletedTask;
     }
 }
