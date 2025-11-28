@@ -11,7 +11,8 @@ public class MongodDbService
     {
         _configuration = configuration;
 
-        var connectionString = _configuration.GetConnectionString("DefaultConnection");
+        var connectionString = _configuration.GetConnectionString("MongoDb")
+                            ?? _configuration.GetConnectionString("DefaultConnection");
         var mongoUrl = MongoUrl.Create(connectionString);
         var mongoClient = new MongoClient(mongoUrl);
         _database = mongoClient.GetDatabase(mongoUrl.DatabaseName);
