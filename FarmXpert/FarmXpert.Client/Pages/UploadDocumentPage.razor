@@ -1,0 +1,34 @@
+@page "/upload/{title}"
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-6">
+
+    <MudText Typo="Typo.h5" Class="mb-4">@Title</MudText>
+
+    <MudText Typo="Typo.body2" Class="mb-4">
+        Please upload the required document below.
+    </MudText>
+
+    <MudPaper Elevation="2" Class="p-4 mb-4 text-center">
+        <img src="/images/doc-preview.png" style="max-width: 100%; height: auto;" />
+    </MudPaper>
+
+    <MudFileUpload T="IBrowserFile" FilesChanged="OnUpload">
+        <ActivatorContent>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.CloudUpload">
+                Upload Document
+            </MudButton>
+        </ActivatorContent>
+    </MudFileUpload>
+
+</MudContainer>
+
+@code {
+    [Parameter] public string Title { get; set; } = "";
+
+    private Task OnUpload(IBrowserFile file)
+    {
+        Console.WriteLine($"Uploaded: {file.Name}");
+        return Task.CompletedTask;
+    }
+}
