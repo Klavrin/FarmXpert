@@ -15,7 +15,8 @@ public class MongodDbService
                             ?? _configuration.GetConnectionString("DefaultConnection");
         var mongoUrl = MongoUrl.Create(connectionString);
         var mongoClient = new MongoClient(mongoUrl);
-        _database = mongoClient.GetDatabase(mongoUrl.DatabaseName);
+        var databaseName = mongoUrl.DatabaseName ?? "FarmXpertDB";
+        _database = mongoClient.GetDatabase(databaseName);
     }
 
     public IMongoDatabase? Database => _database;
