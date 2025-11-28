@@ -17,11 +17,11 @@
 
             @if (IsVerified)
             {
-              <MudChip T="string" Color="Color.Info" Icon="@Icons.Material.Filled.Verified" Class="verified-chip">Verified</MudChip>
+            <MudChip T="string" Color="Color.Info" Icon="@Icons.Material.Filled.Verified" Class="verified-chip">Verified</MudChip>
             }
             else
             {
-              <MudChip T="string" Color="Color.Default" Class="unverified-chip">Unverified</MudChip>
+            <MudChip T="string" Color="Color.Default" Class="unverified-chip">Unverified</MudChip>
             }
           </div>
 
@@ -34,9 +34,43 @@
       </div>
     </div>
   </section>
+
+  <!-- Posts section centered at page level -->
+  <section class="posts-page-section">
+    <MudText Class="posts-header" Typo="Typo.h6">My Posts:</MudText>
+
+    <div class="posts-section">
+      @if (Posts?.Any() != true)
+      {
+      <MudText Color="Color.Secondary">No posts yet.</MudText>
+      }
+      else
+      {
+      @foreach (var post in Posts)
+      {
+      <MudPaper Class="post-card" Elevation="1">
+        <div class="post-top">
+          <MudText Class="post-title" Typo="Typo.subtitle1">@post.Title</MudText>
+          <MudText Class="post-meta" Typo="Typo.caption">@post.Date.ToString("MMM d, yyyy")</MudText>
+        </div>
+
+        <MudText Class="post-body" Typo="Typo.body2">@post.Body</MudText>
+
+        <div class="post-actions">
+          <MudText Typo="Typo.caption" Class="likes">❤ @post.Likes</MudText>
+        </div>
+      </MudPaper>
+      }
+      }
+    </div>
+  </section>
 </MudPaper>
 
 <style>
+  :root {
+    --mud-palette-primary: #1976d2;
+  }
+
   .profile-page {
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     min-height: 100vh;
@@ -67,9 +101,10 @@
     flex-direction:column;
     align-items:flex-start;
     gap:12px;
+    width:100%;
+    max-width:880px;
   }
 
-  /* Larger profile picture */
   .avatar {
     min-width:150px;
     min-height:150px;
@@ -79,16 +114,84 @@
     border:4px solid rgba(0,0,0,0.6);
   }
 
-  .avatar-meta { display:flex; flex-direction:column; gap:6px; margin-top:6px; }
+  .avatar-meta { display:flex; flex-direction:column; gap:10px; margin-top:6px; }
 
-  /* Name and chip aligned horizontally */
   .meta-line {
     display:flex;
     align-items:center;
     gap:10px;
   }
 
-  .profile-name { margin:0; font-weight:700; font-size:22px; }
+  .profile-name {
+    margin:0;
+    font-weight:700;
+    font-size:22px;
+    color: var(--mud-palette-primary) !important;
+  }
+
+  /* centered posts section at page level */
+  .posts-page-section {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:32px 20px;
+    background: transparent;
+    width:100%;
+  }
+
+  .posts-header {
+    margin-bottom:16px;
+    color: var(--mud-palette-primary) !important;
+    font-weight:600;
+    text-align:center;
+  }
+
+  .posts-section {
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    width:100%;
+    max-width:760px;
+    align-items:center;
+  }
+
+  .post-card {
+    padding:12px;
+    background:rgba(255,255,255,0.03);
+    border-radius:10px;
+    border:1px solid var(--mud-palette-primary) !important;
+    width:100%;
+    box-sizing:border-box;
+  }
+
+  .post-top {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    margin-bottom:6px;
+  }
+
+  .post-title {
+    font-weight:700;
+    color: var(--mud-palette-primary) !important;
+  }
+
+  .post-meta {
+    color: var(--mud-palette-primary) !important;
+    opacity:0.85;
+  }
+
+  .post-body {
+    color: var(--mud-palette-primary) !important;
+    margin-bottom:8px;
+    white-space:pre-wrap;
+  }
+
+  .post-actions { display:flex; align-items:center; gap:12px; }
+
+  .likes { color: var(--mud-palette-primary) !important; }
 
   .verified-chip {
     background:rgba(15,96,156,0.12);
@@ -121,11 +224,12 @@
     border-radius:28px;
   }
 
-@@media (max-width:1000px) {
-    .info-row { flex-direction:column; align-items:flex-start; gap:12px; }
-    .right { width:100%; display:flex; justify-content:flex-end; }
-    .avatar { width:180px; height:180px; }
-    .profile-name { font-size:18px; }
+  @@media (max-width:1000px) {
+  .info-row { flex-direction:column; align-items:flex-start; gap:12px; }
+  .right { width:100%; display:flex; justify-content:flex-end; }
+  .avatar { width:180px; height:180px; }
+  .profile-name { font-size:18px; }
+  .posts-page-section { padding:24px 16px; }
   }
 </style>
 
@@ -135,8 +239,37 @@ private string Handle { get; set; } = "@serjnyc";
 private bool IsVerified { get; set; } = false;
 private string AvatarUrl { get; set; } = "_content/FarmXpert.Client/images/default-avatar.png";
 
+private List<Post> Posts { get; set; }
+
 protected override void OnInitialized()
 {
-// load real user data here
+Posts = new List<Post>
+{
+new Post
+{
+Id = 1,
+Title = "Harvest day update",
+Body = "Went to the fields today — yield looks promising. Planning to adjust irrigation schedule next week.",
+Date = DateTime.Now.AddDays(-2),
+Likes = 12
+},
+new Post
+{
+Id = 2,
+Title = "New tool I tried",
+Body = "Tested a new tiller attachment and it saved time. Will post measurements soon.",
+Date = DateTime.Now.AddDays(-10),
+Likes = 5
+}
+};
+}
+
+private class Post
+{
+public int Id { get; set; }
+public string Title { get; set; }
+public string Body { get; set; }
+public DateTime Date { get; set; }
+public int Likes { get; set; }
 }
 }
