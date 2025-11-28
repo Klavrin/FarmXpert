@@ -4,7 +4,7 @@
 @inject HttpClient Http
 
 <div class="page">
-    <MudThemeProvider/>
+    <MudThemeProvider @bind-IsDarkMode="_isDarkMode" />
     <MudDialogProvider/>
     <MudSnackbarProvider/>
 
@@ -22,7 +22,7 @@
         
         <NavMenu @ref="_navMenu"/>
 
-        <MudMainContent Style="min-height: calc(100vh); background: #fafafa;">
+        <MudMainContent Style="min-height: calc(100vh);">
             <AuthorizeView>
                 <Authorized>
                     @* @if (!profileSetupCompleted) *@
@@ -53,6 +53,7 @@
 
 @code {
     private NavMenu? _navMenu;
+    private bool _isDarkMode = true;
     
     private class ProfileStatus
     {
