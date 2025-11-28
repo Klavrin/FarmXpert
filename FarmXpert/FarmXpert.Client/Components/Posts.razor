@@ -96,7 +96,8 @@
     }
     .trend-button:hover { background: rgba(0,0,0,0.04); }
 
-    .trend-list { margin: 0; padding: 0.75rem; list-style: none; }
+    /* add 5px vertical spacing between hashtag items */
+    .trend-list { margin: 0; padding: 0.75rem; list-style: none; display: flex; flex-direction: column; gap: 5px; }
     .trend-item {
         display: flex;
         align-items: center;
