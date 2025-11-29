@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using FarmXpert.Application.SocialPost.Commands.AddComment;
 using FarmXpert.Application.SocialPost.Commands.AddLike;
 using FarmXpert.Application.SocialPost.Commands.CreateSocialPost;
@@ -13,9 +12,7 @@ using FarmXpert.Data;
 using FarmXpert.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmXpert.Controllers;
@@ -182,9 +179,9 @@ public class SocialPostsController : ControllerBase
 
     public class CreateSocialPostRequest
     {
-        public string Title { get; set; }
-        public IFormFile File { get; set; }
-        public string Content { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public IFormFile File { get; set; } = null!;
+        public string Content { get; set; } = string.Empty;
     }
 
     private string CurrentUserId()

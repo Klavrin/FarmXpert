@@ -1,14 +1,14 @@
 using MediatR;
 
 namespace FarmXpert.Application.SocialPost.Commands.AddLike;
-public class AddLikeCommandHandler : IRequestHandler<AddLikeCommand, FarmXpert.Domain.Entities.SocialPost>
+public class AddLikeCommandHandler : IRequestHandler<AddLikeCommand, FarmXpert.Domain.Entities.SocialPost?>
 {
     private readonly Domain.Interfaces.ISocialPostRepository _socialPostRepository;
     public AddLikeCommandHandler(Domain.Interfaces.ISocialPostRepository socialPostRepository)
     {
         _socialPostRepository = socialPostRepository;
     }
-    public async Task<FarmXpert.Domain.Entities.SocialPost> Handle(AddLikeCommand request, CancellationToken cancellationToken)
+    public async Task<FarmXpert.Domain.Entities.SocialPost?> Handle(AddLikeCommand request, CancellationToken cancellationToken)
     {
         var socialPost = await _socialPostRepository.GetByIdAsync(request.id, cancellationToken);
         if (socialPost == null)

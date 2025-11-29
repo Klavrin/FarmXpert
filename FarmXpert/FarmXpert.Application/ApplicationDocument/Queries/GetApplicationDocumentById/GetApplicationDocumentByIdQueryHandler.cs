@@ -9,7 +9,7 @@ public class GetApplicationDocumentByIdQueryHandler : IRequestHandler<GetApplica
     {
         _applicationDocumentRepository = applicationDocumentRepository;
     }
-    public async Task<FarmXpert.Domain.Entities.ApplicationDocument> Handle(GetApplicationDocumentByIdQuery request, CancellationToken cancellationToken)
+    public async Task<FarmXpert.Domain.Entities.ApplicationDocument?> Handle(GetApplicationDocumentByIdQuery request, CancellationToken cancellationToken)
     {
         var applicationDocument = await _applicationDocumentRepository.GetByIdAsync(request.OwnerId, request.Id, cancellationToken);
         return applicationDocument;

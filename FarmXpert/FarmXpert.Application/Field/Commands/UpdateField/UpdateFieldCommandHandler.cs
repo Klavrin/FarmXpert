@@ -2,7 +2,7 @@ using FarmXpert.Domain.Interfaces;
 using MediatR;
 
 namespace FarmXpert.Application.Field.Commands.UpdateField;
-public class UpdateFieldCommandHandler : IRequestHandler<UpdateFieldCommand, FarmXpert.Domain.Entities.Field>
+public class UpdateFieldCommandHandler : IRequestHandler<UpdateFieldCommand, FarmXpert.Domain.Entities.Field?>
 {
     private readonly IFieldRepository _fieldRepository;
 
@@ -11,7 +11,7 @@ public class UpdateFieldCommandHandler : IRequestHandler<UpdateFieldCommand, Far
         _fieldRepository = fieldRepository;
     }
 
-    public async Task<FarmXpert.Domain.Entities.Field> Handle(UpdateFieldCommand request, CancellationToken cancellationToken)
+    public async Task<FarmXpert.Domain.Entities.Field?> Handle(UpdateFieldCommand request, CancellationToken cancellationToken)
     {
         var existingField = await _fieldRepository.GetByIdAsync(request.Field.OwnerId, request.Field.Id, cancellationToken);
         if (existingField == null)

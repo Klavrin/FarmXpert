@@ -15,8 +15,8 @@ namespace FarmXpert.Domain.Entities
         public Guid Id { get; set; }
         [BsonRepresentation(BsonType.String)]
         public Guid BusinessId { get; set; }
-        public string Type { get; set; }
-        public List<Animal> Animals { get; set; }
+        public string Type { get; set; } = string.Empty;
+        public List<Animal> Animals { get; set; } = [];
         public int Amount { get; set; }
     }
 }

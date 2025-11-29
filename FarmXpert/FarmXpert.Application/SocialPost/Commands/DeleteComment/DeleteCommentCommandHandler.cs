@@ -2,7 +2,7 @@ using MediatR;
 
 namespace FarmXpert.Application.SocialPost.Commands.DeleteComment;
 
-public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand, FarmXpert.Domain.Entities.SocialPost>
+public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand, FarmXpert.Domain.Entities.SocialPost?>
 {
     private readonly Domain.Interfaces.ISocialPostRepository _socialPostRepository;
     public DeleteCommentCommandHandler(Domain.Interfaces.ISocialPostRepository socialPostRepository)
@@ -10,7 +10,7 @@ public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand,
         _socialPostRepository = socialPostRepository;
     }
 
-    public async Task<FarmXpert.Domain.Entities.SocialPost> Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
+    public async Task<FarmXpert.Domain.Entities.SocialPost?> Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
     {
         var socialPost = await _socialPostRepository.GetByIdAsync(request.PostId, cancellationToken);
         if (socialPost == null)

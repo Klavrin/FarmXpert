@@ -5,7 +5,7 @@ public class FileStorageServiceRepository : IFileStorageService
 {
     private readonly string _storagePath;
 
-    public FileStorageServiceRepository(string storagePath = null)
+    public FileStorageServiceRepository(string? storagePath = null)
     {
         _storagePath = storagePath ?? Path.Combine(Directory.GetCurrentDirectory(), "FileStorage");
 
