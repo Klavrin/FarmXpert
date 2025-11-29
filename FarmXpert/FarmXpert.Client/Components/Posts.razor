@@ -289,6 +289,44 @@
         line-height: 1.3;
         white-space: pre-wrap;
     }
+
+    /* heart/like styles */
+    .like-btn {
+        all: unset;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        cursor: pointer;
+        padding: 6px 8px;
+        border-radius: 6px;
+        color: rgba(0,0,0,0.65);
+        transition: background 120ms ease, color 140ms ease;
+    }
+    .like-btn:hover { background: rgba(0,0,0,0.04); color: rgba(0,0,0,0.85); }
+
+    .like-icon {
+        font-size: 1.05rem;
+        transition: transform 160ms ease, color 160ms ease;
+        color: currentColor;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .like-btn.liked {
+        color: #e0245e; /* red heart color */
+        background: rgba(224,36,94,0.06);
+    }
+
+    /* escape for Razor in CSS keyframes */
+    @@keyframes like-pop {
+        0% { transform: scale(1); }
+        40% { transform: scale(1.25); }
+        100% { transform: scale(1); }
+    }
+    .like-btn.liked .like-icon {
+        animation: like-pop 240ms ease;
+    }
 </style>
 
 <MudContainer @onclick="() => showEmojiPicker = false" Class="mt-6" Style="width:100%; padding-bottom: 5rem;">
@@ -353,12 +391,11 @@
 
                             <div class="mt-4 d-flex justify-content-between align-items-center">
                                 <div>
-                                    <MudButton>
-                                        <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Favorite" Size="Size.Small"/>
-                                        <span>@post.Likes</span>
+                                    <MudButton Class="@(post.Liked ? "like-btn liked" : "like-btn")" OnClick="@(() => ToggleLike(post))">
+                                        <MudIcon Class="like-icon" Style="margin-right: 0.35rem;" Icon="@Icons.Material.Filled.Favorite" Size="Size.Small" />
+                                        <span>@(post.Likes + (post.Liked ? 1 : 0))</span>
                                     </MudButton>
 
-                                    <!-- toggle comment area; show current comment count -->
                                     <MudButton @onclick="() => ToggleCommentSection(post)">
                                         <MudIcon Style="margin-right: 0.3rem;" Icon="@Icons.Material.Filled.Comment" Size="Size.Small"/>
                                         <span>@post.Comments.Count</span>
@@ -573,6 +610,12 @@
         await Task.Yield();
     }
 
+    // Toggle like flag without mutating the hardcoded Likes value.
+    private void ToggleLike(Post post)
+    {
+        post.Liked = !post.Liked;
+    }
+
     // Insert emoji at caret position using JS helper; close picker after insert.
     private async Task InsertEmoji(string emoji)
     {
@@ -614,6 +657,7 @@
         public string Poster { get; set; } = string.Empty;
         public int Likes { get; set; }
         public List<Comment> Comments { get; set; } = new();
+        public bool Liked { get; set; } = false;
     }
 
     private class Comment
