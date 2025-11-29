@@ -257,6 +257,7 @@
         border-radius: 8px;
         background: rgba(0,0,0,0.02);
         align-items: flex-start;
+        position: relative; /* needed so trash button can be positioned inside */
     }
     .comment-avatar {
         width: 36px;
@@ -290,42 +291,29 @@
         white-space: pre-wrap;
     }
 
-    /* heart/like styles */
-    .like-btn {
-        all: unset;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
+    /* trash icon for deleting a comment (hidden until hover) */
+    .comment-trash {
+        position: absolute;
+        right: 8px;
+        top: 10px;
+        border: none;
+        background: transparent;
+        color: rgba(0,0,0,0.45);
         cursor: pointer;
-        padding: 6px 8px;
+        padding: 6px;
         border-radius: 6px;
-        color: rgba(0,0,0,0.65);
-        transition: background 120ms ease, color 140ms ease;
-    }
-    .like-btn:hover { background: rgba(0,0,0,0.04); color: rgba(0,0,0,0.85); }
-
-    .like-icon {
-        font-size: 1.05rem;
-        transition: transform 160ms ease, color 160ms ease;
-        color: currentColor;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 120ms ease, visibility 120ms;
         display: inline-flex;
         align-items: center;
         justify-content: center;
     }
-
-    .like-btn.liked {
-        color: #e0245e; /* red heart color */
-        background: rgba(224,36,94,0.06);
-    }
-
-    /* escape for Razor in CSS keyframes */
-    @@keyframes like-pop {
-        0% { transform: scale(1); }
-        40% { transform: scale(1.25); }
-        100% { transform: scale(1); }
-    }
-    .like-btn.liked .like-icon {
-        animation: like-pop 240ms ease;
+    .comment-item:hover .comment-trash {
+        visibility: visible;
+        opacity: 1;
+        color: rgba(0,0,0,0.75);
+        background: rgba(0,0,0,0.03);
     }
 </style>
 
@@ -391,7 +379,7 @@
 
                             <div class="mt-4 d-flex justify-content-between align-items-center">
                                 <div>
-                                    <MudButton Class="@(post.Liked ? "like-btn liked" : "like-btn")" OnClick="@(() => ToggleLike(post))">
+                                    <MudButton DisableRipple="true" Class="@(post.Liked ? "like-btn liked" : "like-btn")" OnClick="@(() => ToggleLike(post))">
                                         <MudIcon Class="like-icon" Style="margin-right: 0.35rem;" Icon="@Icons.Material.Filled.Favorite" Size="Size.Small" />
                                         <span>@(post.Likes + (post.Liked ? 1 : 0))</span>
                                     </MudButton>
@@ -419,6 +407,13 @@
                                                 <div class="comment-author">@comment.Author</div>
                                                 <div class="comment-text">@comment.Content</div>
                                             </div>
+                                            @* show trash only for comments authored by current user *@
+                                            @if (!string.IsNullOrEmpty(currentUserName) && comment.Author == currentUserName)
+                                            {
+                                                <button class="comment-trash" title="Delete comment" @onclick="() => DeleteComment(post, comment)">
+                                                    <MudIcon Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
+                                                </button>
+                                            }
                                         </div>
                                     }
 
@@ -519,8 +514,9 @@
     private int? expandedPostId = null;
     private Dictionary<int, string> commentInputs = new();
 
-    // current user initial for comment avatar
+    // current user initial and full name for comment avatar and delete checks
     private string currentUserInitial = "U";
+    private string currentUserName = string.Empty;
 
     private readonly List<string> emojis = new()
     {
@@ -552,7 +548,10 @@
             var authState = await AuthStateProvider.GetAuthenticationStateAsync();
             var name = authState.User.Identity?.Name;
             if (!string.IsNullOrEmpty(name))
+            {
+                currentUserName = name;
                 currentUserInitial = name[0].ToString();
+            }
         }
         catch
         {
@@ -649,6 +648,14 @@
         {
             newPostContent += tag + " ";
         }
+    }
+
+    private void DeleteComment(Post post, Comment comment)
+    {
+        if (post?.Comments == null || comment == null) return;
+        // remove the comment (first matching instance)
+        post.Comments.Remove(comment);
+        StateHasChanged();
     }
 
     private class Post
