@@ -2,8 +2,8 @@
 @inject IJSRuntime Js
 @inject NavigationManager Nav
 
-<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-6">
-    <MudText Typo="Typo.h4" Class="mb-4">@Title</MudText>
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6 px-3 px-md-0 mx-auto">
+    <MudText Typo="Typo.h4" Class="fw-bold mb-4">@Title</MudText>
     <MudText Typo="Typo.body2" Class="mb-4">@GetDescriptionForTitle(Title)</MudText>
 
     <MudPaper Elevation="1" Class="p-5 mb-4 text-center"
@@ -96,8 +96,20 @@
 
     private string GetDescriptionForTitle(string title) => title switch
     {
-        "Declaration on own responsibility" => "Signed declaration confirming responsibility for submitted data.",
-        "Copy of the extract from the State Register of Legal Entities" => "Official extract from the State Register confirming legal entity details.",
+        
+        "Declaration on own responsibility" => "Signed declaration confirming the accuracy of all submitted information.",
+        "Copy of the extract from the State Register of Legal Entities" => "Official extract issued by ASP confirming the legal entity's registration details.",
+        "Certificate proving that the farmer is a member of a professional organization in the agricultural sector" => "Document issued by a recognized professional association confirming active membership.",
+        "Copy of the contract concluded between the farmer and an accredited inspection and certification body" => "Contract proving collaboration with an accredited inspection and certification authority.",
+        "Copy of the certificate of conformity or conversion authorization" => "Certificate validating conformity with organic agriculture standards or confirming conversion status.",
+        "Proof of the sale of certified organic products through primary accounting documents" => "Invoices or primary accounting documents demonstrating the sale of certified organic products.",
+        "Copy of the customs declaration and complementary declaration" => "Customs documents confirming the import or export of goods, including the complementary declaration.",
+        "Farmer’s commitment to remain in the organic agriculture system" => "Signed commitment confirming the farmer’s obligation to remain in the organic system for the required period.",
+        "Declaration from the inspection and certification body" => "Official declaration issued by the certification body confirming the cultivated area or certification status.",
+        "Copy of documents attesting ownership or possession rights" => "Documents such as land titles or extracts proving ownership or legal possession of the land.",
+        "Copy of the certificate confirming ownership of a bank account in Moldovan lei (MDL)" => "Bank-issued certificate confirming the existence of an active MDL account.",
         _ => "Please upload the required document below."
+
+    
     };
 }
