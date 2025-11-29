@@ -1,30 +1,52 @@
+@inject NavigationManager Nav
+@inject IJSRuntime Js
+
 <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-sm-center gap-3 mt-5">
-    <MudText Class="text-nowrap mb-2 mb-sm-0" Typo="Typo.body1">@Title</MudText>
-    <div class="bg-body-secondary line d-none d-lg-block" style="min-height: 2px; width: 100%;"></div>
-    <MudFileUpload T="IBrowserFile" FilesChanged="@HandleFilesChanged">
-        <ActivatorContent>
-            <MudButton
-                Style="width: max-content"
-                Variant="Variant.Filled"
-                Color="Color.Primary"
-                StartIcon="@Icons.Material.Filled.CloudUpload">
-                @ButtonText
-            </MudButton>
-        </ActivatorContent>
-    </MudFileUpload>
+    <div class="d-flex align-items-center">
+        <MudText Class="text-nowrap mb-2 mb-sm-0" Typo="Typo.body1">@Title</MudText>
+        @if (_isUploaded)
+        {
+            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" Size="Size.Medium" Class="ms-2" />
+        }
+    </div>
+
+    <div class="bg-body-secondary line d-none d-lg-block"
+         style="min-height: 2px; width: 100%;"></div>
+
+    <MudButton
+        Class="upload-btn"
+        Style="min-width: max-content"
+        Variant="Variant.Filled"
+        Color="Color.Primary"
+        StartIcon="@Icons.Material.Filled.CloudUpload"
+        @onclick="Navigate">
+        @ButtonText
+    </MudButton>
 </div>
 
 @code {
-    [Parameter] public string Title { get; set; } = string.Empty;
-    [Parameter] public string ButtonText { get; set; } = string.Empty;
-    [Parameter] public EventCallback<IBrowserFile> FilesChanged { get; set; }
-    
-    private async Task HandleFilesChanged(IBrowserFile file)
-    {
-        if (file == null) 
-            return;
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string ButtonText { get; set; } = "Upload";
 
-        if (FilesChanged.HasDelegate)
-            await FilesChanged.InvokeAsync(file);
+    private bool _isUploaded;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            var key = $"uploaded:{Title}";
+            var val = await Js.InvokeAsync<string>("localStorage.getItem", key);
+            _isUploaded = val == "true";
+        }
+        catch
+        {
+            _isUploaded = false;
+        }
+    }
+
+    private void Navigate()
+    {
+        var safe = Uri.EscapeDataString(Title);
+        Nav.NavigateTo($"/upload/{safe}");
     }
 }

@@ -1,0 +1,115 @@
+@page "/upload/{title}"
+@inject IJSRuntime Js
+@inject NavigationManager Nav
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6 px-3 px-md-0 mx-auto">
+    <MudText Typo="Typo.h4" Class="fw-bold mb-4">@Title</MudText>
+    <MudText Typo="Typo.body2" Class="mb-4">@GetDescriptionForTitle(Title)</MudText>
+
+    <MudPaper Elevation="1" Class="p-5 mb-4 text-center"
+              Style="border: 1px dashed rgba(0,0,0,0.12); background-color: rgba(0,0,0,0.02); border-radius: 12px;">
+
+        <MudIcon Icon="@Icons.Material.Outlined.CloudUpload"
+                 Color="Color.Primary"
+                 Style="font-size: 3rem; margin-bottom: 0.5rem;" />
+
+        <MudText Typo="Typo.body2" Class="mb-3">
+            Drag and drop your file here or click the button to select. Accepted: PDF, JPG, PNG.
+        </MudText>
+
+        <label for="uploadInput"
+               class="mud-button-root mud-button mud-button-filled mud-button-filled-primary d-inline-flex align-items-center gap-2">
+            <MudIcon Icon="@Icons.Material.Filled.Description" />
+            <span>Choose File</span>
+        </label>
+
+        <InputFile id="uploadInput"
+                   class="d-none"
+                   OnChange="@OnUpload"
+                   accept=".pdf,.jpg,.jpeg,.png" />
+
+        @if (_selectedFile is not null)
+        {
+            <MudText Typo="Typo.caption" Class="mt-3">
+                Selected: @_selectedFile.Name (@(Math.Round(_selectedFile.Size / 1024.0, 1)) KB)
+            </MudText>
+        }
+    </MudPaper>
+
+    @if (_uploaded)
+    {
+        <MudAlert Severity="Severity.Success" Elevation="0" Dense="true" Class="mb-3">
+            Upload confirmed — returning...
+        </MudAlert>
+    }
+
+    <div class="d-flex justify-content-end gap-2">
+        <MudButton Variant="Variant.Text" Color="Color.Default" OnClick="@Cancel">
+            Cancel
+        </MudButton>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   Disabled="@(_selectedFile is null || _confirming)"
+                   OnClick="@ConfirmUpload">
+            Confirm Upload
+        </MudButton>
+    </div>
+</MudContainer>
+
+@code {
+    [Parameter] public string Title { get; set; } = "";
+
+    private IBrowserFile? _selectedFile;
+    private bool _uploaded;
+    private bool _confirming;
+
+    private void OnUpload(InputFileChangeEventArgs e)
+    {
+        _selectedFile = e.File;
+        StateHasChanged();
+    }
+
+    private async Task ConfirmUpload()
+    {
+        if (_selectedFile is null) return;
+
+        _confirming = true;
+        try
+        {
+            var key = $"uploaded:{Title}";
+            await Js.InvokeVoidAsync("localStorage.setItem", key, "true");
+            _uploaded = true;
+            StateHasChanged();
+            await Task.Delay(700);
+            await Js.InvokeVoidAsync("history.back");
+        }
+        finally
+        {
+            _confirming = false;
+        }
+    }
+
+    private async Task Cancel()
+    {
+        await Js.InvokeVoidAsync("history.back");
+    }
+
+    private string GetDescriptionForTitle(string title) => title switch
+    {
+        
+        "Declaration on own responsibility" => "Signed declaration confirming the accuracy of all submitted information.",
+        "Copy of the extract from the State Register of Legal Entities" => "Official extract issued by ASP confirming the legal entity's registration details.",
+        "Certificate proving that the farmer is a member of a professional organization in the agricultural sector" => "Document issued by a recognized professional association confirming active membership.",
+        "Copy of the contract concluded between the farmer and an accredited inspection and certification body" => "Contract proving collaboration with an accredited inspection and certification authority.",
+        "Copy of the certificate of conformity or conversion authorization" => "Certificate validating conformity with organic agriculture standards or confirming conversion status.",
+        "Proof of the sale of certified organic products through primary accounting documents" => "Invoices or primary accounting documents demonstrating the sale of certified organic products.",
+        "Copy of the customs declaration and complementary declaration" => "Customs documents confirming the import or export of goods, including the complementary declaration.",
+        "Farmer’s commitment to remain in the organic agriculture system" => "Signed commitment confirming the farmer’s obligation to remain in the organic system for the required period.",
+        "Declaration from the inspection and certification body" => "Official declaration issued by the certification body confirming the cultivated area or certification status.",
+        "Copy of documents attesting ownership or possession rights" => "Documents such as land titles or extracts proving ownership or legal possession of the land.",
+        "Copy of the certificate confirming ownership of a bank account in Moldovan lei (MDL)" => "Bank-issued certificate confirming the existence of an active MDL account.",
+        _ => "Please upload the required document below."
+
+    
+    };
+}
