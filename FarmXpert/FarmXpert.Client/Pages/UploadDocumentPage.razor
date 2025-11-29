@@ -1,34 +1,77 @@
 @page "/upload/{title}"
+@inject IJSRuntime Js
+@inject NavigationManager Nav
 
 <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-6">
 
-    <MudText Typo="Typo.h5" Class="mb-4">@Title</MudText>
+    <MudText Typo="Typo.h4" Class="mb-4">@Title</MudText>
 
-    <MudText Typo="Typo.body2" Class="mb-4">
-        Please upload the required document below.
-    </MudText>
+    <MudText Typo="Typo.body2" Class="mb-4">@GetDescriptionForTitle(Title)</MudText>
 
-    <MudPaper Elevation="2" Class="p-4 mb-4 text-center">
-        <img src="images/Extras_202504.jpg" style="max-width: 100%; height: auto;" />
+    <MudPaper Elevation="1" Class="p-4 mb-4 text-center" Style="border: 1px dashed rgba(0,0,0,0.12); background-color: rgba(0,0,0,0.02);">
+        <MudText Typo="Typo.body2" Class="mb-3">Select a file to upload for this document. Accepted formats: PDF, JPG, PNG.</MudText>
+
+        <label for="fileInput">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.CloudUpload"
+                       HtmlTag="button">
+                Upload Document
+            </MudButton>
+        </label>
+
+        <InputFile id="fileInput" OnChange="@OnUpload" hidden />
     </MudPaper>
 
-    <MudButton Variant="Variant.Filled" Color="Color.Primary"
-               StartIcon="@Icons.Material.Filled.CloudUpload"
-               HtmlTag="label"
-               for="fileInput">
-        Upload Document
-    </MudButton>
-    
-    <InputFile id="fileInput" OnChange="OnUpload" hidden />
+    @if (_uploaded)
+    {
+        <MudAlert Severity="Severity.Success" Elevation="0" Dense="true" Class="mb-3">
+            Upload successful — returning...
+        </MudAlert>
+    }
 
+    <div class="d-flex justify-content-end">
+        <MudButton Variant="Variant.Text" OnClick="@Cancel">Cancel</MudButton>
+    </div>
 </MudContainer>
 
 @code {
     [Parameter] public string Title { get; set; } = "";
 
+    private bool _uploaded;
+
     private async Task OnUpload(InputFileChangeEventArgs e)
     {
         var file = e.File;
-        Console.WriteLine($"Uploaded: {file.Name}");
+        Console.WriteLine($"Uploaded: {file?.Name}");
+
+        try
+        {
+            var key = $"uploaded:{Title}";
+            await Js.InvokeVoidAsync("localStorage.setItem", key, "true");
+            _uploaded = true;
+            StateHasChanged();
+
+            await Task.Delay(700);
+            Nav.NavigateTo("/complementary-payments");
+        }
+        catch
+        {
+            // ignore localStorage or navigation errors
+        }
+    }
+
+    private void Cancel()
+    {
+        Nav.NavigateTo("/complementary-payments");
+    }
+
+    private string GetDescriptionForTitle(string title)
+    {
+        return title switch
+        {
+            "Declaration on own responsibility" => "Signed declaration confirming responsibility for submitted data.",
+            "Copy of the extract from the State Register of Legal Entities" => "Official extract from the State Register confirming legal entity details.",
+            _ => "Please upload the required document below."
+        };
     }
 }
