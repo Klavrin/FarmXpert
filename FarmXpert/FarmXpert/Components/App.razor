@@ -8,8 +8,11 @@
     <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]"/>
     <link rel="stylesheet" href="@Assets["app.css"]"/>
     <link rel="stylesheet" href="@Assets["FarmXpert.styles.css"]"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="@Assets["_content/MudBlazor/MudBlazor.min.css"]" rel="stylesheet" />
+
     <ImportMap/>
     <link rel="icon" type="image/png" href="favicon.png"/>
     <HeadOutlet/>
@@ -17,7 +20,10 @@
 
 <body>
 <Routes/>
+
 <script src="_framework/blazor.web.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 <script src="@Assets["_content/MudBlazor/MudBlazor.min.js"]"></script>
 <script>
     window.downloadFile = function (fileName, contentType, content) {
@@ -51,7 +57,90 @@
     };
 </script>
 
+<script>
+  window.leafletMap = {
+    map: null,
+    drawnItems: null,
+
+    init: function (mapId, lat, lng, zoom, dotnetHelper) {
+      this.map = L.map(mapId).setView([lat, lng], zoom);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(this.map);
+
+      // layer that holds all drawn shapes
+      this.drawnItems = new L.FeatureGroup();
+      this.map.addLayer(this.drawnItems);
+
+      // draw toolbar config
+      const drawControl = new L.Control.Draw({
+        position: 'topright',
+        draw: {
+          polygon: true,
+          rectangle: true,
+          marker: true,
+          circle: false,
+          polyline: false
+        },
+        edit: {
+          featureGroup: this.drawnItems
+        }
+      });
+
+      this.map.addControl(drawControl);
+
+      // on draw complete
+      this.map.on(L.Draw.Event.CREATED, e => {
+        const layer = e.layer;
+        this.drawnItems.addLayer(layer);
+
+        const geoJson = layer.toGeoJSON();
+        dotnetHelper.invokeMethodAsync(
+          "ReceiveLandGeoJson",
+          JSON.stringify(geoJson)
+        );
+      });
+
+      // on edit
+      this.map.on('draw:edited', e => {
+        const layers = e.layers;
+        const allGeo = [];
+
+        layers.eachLayer(layer => {
+          allGeo.push(layer.toGeoJSON());
+        });
+
+        dotnetHelper.invokeMethodAsync(
+          "ReceiveEditedLand",
+          JSON.stringify(allGeo)
+        );
+      });
+
+      // on delete
+      this.map.on('draw:deleted', e => {
+        dotnetHelper.invokeMethodAsync("LandDeleted");
+      });
+    },
+
+    locateUser: function () {
+      this.map.locate({ setView: true, maxZoom: 17 });
+
+      this.map.on('locationfound', e => {
+        L.marker(e.latlng).addTo(this.map);
+      });
+    },
+
+    loadGeoJson: function (geoJsonString) {
+      const feature = JSON.parse(geoJsonString);
+
+      const layer = L.geoJSON(feature);
+      layer.eachLayer(l => this.drawnItems.addLayer(l));
+
+      this.map.fitBounds(layer.getBounds());
+    }
+  };
+</script>
 
 </body>
-
 </html>
