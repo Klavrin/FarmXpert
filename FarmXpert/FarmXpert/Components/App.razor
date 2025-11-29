@@ -29,6 +29,16 @@
         link.click();
         document.body.removeChild(link);
     };
+    
+    window.sessionStorage = {
+        setItem: (key, value) => sessionStorage.setItem(key, value),
+        getItem: (key) => sessionStorage.getItem(key)
+    }
+    
+    window.localStorage = {
+        setItem: (key, value) => localStorage.setItem(key, value),
+        getItem: (key) => localStorage.getItem(key)
+    }
 </script>
 <script>
     window.downloadFileAnotherFile = function (fileName, contentType, content) {

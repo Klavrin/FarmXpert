@@ -4,7 +4,7 @@
 @inject HttpClient Http
 
 <div class="page">
-    <MudThemeProvider/>
+    <MudThemeProvider />
     <MudDialogProvider/>
     <MudSnackbarProvider/>
 
@@ -17,12 +17,13 @@
                 Edge="Edge.Start"
                 OnClick="@(() => _navMenu?.ToggleDrawer())"/>
             <MudSpacer/>
+            <ThemeToggle />
             <UserAvatar/>
         </MudAppBar>
-        
+
         <NavMenu @ref="_navMenu"/>
 
-        <MudMainContent Style="min-height: calc(100vh); background: #fafafa;">
+        <MudMainContent Style="min-height: calc(100vh);">
             <AuthorizeView>
                 <Authorized>
                     @* @if (!profileSetupCompleted) *@
@@ -38,7 +39,7 @@
                     @*         </MudLink> *@
                     @*     </MudAlert> *@
                     @* } *@
-                    <ProfileSetupAlert />
+                    <ProfileSetupAlert/>
                 </Authorized>
             </AuthorizeView>
 

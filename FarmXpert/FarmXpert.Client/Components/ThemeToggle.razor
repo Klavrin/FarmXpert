@@ -1,0 +1,21 @@
+@rendermode InteractiveWebAssembly
+
+<MudThemeProvider @bind-IsDarkMode="IsDarkMode" />
+
+<MudIconButton Icon="@Icon" Color="Color.Inherit" OnClick="@ToggleTheme" Style="margin-right:0.5rem;" />
+
+@code {
+    private bool IsDarkMode;
+
+    [Parameter]
+    public EventCallback<bool> IsDarkModeChanged { get; set; }
+
+    private string Icon => IsDarkMode ? Icons.Material.Filled.DarkMode : Icons.Material.Filled.WbSunny;
+
+    private async Task ToggleTheme()
+    {
+        Console.WriteLine("Toggling theme from ThemeToggle component");
+        IsDarkMode = !IsDarkMode;
+        await IsDarkModeChanged.InvokeAsync(IsDarkMode);
+    }
+}

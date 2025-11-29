@@ -110,7 +110,7 @@
     .trend-index {
         min-width: 1.6rem;
         text-align: left;
-        color: rgba(0,0,0,0.6);
+        /*color: rgba(0,0,0,0.6);*/
         font-weight: 600;
         margin-left: 0.1rem;
     }
@@ -118,7 +118,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        color: rgba(0,0,0,0.8);
+        /*color: rgba(0,0,0,0.8);*/
     }
 
     /* friends panel */
@@ -146,10 +146,10 @@
         align-items: center;
         justify-content: center;
         background: #6c63ff;
-        color: white;
+        /*color: white;*/
         font-weight: 700;
     }
-    .friend-name { font-weight: 600; color: rgba(0,0,0,0.85); }
+    .friend-name { font-weight: 600; }
     .status-dot { width: 10px; height: 10px; border-radius: 50%; margin-left: auto; }
     .status-online { background: #28a745; }
     .status-offline { background: #6c757d; opacity: 0.95; }
@@ -160,17 +160,26 @@
         <div class="main-col">
             <AuthorizeView>
                 <Authorized>
-                    <MudCard Class="p-3" Style="width:100%">
+                    <MudCard Class="p-3" Style="width: 100%">
                         <div class="d-flex gap-2">
                             <MudAvatar Color="Color.Secondary">@context.User.Identity?.Name[0]</MudAvatar>
-                            <textarea 
-                                class="w-100 pt-2"
-                                style="outline: none; resize: none; font-size: 1rem;"
-                                @bind="newPostContent"
+                            @* <textarea  *@
+                            @*     class="w-100 pt-2" *@
+                            @*     style="outline: none; resize: none; font-size: 1rem;" *@
+                            @*     @bind="newPostContent" *@
+                            @*     @ref="postTextarea" *@
+                            @*     rows="5" *@
+                            @*     placeholder="What's growing on?"> *@
+                            @* </textarea> *@
+                            
+                            <MudTextField 
+                                T="string"
+                                Variant="Variant.Text" 
+                                Lines="5" 
+                                Placeholder="What's growing on?" 
+                                @bind-Value="newPostContent"
                                 @ref="postTextarea"
-                                rows="5"
-                                placeholder="What's growing on?">
-                            </textarea>
+                            />
                         </div>
                         
                         <div class="d-flex justify-content-between align-items-center">
@@ -203,7 +212,7 @@
 
             @foreach (var post in posts.AsEnumerable().Reverse())
             {
-                <MudCard Class="p-3 bg-white mt-3" Style="cursor: pointer; width:100%;">
+                <MudCard Class="p-3 mt-3" Style="cursor: pointer; width: 100%;">
                     <div class="d-flex">
                         <MudAvatar Style="margin-right: 0.5rem;" Color="Color.Primary">@post.Poster[0]</MudAvatar>
                         <div class="mt-1 w-100">
@@ -242,7 +251,7 @@
             <MudPaper Class="trends-card">
                 <div class="trends-title">Trends</div>
 
-                <div>
+                <div >
                     <ul class="trend-list">
                         @for (int i = 0; i < trends.Count; i++)
                         {
@@ -298,7 +307,7 @@
     };
 
     private string newPostContent = string.Empty;
-    private ElementReference postTextarea;
+    private MudTextField<string>? postTextarea;
     private bool showEmojiPicker = false;
 
     private readonly List<string> emojis = new()
