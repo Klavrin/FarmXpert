@@ -1,20 +1,19 @@
 @page "/my-documents"
 @rendermode InteractiveWebAssembly
 @inject IJSRuntime Js
-@inject NavigationManager Nav
 
-<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6 px-3 px-md-0 mx-auto">
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
     <MudText Typo="Typo.h4" GutterBottom="true">My Documents</MudText>
 </MudContainer>
 
-<MudContainer MaxWidth="MaxWidth.Large" Style="padding-bottom: 2.5rem;" Class="px-3 px-md-0 mx-auto">
-    <div style="margin-bottom: 1.5rem;">
-        <MudTextField @bind-Value="searchQuery"
-                      Placeholder="Search documents..."
-                      Variant="Variant.Outlined"
-                      Adornment="Adornment.Start"
-                      AdornmentIcon="@Icons.Material.Filled.Search"
-                      Class="mt-4 w-100"/>
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-bottom: 2.5rem;">
+    <div style="margin-inline: 1.6rem; margin-bottom: 1.5rem;">
+    <MudTextField @bind-Value="searchQuery"
+                  Placeholder="Search documents..."
+                  Variant="Variant.Outlined"
+                  Adornment="Adornment.Start"
+                  AdornmentIcon="@Icons.Material.Filled.Search"
+                  Class="mt-4 w-100"/>
     </div>
 
     @if (filteredDocuments.Any())
@@ -22,44 +21,35 @@
         <div class="grid-container">
             @foreach (var (doc, index) in filteredDocuments.Select((doc, i) => (doc, i)))
             {
-                <div style="cursor: pointer;" @onclick="@(() => NavigateToUpload(doc.Title))">
-                    <MudPaper Class="d-flex position-relative">
-                        <div class="d-flex flex-column" style="width: 100%;">
-                            <div class="bg-body-secondary d-flex justify-content-center align-items-center p-4">
-                                <MudIcon Style="font-size: 15rem;"
-                                         Icon="@Icons.Material.Filled.InsertDriveFile"
-                                         Size="Size.Large"
-                                         Class="mud-icon-size-large"/>
-                            </div>
+                <MudPaper Class="d-flex position-relative">
+                    <div class="d-flex flex-column" style="width: 100%;">
+                        <div class="bg-body-secondary d-flex justify-content-center align-items-center p-4">
+                            <MudIcon Style="font-size: 15rem;" Icon="@Icons.Material.Filled.InsertDriveFile" Size="Size.Large" Class="mud-icon-size-large"/>
+                        </div>
 
-                            <div class="pa-4" style="text-align: left;">
-                                <MudText Class="fw-bold" Typo="Typo.body1">@doc.Title</MudText>
-                                <div class="d-flex align-items-center justify-content-between mt-1">
-                                    <div class="d-flex gap-1">
-                                        <MudIcon Icon="@Icons.Material.Filled.DateRange" Size="Size.Small"/>
-                                        <MudText Typo="Typo.body2">@doc.Date.ToString("dd.MM.yyyy")</MudText>
-                                    </div>
-
-                                    <MudIconButton
-                                        Color="Color.Default" Size="Size.Small"
-                                        Icon="@Icons.Material.Filled.MoreVert"
-                                        OnClick="@(() => OpenOverlay(index))"/>
+                        <div class="pa-4" style="text-align: left;">
+                            <MudText Class="fw-bold" Typo="Typo.body1">@doc.Title</MudText>
+                            <div class="d-flex align-items-center justify-content-between mt-1">
+                                <div class="d-flex gap-1">
+                                    <MudIcon Icon="@Icons.Material.Filled.DateRange" Size="Size.Small"/>
+                                    <MudText Typo="Typo.body2">@doc.Date.ToString("dd.MM.yyyy")</MudText>
                                 </div>
+
+                                <MudIconButton
+                                    Color="Color.Default" Size="Size.Small"
+                                    Icon="@Icons.Material.Filled.MoreVert"
+                                    OnClick="@(() => OpenOverlay(index))"/>
                             </div>
                         </div>
-                    </MudPaper>
-                </div>
+                    </div>
+                </MudPaper>
             }
         </div>
     }
     else
     {
         <div class="d-flex flex-column justify-center align-center text-center" style="height: 50vh;">
-            <MudIcon Icon="@Icons.Material.Filled.FolderOff"
-                     Size="Size.Large"
-                     Color="Color.Default"
-                     Class="mb-4"
-                     Style="font-size: 4rem; opacity: 0.5;"/>
+            <MudIcon Icon="@Icons.Material.Filled.FolderOff" Size="Size.Large" Color="Color.Default" Class="mb-4" Style="font-size: 4rem; opacity: 0.5;"/>
             <MudText Typo="Typo.h5" Class="mb-2">No documents</MudText>
             <MudText Typo="Typo.body1" Color="Color.Secondary">No matching documents found.</MudText>
         </div>
@@ -108,6 +98,7 @@
         grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
         gap: 1rem;
         justify-content: center;
+        padding-inline: 1.6rem;
     }
 </style>
 
@@ -116,46 +107,14 @@
 
     private List<DocumentItem> documents = new()
     {
-        new DocumentItem
-        {
-            Title = "Copy of the extract from the State Register of Legal Entities",
-            Date = new DateTime(2025, 10, 3)
-        },
-        new DocumentItem
-        {
-            Title = "Declaration on own responsibility",
-            Date = new DateTime(2025, 10, 3)
-        },
-        new DocumentItem
-        {
-            Title = "Certificate proving that the farmer is a member of a professional organization in the agricultural sector",
-            Date = new DateTime(2025, 10, 3)
-        },
-        new DocumentItem
-        {
-            Title = "Copy of the contract concluded between the farmer and an accredited inspection and certification body",
-            Date = new DateTime(2025, 10, 3)
-        },
-        new DocumentItem
-        {
-            Title = "Copy of the certificate of conformity or conversion authorization",
-            Date = new DateTime(2025, 10, 3)
-        },
-        new DocumentItem
-        {
-            Title = "Farmer’s commitment to remain in the organic agriculture system",
-            Date = new DateTime(2025, 10, 3)
-        },
-        new DocumentItem
-        {
-            Title = "Declaration from the inspection and certification body",
-            Date = new DateTime(2025, 10, 3)
-        },
-        new DocumentItem
-        {
-            Title = "Copy of the certificate confirming ownership of a bank account in Moldovan lei (MDL)",
-            Date = new DateTime(2025, 10, 3)
-        }
+        new DocumentItem { Title = "Declaration on own responsibility", Date = new DateTime(2025, 10, 3) },
+        new DocumentItem { Title = "Farm registration certificate", Date = new DateTime(2025, 10, 3) },
+        new DocumentItem { Title = "Proof of land rights", Date = new DateTime(2025, 10, 3) },
+        new DocumentItem { Title = "Project plan / technical design + budget", Date = new DateTime(2025, 10, 3) },
+        new DocumentItem { Title = "Bank guarantee or performance commitment", Date = new DateTime(2025, 10, 3) },
+        new DocumentItem { Title = "Certificate of putting into operation", Date = new DateTime(2025, 10, 1) },
+        new DocumentItem { Title = "Invoices", Date = new DateTime(2025, 10, 1) },
+        new DocumentItem { Title = "Proof of payment", Date = new DateTime(2025, 10, 1) },
     };
 
     private IEnumerable<DocumentItem> filteredDocuments =>
@@ -189,12 +148,6 @@
     {
         Console.WriteLine($"Delete document {filteredDocuments.ElementAt(index).Title}");
         CloseOverlay();
-    }
-
-    private void NavigateToUpload(string title)
-    {
-        var safe = Uri.EscapeDataString(title);
-        Nav.NavigateTo($"/upload/{safe}");
     }
 
     private class DocumentItem
