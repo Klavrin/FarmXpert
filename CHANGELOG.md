@@ -24,7 +24,7 @@ Recent updates make FarmXpert more useful and social. We’ve improved how subsi
 - Fallback logic for unidentified database name. ([PR #35](https://github.com/Klavrin/FarmXpert/pull/35))
 - Minor build warnings resolved. ([PR #36](https://github.com/Klavrin/FarmXpert/pull/36))
 
-### Full References (PRs in this release window)
+### Full References
 - #42 My documents page: https://github.com/Klavrin/FarmXpert/pull/42
 - #40 Leaflet map: https://github.com/Klavrin/FarmXpert/pull/40
 - #39 Dark theme: https://github.com/Klavrin/FarmXpert/pull/39
@@ -36,9 +36,6 @@ Recent updates make FarmXpert more useful and social. We’ve improved how subsi
 - #34 Remote connection string fix: https://github.com/Klavrin/FarmXpert/pull/34
 - #35 DB name fallback: https://github.com/Klavrin/FarmXpert/pull/35
 - #36 Build warnings fixes: https://github.com/Klavrin/FarmXpert/pull/36
-
-### Pending (Need Details to Add Later)
-- Upload Document page (branch: gabi/upload-document-page) – awaiting PR number, scope, and feature description.
 
 ## Release: [0.2.1] - 2025-11-01
 
