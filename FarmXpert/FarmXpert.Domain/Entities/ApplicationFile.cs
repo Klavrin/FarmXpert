@@ -15,8 +15,8 @@ namespace FarmXpert.Domain.Entities
         public Guid Id { get; set; }
         [BsonRepresentation(BsonType.String)]
         public Guid DraftId { get; set; }
-        public string SrcUrl { get; set; }
-        public string OutPath { get; set; }
-        public string Extension { get; set; }
+        public string SrcUrl { get; set; } = string.Empty;
+        public string OutPath { get; set; } = string.Empty;
+        public string Extension { get; set; } = string.Empty;
     }
 }
