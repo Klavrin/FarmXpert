@@ -20,13 +20,13 @@ namespace FarmXpert.Domain.Entities
         public string Language { get; set; } = string.Empty;
         public object AppliesTo { get; set; } = new();
         public object Deadline { get; set; } = new();
-        public string Category { get; set; }
-        public string Authority { get; set; }
-        public string Status { get; set; }
+        public string Category { get; set; } = string.Empty;
+        public string Authority { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public DateTime OpensAt { get; set; }
         public DateTime ClosesAt { get; set; }
-        public string Summary { get; set; }
+        public string Summary { get; set; } = string.Empty;
     }
 }
