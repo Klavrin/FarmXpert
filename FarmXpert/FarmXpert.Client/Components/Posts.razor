@@ -154,6 +154,78 @@
     .status-dot { width: 10px; height: 10px; border-radius: 50%; margin-left: auto; }
     .status-online { background: #28a745; }
     .status-offline { background: #6c757d; opacity: 0.95; }
+
+    /* prettier comment input (compact, twitter-like) */
+    .comment-row {
+        display: flex;
+        gap: 0.5rem;
+        align-items: flex-start;
+        margin-top: 0.75rem;
+    }
+    .comment-avatar-small {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #6c63ff;
+        color: white;
+        font-weight: 700;
+        font-size: 0.85rem;
+        flex-shrink: 0;
+    }
+    .comment-box {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+    .comment-input {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #f5f7fb;
+        padding: 8px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(0,0,0,0.04);
+    }
+    .comment-input input[type="text"] {
+        flex: 1;
+        border: none;
+        background: transparent;
+        outline: none;
+        font-size: 0.95rem;
+        padding: 6px 0;
+    }
+    .comment-actions {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    .emoji-btn {
+        border: none;
+        background: transparent;
+        font-size: 1.05rem;
+        cursor: pointer;
+        padding: 6px;
+        border-radius: 6px;
+    }
+    .emoji-btn:hover { background: rgba(0,0,0,0.03); }
+    .post-btn {
+        padding: 6px 10px;
+        background: #1da1f2;
+        color: white;
+        border: none;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .post-btn[disabled] {
+        opacity: 0.45;
+        cursor: default;
+    }
 </style>
 
 <MudContainer @onclick="() => showEmojiPicker = false" Class="mt-6" Style="width:100%; padding-bottom: 5rem;">
@@ -250,12 +322,26 @@
                                         </div>
                                     }
 
-                                    <div class="comment-input-section">
-                                        <input 
-                                            type="text" 
-                                            placeholder="Write a comment..."
-                                            @bind="commentInputs[post.GetHashCode()]" />
-                                        <button @onclick="async () => await AddComment(post)">Post</button>
+                                    <!-- New, prettier add-comment UI -->
+                                    <div class="comment-row">
+                                        <div class="comment-avatar-small">@currentUserInitial</div>
+                                        <div class="comment-box">
+                                            <div class="comment-input">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Tweet your reply"
+                                                    @bind="commentInputs[post.GetHashCode()]" />
+                                                <button class="emoji-btn" type="button" @onclick="() => showEmojiPicker = !showEmojiPicker">😊</button>
+                                            </div>
+
+                                            <div class="comment-actions">
+                                                <button class="post-btn"
+                                                        @onclick="async () => await AddComment(post)"
+                                                        disabled="@string.IsNullOrWhiteSpace(commentInputs[post.GetHashCode()])">
+                                                    Post
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             }
@@ -333,6 +419,9 @@
     private int? expandedPostId = null;
     private Dictionary<int, string> commentInputs = new();
 
+    // current user initial for comment avatar
+    private string currentUserInitial = "U";
+
     private readonly List<string> emojis = new()
     {
         "😀","😂","😍","😅","😎","😊","😉","🤩","😭","👍"
@@ -354,6 +443,30 @@
         new Friend { Name = "Bob", Online = false },
         new Friend { Name = "Alice", Online = true }
     };
+
+    protected override async Task OnInitializedAsync()
+    {
+        // populate current user initial
+        try
+        {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var name = authState.User.Identity?.Name;
+            if (!string.IsNullOrEmpty(name))
+                currentUserInitial = name[0].ToString();
+        }
+        catch
+        {
+            currentUserInitial = "U";
+        }
+
+        // Ensure commentInputs has keys for pre-existing posts to avoid binding errors
+        foreach (var p in posts)
+        {
+            var id = p.GetHashCode();
+            if (!commentInputs.ContainsKey(id))
+                commentInputs[id] = string.Empty;
+        }
+    }
 
     private async Task AddPost()
     {
