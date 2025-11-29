@@ -19,7 +19,7 @@ namespace FarmXpert.Domain.Entities
         public Guid UserId { get; set; }
         [BsonRepresentation(BsonType.String)]
         public Guid SubsidyId { get; set; }
-        public string Status { get; set; }
+        public string Status { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public DateTime SubmittedAt { get; set; }
     }
