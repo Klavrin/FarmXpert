@@ -1,19 +1,20 @@
 @page "/my-documents"
 @rendermode InteractiveWebAssembly
 @inject IJSRuntime Js
+@inject NavigationManager Nav
 
-<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6 px-3 px-md-0 mx-auto">
     <MudText Typo="Typo.h4" GutterBottom="true">My Documents</MudText>
 </MudContainer>
 
-<MudContainer MaxWidth="MaxWidth.Large" Style="padding-bottom: 2.5rem;">
-    <div style="margin-inline: 1.6rem; margin-bottom: 1.5rem;">
-    <MudTextField @bind-Value="searchQuery"
-                  Placeholder="Search documents..."
-                  Variant="Variant.Outlined"
-                  Adornment="Adornment.Start"
-                  AdornmentIcon="@Icons.Material.Filled.Search"
-                  Class="mt-4 w-100"/>
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-bottom: 2.5rem;" Class="px-3 px-md-0 mx-auto">
+    <div style="margin-bottom: 1.5rem;">
+        <MudTextField @bind-Value="searchQuery"
+                      Placeholder="Search documents..."
+                      Variant="Variant.Outlined"
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search"
+                      Class="mt-4 w-100" />
     </div>
 
     @if (filteredDocuments.Any())
@@ -21,38 +22,104 @@
         <div class="grid-container">
             @foreach (var (doc, index) in filteredDocuments.Select((doc, i) => (doc, i)))
             {
-                <MudPaper Class="d-flex position-relative">
-                    <div class="d-flex flex-column" style="width: 100%;">
+                <MudPaper Class="d-flex flex-column position-relative"
+                          Style="cursor: pointer; height: 100%; justify-content: space-between;">
+                    <div>
                         <div class="bg-body-secondary d-flex justify-content-center align-items-center p-4">
-                            <MudIcon Style="font-size: 15rem;" Icon="@Icons.Material.Filled.InsertDriveFile" Size="Size.Large" Class="mud-icon-size-large"/>
+                            <MudIcon Style="font-size: 5rem;"
+                                     Icon="@Icons.Material.Filled.InsertDriveFile" />
                         </div>
 
                         <div class="pa-4" style="text-align: left;">
                             <MudText Class="fw-bold" Typo="Typo.body1">@doc.Title</MudText>
-                            <div class="d-flex align-items-center justify-content-between mt-1">
-                                <div class="d-flex gap-1">
-                                    <MudIcon Icon="@Icons.Material.Filled.DateRange" Size="Size.Small"/>
-                                    <MudText Typo="Typo.body2">@doc.Date.ToString("dd.MM.yyyy")</MudText>
-                                </div>
-
-                                <MudIconButton
-                                    Color="Color.Default" Size="Size.Small"
-                                    Icon="@Icons.Material.Filled.MoreVert"
-                                    OnClick="@(() => OpenOverlay(index))"/>
-                            </div>
                         </div>
+                    </div>
+
+                    <div class="px-4 pb-3 pt-1 d-flex align-items-center justify-content-between">
+                        <div class="d-flex gap-1 align-items-center">
+                            <MudIcon Icon="@Icons.Material.Filled.DateRange" Size="Size.Small" />
+                            <MudText Typo="Typo.caption">
+                                @doc.Date.ToString("dd/MM/yyyy")
+                            </MudText>
+                        </div>
+
+                        <MudIconButton Icon="@Icons.Material.Filled.MoreVert"
+                                       Size="Size.Small"
+                                       OnClick="@(() => OpenOverlay(index))" />
                     </div>
                 </MudPaper>
             }
+
+            @* Add Document card *@
+            <MudPaper Class="d-flex position-relative"
+                      Style="cursor: pointer; height: 100%;"
+                      @onclick="ToggleInlineAddForm">
+                <div class="d-flex justify-content-center align-items-center w-100"
+                     style="min-height: 10rem;">
+                    <MudIcon Icon="@Icons.Material.Filled.Add"
+                             Color="Color.Primary"
+                             Style="font-size: 5rem;" />
+                </div>
+            </MudPaper>
         </div>
     }
     else
     {
         <div class="d-flex flex-column justify-center align-center text-center" style="height: 50vh;">
-            <MudIcon Icon="@Icons.Material.Filled.FolderOff" Size="Size.Large" Color="Color.Default" Class="mb-4" Style="font-size: 4rem; opacity: 0.5;"/>
+            <MudIcon Icon="@Icons.Material.Filled.FolderOff"
+                     Size="Size.Large"
+                     Color="Color.Default"
+                     Class="mb-4"
+                     Style="font-size: 4rem; opacity: 0.5;" />
             <MudText Typo="Typo.h5" Class="mb-2">No documents</MudText>
             <MudText Typo="Typo.body1" Color="Color.Secondary">No matching documents found.</MudText>
         </div>
+    }
+
+    @* Inline add form (replaces MudDialog) *@
+    @if (_showInlineAddForm)
+    {
+        <MudPaper Class="p-4 mt-3">
+            <MudText Typo="Typo.h6" Class="mb-3">Add new document</MudText>
+
+            <MudTextField @bind-Value="_newDocumentTitle"
+                          Label="Document title"
+                          Variant="Variant.Outlined"
+                          Class="mb-3 w-100" />
+
+            <div class="mb-3">
+                <label for="newDocUpload"
+                       class="mud-button-root mud-button mud-button-filled mud-button-filled-primary d-inline-flex align-items-center gap-2">
+                    <MudIcon Icon="@Icons.Material.Filled.CloudUpload" />
+                    <span>Choose file</span>
+                </label>
+                <InputFile id="newDocUpload"
+                           class="d-none"
+                           OnChange="@OnNewDocumentUpload"
+                           accept=".pdf,.jpg,.jpeg,.png" />
+
+                @if (_newDocumentFile is not null)
+                {
+                    <MudText Typo="Typo.caption" Class="mt-2 d-block">
+                        Selected: @_newDocumentFile.Name (@(Math.Round(_newDocumentFile.Size / 1024.0, 1)) KB)
+                    </MudText>
+                }
+            </div>
+
+            <div class="d-flex gap-2">
+                <MudButton Variant="Variant.Text"
+                           Color="Color.Default"
+                           OnClick="@(() => _showInlineAddForm = false)">
+                    Cancel
+                </MudButton>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Disabled="@(string.IsNullOrWhiteSpace(_newDocumentTitle) || _newDocumentFile is null)"
+                           OnClick="@ConfirmAddDocument">
+                    Save
+                </MudButton>
+            </div>
+        </MudPaper>
     }
 </MudContainer>
 
@@ -60,9 +127,7 @@
 {
     <MudOverlay Visible="true" DarkBackground="true" Class="d-flex justify-center align-center">
         <MudPaper Class="p-3" Style="min-width: 16rem;">
-            <div>
-                <MudText Typo="Typo.h6" Class="mb-2">Choose an action</MudText>
-            </div>
+            <MudText Typo="Typo.h6" Class="mb-2">Choose an action</MudText>
 
             <MudButton
                 Variant="Variant.Filled"
@@ -74,7 +139,8 @@
             </MudButton>
 
             <MudButton
-                Variant="Variant.Filled" Color="Color.Error"
+                Variant="Variant.Filled"
+                Color="Color.Error"
                 StartIcon="@Icons.Material.Filled.Delete"
                 DropShadow="false"
                 OnClick="@(() => OnDelete(openOverlayIndex.Value))"
@@ -98,7 +164,7 @@
         grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
         gap: 1rem;
         justify-content: center;
-        padding-inline: 1.6rem;
+        align-items: stretch;
     }
 </style>
 
@@ -107,23 +173,71 @@
 
     private List<DocumentItem> documents = new()
     {
-        new DocumentItem { Title = "Declaration on own responsibility", Date = new DateTime(2025, 10, 3) },
-        new DocumentItem { Title = "Farm registration certificate", Date = new DateTime(2025, 10, 3) },
-        new DocumentItem { Title = "Proof of land rights", Date = new DateTime(2025, 10, 3) },
-        new DocumentItem { Title = "Project plan / technical design + budget", Date = new DateTime(2025, 10, 3) },
-        new DocumentItem { Title = "Bank guarantee or performance commitment", Date = new DateTime(2025, 10, 3) },
-        new DocumentItem { Title = "Certificate of putting into operation", Date = new DateTime(2025, 10, 1) },
-        new DocumentItem { Title = "Invoices", Date = new DateTime(2025, 10, 1) },
-        new DocumentItem { Title = "Proof of payment", Date = new DateTime(2025, 10, 1) },
+        new DocumentItem
+        {
+            Title = "Copy of the extract from the State Register of Legal Entities",
+            Date = new DateTime(2025, 10, 3)
+        },
+        new DocumentItem
+        {
+            Title = "Declaration on own responsibility",
+            Date = new DateTime(2025, 10, 3)
+        },
+        new DocumentItem
+        {
+            Title = "Proof farmer is a member of a professional organization in the agricultural sector",
+            Date = new DateTime(2025, 10, 3)
+        },
+        new DocumentItem
+        {
+            Title = "Contract between farmer and an accredited inspection and certification body",
+            Date = new DateTime(2025, 10, 3)
+        },
+        new DocumentItem
+        {
+            Title = "Copy of the certificate of conformity or conversion authorization",
+            Date = new DateTime(2025, 10, 3)
+        },
+        new DocumentItem
+        {
+            Title = "Proof of the sale of certified organic products",
+            Date = new DateTime(2025, 10, 3)
+        },
+        new DocumentItem
+        {
+            Title = "Copy of the customs declaration and complementary declaration",
+            Date = new DateTime(2025, 10, 3)
+        },
+        new DocumentItem
+        {
+            Title = "Farmer's commitment to remain in the organic agriculture system",
+            Date = new DateTime(2025, 10, 3)
+        },
+        new DocumentItem
+        {
+            Title = "Declaration from the inspection and certification body",
+            Date = new DateTime(2025, 10, 3)
+        },
+        new DocumentItem
+        {
+            Title = "Copy of documents attesting ownership or possession rights",
+            Date = new DateTime(2025, 10, 3)
+        },
+        new DocumentItem
+        {
+            Title = "Copy of the certificate confirming ownership of a bank account in Moldovan lei",
+            Date = new DateTime(2025, 10, 3)
+        }
     };
 
     private IEnumerable<DocumentItem> filteredDocuments =>
         documents.Where(d => string.IsNullOrWhiteSpace(searchQuery) ||
                              d.Title.Contains(searchQuery, StringComparison.OrdinalIgnoreCase));
 
-    private int? openOverlayIndex = null;
+    private int? openOverlayIndex;
 
     private void OpenOverlay(int index) => openOverlayIndex = index;
+
     private void CloseOverlay() => openOverlayIndex = null;
 
     private async void OnDownload(int index)
@@ -132,7 +246,8 @@
 
         if (doc.Title == "Declaration on own responsibility")
         {
-            var pdfBase64 = "JVBERi0xLjQKJeLjz9MKNCAwIG9iago8PC9UeXBlIC9QYWdlL1BhcmVudCAxIDAgUi9SZXNvdXJjZXMgMiAwIFIvQ29udGVudHMgNSAwIFIvTWVkaWFCb3hbMCAwIDYxMiA3OTJdPj4KZW5kb2JqCjUgMCBvYmoKPDwvTGVuZ3RoIDY2Pj4Kc3RyZWFtCkJUIC9GMCAxMiBUZgowIDUwIFRkCihIZWxsbyBmcm9tIEJsYXpvciBERVBDUCkgVGoKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNgowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAxMDUgMDAwMDAgbiAKMDAwMDAwMDE1MCAwMDAwMCBuIAowMDAwMDAwMjAwIDAwMDAwIG4gCjAwMDAwMDAzMDIgMDAwMDAgbiAKMDAwMDAwMDQyMCAwMDAwMCBuIAp0cmFpbGVyCjw8L1Jvb3QgMSAwIFIvU2l6ZSA2Pj4Kc3RhcnR4cmVmCjU0NQolJUVPRgo=";
+            var pdfBase64 =
+                "JVBERi0xLjQKJeLjz9MKNCAwIG9iago8PC9UeXBlIC9QYWdlL1BhcmVudCAxIDAgUi9SZXNvdXJjZXMgMiAwIFIvQ29udGVudHMgNSAwIFIvTWVkaWFCb3hbMCAwIDYxMiA3OTJdPj4KZW5kb2JqCjUgMCBvYmoKPDwvTGVuZ3RoIDY2Pj4Kc3RyZWFtCkJUIC9GMCAxMiBUZgowIDUwIFRkCihIZWxsbyBmcm9tIEJsYXpvciBERVBDUCkgVGoKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNgowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAxMDUgMDAwMDAgbiAKMDAwMDAwMDE1MCAwMDAwMCBuIAowMDAwMDAwMjAwIDAwMDAwIG4gCjAwMDAwMDAzMDIgMDAwMDAgbiAKMDAwMDAwMDQyMCAwMDAwMCBuIAp0cmFpbGVyCjw8L1Jvb3QgMSAwIFIvU2l6ZSA2Pj4Kc3RhcnR4cmVmCjU0NQolJUVPRgo=";
 
             await Js.InvokeVoidAsync("downloadFile",
                 "Declaration_on_own_responsibility.pdf",
@@ -148,6 +263,40 @@
     {
         Console.WriteLine($"Delete document {filteredDocuments.ElementAt(index).Title}");
         CloseOverlay();
+    }
+
+    // Inline add form state (replaces MudDialog)
+    private bool _showInlineAddForm;
+    private string _newDocumentTitle = string.Empty;
+    private IBrowserFile? _newDocumentFile;
+
+    private void ToggleInlineAddForm()
+    {
+        _newDocumentTitle = string.Empty;
+        _newDocumentFile = null;
+        _showInlineAddForm = !_showInlineAddForm;
+    }
+
+    private void OnNewDocumentUpload(InputFileChangeEventArgs e)
+    {
+        _newDocumentFile = e.File;
+    }
+
+    private async Task ConfirmAddDocument()
+    {
+        if (string.IsNullOrWhiteSpace(_newDocumentTitle) || _newDocumentFile is null)
+            return;
+
+        documents.Add(new DocumentItem
+        {
+            Title = _newDocumentTitle,
+            Date = DateTime.Now
+        });
+
+        var key = $"uploaded:{_newDocumentTitle}";
+        await Js.InvokeVoidAsync("localStorage.setItem", key, "true");
+
+        _showInlineAddForm = false;
     }
 
     private class DocumentItem
