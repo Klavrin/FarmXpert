@@ -213,19 +213,35 @@
         border-radius: 6px;
     }
     .emoji-btn:hover { background: rgba(0,0,0,0.03); }
+
+    /* main post button palette */
+    .main-post-btn {
+        background-color: #9795f5 !important; /* normal */
+        color: #ffffff !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    .main-post-btn:hover {
+        background-color: #847ff2 !important;
+    }
+    .main-post-btn:active,
+    .main-post-btn.mud-button-root:active {
+        background-color: #594ae2 !important; /* on click (darker) */
+        transform: translateY(1px);
+    }
+
+    /* comment post button uses same palette */
     .post-btn {
         padding: 6px 10px;
-        background: #1da1f2;
+        background: #9795f5;
         color: white;
         border: none;
         border-radius: 999px;
         font-weight: 600;
         cursor: pointer;
     }
-    .post-btn[disabled] {
-        opacity: 0.45;
-        cursor: default;
-    }
+    .post-btn:hover { background: #847ff2; }
+    .post-btn:active { background: #594ae2; }
 </style>
 
 <MudContainer @onclick="() => showEmojiPicker = false" Class="mt-6" Style="width:100%; padding-bottom: 5rem;">
@@ -266,7 +282,7 @@
                                 </div>
                             </div>
 
-                            <MudButton OnClick="AddPost" Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PostAdd">
+                            <MudButton Class="main-post-btn" OnClick="AddPost" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PostAdd">
                                 Post
                             </MudButton>
                         </div>
