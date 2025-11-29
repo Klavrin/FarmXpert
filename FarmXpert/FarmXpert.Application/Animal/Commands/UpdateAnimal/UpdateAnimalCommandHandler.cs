@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FarmXpert.Application.Animal.Commands.UpdateAnimal;
 
-public class UpdateAnimalCommandHandler : IRequestHandler<UpdateAnimalCommand, Domain.Entities.Animal>
+public class UpdateAnimalCommandHandler : IRequestHandler<UpdateAnimalCommand, Domain.Entities.Animal?>
 {
     private readonly IAnimalRepository _animalRepository;
 
@@ -12,7 +12,7 @@ public class UpdateAnimalCommandHandler : IRequestHandler<UpdateAnimalCommand, D
         _animalRepository = animalRepository;
     }
 
-    public async Task<Domain.Entities.Animal> Handle(UpdateAnimalCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Entities.Animal?> Handle(UpdateAnimalCommand request, CancellationToken cancellationToken)
     {
         var existingAnimal = await _animalRepository.GetByIdAsync(request.Animal.OwnerId, request.Animal.Id, cancellationToken);
         if (existingAnimal == null)
