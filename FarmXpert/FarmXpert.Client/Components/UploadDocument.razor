@@ -1,4 +1,3 @@
-@* File: `FarmXpert/FarmXpert.Client/Components/UploadDocument.razor` *@
 @inject NavigationManager Nav
 @inject IJSRuntime Js
 
@@ -31,24 +30,13 @@
 
     private bool _isUploaded;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await CheckUploadStatus();
-    }
-
-    private async Task CheckUploadStatus()
+    protected override async Task OnParametersSetAsync()
     {
         try
         {
             var key = $"uploaded:{Title}";
             var val = await Js.InvokeAsync<string>("localStorage.getItem", key);
-            var wasUploaded = val == "true";
-            
-            if (wasUploaded != _isUploaded)
-            {
-                _isUploaded = wasUploaded;
-                StateHasChanged();
-            }
+            _isUploaded = val == "true";
         }
         catch
         {

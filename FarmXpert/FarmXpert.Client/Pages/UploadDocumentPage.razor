@@ -3,75 +3,101 @@
 @inject NavigationManager Nav
 
 <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-6">
-
     <MudText Typo="Typo.h4" Class="mb-4">@Title</MudText>
-
     <MudText Typo="Typo.body2" Class="mb-4">@GetDescriptionForTitle(Title)</MudText>
 
-    <MudPaper Elevation="1" Class="p-4 mb-4 text-center" Style="border: 1px dashed rgba(0,0,0,0.12); background-color: rgba(0,0,0,0.02);">
-        <MudText Typo="Typo.body2" Class="mb-3">Select a file to upload for this document. Accepted formats: PDF, JPG, PNG.</MudText>
+    <MudPaper Elevation="1" Class="p-5 mb-4 text-center"
+              Style="border: 1px dashed rgba(0,0,0,0.12); background-color: rgba(0,0,0,0.02); border-radius: 12px;">
 
-        <label for="fileInput">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary"
-                       StartIcon="@Icons.Material.Filled.CloudUpload"
-                       HtmlTag="button">
-                Upload Document
-            </MudButton>
+        <MudIcon Icon="@Icons.Material.Outlined.CloudUpload"
+                 Color="Color.Primary"
+                 Style="font-size: 3rem; margin-bottom: 0.5rem;" />
+
+        <MudText Typo="Typo.body2" Class="mb-3">
+            Drag and drop your file here or click the button to select. Accepted: PDF, JPG, PNG.
+        </MudText>
+
+        <label for="uploadInput"
+               class="mud-button-root mud-button mud-button-filled mud-button-filled-primary d-inline-flex align-items-center gap-2">
+            <MudIcon Icon="@Icons.Material.Filled.Description" />
+            <span>Choose File</span>
         </label>
 
-        <InputFile id="fileInput" OnChange="@OnUpload" hidden />
+        <InputFile id="uploadInput"
+                   class="d-none"
+                   OnChange="@OnUpload"
+                   accept=".pdf,.jpg,.jpeg,.png" />
+
+        @if (_selectedFile is not null)
+        {
+            <MudText Typo="Typo.caption" Class="mt-3">
+                Selected: @_selectedFile.Name (@(Math.Round(_selectedFile.Size / 1024.0, 1)) KB)
+            </MudText>
+        }
     </MudPaper>
 
     @if (_uploaded)
     {
         <MudAlert Severity="Severity.Success" Elevation="0" Dense="true" Class="mb-3">
-            Upload successful — returning...
+            Upload confirmed — returning...
         </MudAlert>
     }
 
-    <div class="d-flex justify-content-end">
-        <MudButton Variant="Variant.Text" OnClick="@Cancel">Cancel</MudButton>
+    <div class="d-flex justify-content-end gap-2">
+        <MudButton Variant="Variant.Text" Color="Color.Default" OnClick="@Cancel">
+            Cancel
+        </MudButton>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   Disabled="@(_selectedFile is null || _confirming)"
+                   OnClick="@ConfirmUpload">
+            Confirm Upload
+        </MudButton>
     </div>
 </MudContainer>
 
 @code {
     [Parameter] public string Title { get; set; } = "";
 
+    private IBrowserFile? _selectedFile;
     private bool _uploaded;
+    private bool _confirming;
 
-    private async Task OnUpload(InputFileChangeEventArgs e)
+    private void OnUpload(InputFileChangeEventArgs e)
     {
-        var file = e.File;
-        Console.WriteLine($"Uploaded: {file?.Name}");
+        _selectedFile = e.File;
+        StateHasChanged();
+    }
 
+    private async Task ConfirmUpload()
+    {
+        if (_selectedFile is null) return;
+
+        _confirming = true;
         try
         {
             var key = $"uploaded:{Title}";
             await Js.InvokeVoidAsync("localStorage.setItem", key, "true");
             _uploaded = true;
             StateHasChanged();
-
             await Task.Delay(700);
-            Nav.NavigateTo("/complementary-payments");
+            await Js.InvokeVoidAsync("history.back");
         }
-        catch
+        finally
         {
-            // ignore localStorage or navigation errors
+            _confirming = false;
         }
     }
 
-    private void Cancel()
+    private async Task Cancel()
     {
-        Nav.NavigateTo("/complementary-payments");
+        await Js.InvokeVoidAsync("history.back");
     }
 
-    private string GetDescriptionForTitle(string title)
+    private string GetDescriptionForTitle(string title) => title switch
     {
-        return title switch
-        {
-            "Declaration on own responsibility" => "Signed declaration confirming responsibility for submitted data.",
-            "Copy of the extract from the State Register of Legal Entities" => "Official extract from the State Register confirming legal entity details.",
-            _ => "Please upload the required document below."
-        };
-    }
+        "Declaration on own responsibility" => "Signed declaration confirming responsibility for submitted data.",
+        "Copy of the extract from the State Register of Legal Entities" => "Official extract from the State Register confirming legal entity details.",
+        _ => "Please upload the required document below."
+    };
 }
