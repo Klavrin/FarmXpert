@@ -12,13 +12,14 @@ Recent updates make FarmXpert more useful and social. We’ve improved how subsi
 - Unit tests. ([PR #22 – Add unit tests](https://github.com/Klavrin/FarmXpert/pull/22))
 - Deployment: https://farmxpert-fbdre0dsfbbbdrd4.westeurope-01.azurewebsites.net/Account/Login?ReturnUrl=%2F
 - New /profile page ([PR #44 - Add /profile page](https://github.com/Klavrin/FarmXpert/pull/44))
+- Page for uploading documents ([PR #43 - Upload document page](https://github.com/Klavrin/FarmXpert/pull/43))
 
 ### Changed
-- Homepage layout. ([PR #24 – Homepage](https://github.com/Klavrin/FarmXpert/pull/24))
+- Homepage layout. ([PR #41 – Homepage](https://github.com/Klavrin/FarmXpert/pull/41))
 - Enforced official Microsoft .NET formatting standards across the codebase. ([PR #27 – Enforce code formatting](https://github.com/Klavrin/FarmXpert/pull/27))
 - CI runner switched from Windows to Ubuntu for speed. ([PR #29 – Switch CI runner from windows to ubuntu](https://github.com/Klavrin/FarmXpert/pull/29))
 - Workflow to include unit testing and conditional deployment. ([PR #28 – Update CI workflow](https://github.com/Klavrin/FarmXpert/pull/28))
-- 
+
 ### Fixed
 - Remote connection string initialization issue. ([PR #34](https://github.com/Klavrin/FarmXpert/pull/34))
 - Fallback logic for unidentified database name. ([PR #35](https://github.com/Klavrin/FarmXpert/pull/35))
@@ -36,6 +37,7 @@ Recent updates make FarmXpert more useful and social. We’ve improved how subsi
 - #34 Remote connection string fix: https://github.com/Klavrin/FarmXpert/pull/34
 - #35 DB name fallback: https://github.com/Klavrin/FarmXpert/pull/35
 - #36 Build warnings fixes: https://github.com/Klavrin/FarmXpert/pull/36
+- PR #43 - Upload document page: https://github.com/Klavrin/FarmXpert/pull/43
 
 ## Release: [0.2.1] - 2025-11-01
 
