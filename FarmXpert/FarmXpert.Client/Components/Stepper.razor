@@ -6,19 +6,125 @@
     <MudStepper>
         <ChildContent>
             <MudStep Title="Upload certificates" Style="padding-top: 1.5rem;">
-                </MudStep>
+                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-sm-center gap-3">
+                    <MudText Class="text-nowrap mb-2 mb-sm-0" Typo="Typo.body1">Upload Certificate of Registration</MudText>
+                    <div class="bg-body-secondary line d-none d-lg-block" style="min-height: 2px; width: 100%;"></div>
+                    <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+                        <ActivatorContent>
+                            <MudButton
+                                Style="width: max-content"
+                                Variant="Variant.Filled"
+                                Color="Color.Primary"
+                                StartIcon="@Icons.Material.Filled.CloudUpload">
+                                Upload Certificate
+                            </MudButton>
+                        </ActivatorContent>
+                    </MudFileUpload>
+                </div>
+            </MudStep>
 
             <MudStep Title="Add farm details" Class="d-flex flex-column gap-1">
-                </MudStep>
+                <MudTextField T="string" Label="Farm Name"/>
+                <MudTextField T="string" Label="Farm Location"/>
+                <MudTextField T="string" Label="IDNO"/>
+                <MudDatePicker Label="Date of Registration" @bind-Date="_date" Style="margin-bottom: 1.5rem;"/>
+            </MudStep>
 
             <MudStep Title="Add crops" Class="d-flex flex-column gap-2" SecondaryText="If applicable" Skippable="true">
-                </MudStep>
+                <MudText Class="fw-bold" Typo="Typo.body1">Land parcel:</MudText>
+                <MudTextField T="string" Label="Size" @bind-Value="_landParcel.Size"/>
+                <MudTextField T="string" Label="Location" @bind-Value="_landParcel.Location"/>
+
+                <MudText Class="fw-bold mt-4" Typo="Typo.body1">Crop types:</MudText>
+                @foreach (var crop in _crops)
+                {
+                    <MudPaper Class="p-3 mb-2" Style="border: 1px solid #ccc; border-radius: 8px;">
+                        <div class="d-flex flex-column gap-2">
+                            <MudTextField T="string" Label="Crop Type" @bind-Value="crop.Type"/>
+                            <MudTextField T="string" Label="Cultivated Area" @bind-Value="crop.CultivatedArea"/>
+                            <MudButton Variant="Variant.Text" Color="Color.Error" OnClick="() => RemoveCrop(crop)">
+                                Remove
+                            </MudButton>
+                        </div>
+                    </MudPaper>
+                }
+
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="AddCrop">
+                    Add Another Crop
+                </MudButton>
+
+                <MudText Class="fw-bold mt-4" Typo="Typo.body1">Agricultural Practice:</MudText>
+                <MudTextField Style="margin-bottom: 1.5rem;" T="string" Label="Agricultural Practice" @bind-Value="_agriculturalPractice"/>
+            </MudStep>
 
             <MudStep Title="Add livestock" SecondaryText="If applicable" Skippable="true">
-                </MudStep>
+                <MudText Class="fw-bold" Typo="Typo.body1">Animal Types:</MudText>
+
+                @foreach (var animal in _livestock)
+                {
+                    <MudPaper Class="p-3 mb-2" Style="border: 1px solid #ccc; border-radius: 8px;">
+                        <div class="d-flex flex-column gap-2">
+                            <MudTextField T="string" Label="Animal Type" @bind-Value="animal.Type"/>
+                            <MudTextField T="string" Label="Num. of Animals" @bind-Value="animal.Count"/>
+                            <MudTextField T="string" Label="Herd Book Number" @bind-Value="animal.HerdBookNumber"/>
+                            <MudTextField T="string" Label="Production Type" @bind-Value="animal.ProductionType"/>
+
+                            <MudButton Variant="Variant.Text" Color="Color.Error" OnClick="() => RemoveAnimal(animal)">
+                                Remove
+                            </MudButton>
+                        </div>
+                    </MudPaper>
+                }
+
+                <MudButton Class="w-100" Variant="Variant.Outlined" Color="Color.Primary" OnClick="AddAnimal">
+                    Add Another Animal
+                </MudButton>
+
+                <MudTextField T="string" Label="Herd Book Number" @bind-Value="_landParcel.Size"/>
+                <MudTextField T="string" Label="Production Type" @bind-Value="_landParcel.Size" Style="margin-bottom: 1.5rem;"/>
+            </MudStep>
+            
 
             <MudStep Title="Add insurances" SecondaryText="If applicable" Skippable="true" Class="d-flex flex-column gap-2">
-                </MudStep>
+                <MudText Class="fw-bold" Typo="Typo.body1">Insurance Documents:</MudText>
+
+                @foreach (var insurance in _insurances)
+                {
+                    <MudPaper Class="p-3 mb-2" Style="border: 1px solid #ccc; border-radius: 8px;">
+                        <div class="d-flex flex-column gap-2">
+                            <MudTextField T="string" Label="Insurance Type" @bind-Value="insurance.Type"/>
+                            <MudTextField T="string" Label="Coverage Amount" @bind-Value="insurance.CoverageAmount"/>
+                            <MudDatePicker Label="Expiry Date" @bind-Date="insurance.ExpiryDate"/>
+
+                            <MudFileUpload T="IBrowserFile" FilesChanged="files => UploadInsuranceDocument(files, insurance)">
+                                <ActivatorContent>
+                                    <MudButton Class="w-100" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.CloudUpload">
+                                        Upload Insurance Document
+                                    </MudButton>
+                                </ActivatorContent>
+                            </MudFileUpload>
+
+                            @if (insurance.Documents.Count > 0)
+                            {
+                                <MudList T="string">
+                                    @foreach (var doc in insurance.Documents)
+                                    {
+                                        <MudListItem T="string">@doc.Name</MudListItem>
+                                    }
+                                </MudList>
+                            }
+
+                            <MudButton Variant="Variant.Text" Color="Color.Error" OnClick="() => RemoveInsurance(insurance)">
+                                Remove
+                            </MudButton>
+                        </div>
+                    </MudPaper>
+                }
+
+                <MudButton Class="w-100" Variant="Variant.Outlined" Color="Color.Primary" OnClick="AddInsurance" Style="padding-bottom: 1.5rem;">
+                    Add Another Insurance
+                </MudButton>
+            </MudStep>
         </ChildContent>
         <CompletedContent >
             <MudStack Row Class="ma-3">
