@@ -1,10 +1,9 @@
 @page "/my-documents"
 @rendermode InteractiveWebAssembly
 @inject IJSRuntime Js
-@inject NavigationManager Nav
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6 px-3 px-md-0 mx-auto">
-    <MudText Typo="Typo.h4" GutterBottom="true">My Documents</MudText>
+    <MudText Typo="Typo.h4" Class="fw-bold" GutterBottom="true">My Documents</MudText>
 </MudContainer>
 
 <MudContainer MaxWidth="MaxWidth.Large" Style="padding-bottom: 2.5rem;" Class="px-3 px-md-0 mx-auto">
@@ -76,7 +75,7 @@
         </div>
     }
 
-    @* Inline add form (replaces MudDialog) *@
+    @* Inline add form *@
     @if (_showInlineAddForm)
     {
         <MudPaper Class="p-4 mt-3">
