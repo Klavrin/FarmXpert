@@ -2,7 +2,7 @@ using MediatR;
 
 namespace FarmXpert.Application.PersonalDocument.Commands.UpdatePersonalDocument;
 
-public class UpdatePersonalDocumentCommandHandler : IRequestHandler<UpdatePersonalDocumentCommand, FarmXpert.Domain.Entities.PersonalDocument>
+public class UpdatePersonalDocumentCommandHandler : IRequestHandler<UpdatePersonalDocumentCommand, FarmXpert.Domain.Entities.PersonalDocument?>
 {
     private readonly Domain.Interfaces.IPersonalDocumentRepository _personalDocumentRepository;
     public UpdatePersonalDocumentCommandHandler(Domain.Interfaces.IPersonalDocumentRepository personalDocumentRepository)
