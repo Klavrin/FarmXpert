@@ -1,14 +1,14 @@
 using MediatR;
 
 namespace FarmXpert.Application.SocialPost.Commands.AddComment;
-public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand, FarmXpert.Domain.Entities.SocialPost>
+public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand, FarmXpert.Domain.Entities.SocialPost?>
 {
     private readonly Domain.Interfaces.ISocialPostRepository _socialPostRepository;
     public AddCommentCommandHandler(Domain.Interfaces.ISocialPostRepository socialPostRepository)
     {
         _socialPostRepository = socialPostRepository;
     }
-    public async Task<FarmXpert.Domain.Entities.SocialPost> Handle(AddCommentCommand request, CancellationToken cancellationToken)
+    public async Task<FarmXpert.Domain.Entities.SocialPost?> Handle(AddCommentCommand request, CancellationToken cancellationToken)
     {
         var socialPost = await _socialPostRepository.GetByIdAsync(request.id, cancellationToken);
         if (socialPost == null)
