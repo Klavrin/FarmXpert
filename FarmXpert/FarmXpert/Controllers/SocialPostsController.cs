@@ -179,9 +179,9 @@ public class SocialPostsController : ControllerBase
 
     public class CreateSocialPostRequest
     {
-        public string Title { get; set; }
-        public IFormFile File { get; set; }
-        public string Content { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public IFormFile File { get; set; } = null!;
+        public string Content { get; set; } = string.Empty;
     }
 
     private string CurrentUserId()
