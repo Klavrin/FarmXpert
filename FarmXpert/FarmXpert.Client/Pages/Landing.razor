@@ -1,0 +1,337 @@
+@page "/landing"
+@using MudBlazor
+
+<div class="landing-page">
+    
+    <div class="hero-section">
+        <MudContainer MaxWidth="MaxWidth.Large">
+            <MudGrid Spacing="4" AlignItems="AlignItems.Center">
+                <MudItem xs="12" md="6" Class="py-16">
+                    <MudText Typo="Typo.h1" Class="hero-title mb-4">
+                        Precision Farming, <br />
+                        <span class="text-highlight">Simplified.</span>
+                    </MudText>
+                    <MudText Typo="Typo.h5" Class="hero-subtitle mb-8">
+                        FarmXpert combines satellite imagery, soil sensors, and AI to help you grow more while spending less.
+                    </MudText>
+                    <div class="d-flex gap-4">
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" Size="Size.Large" Class="hero-btn rounded-pill px-8">
+                            Start Free Trial
+                        </MudButton>
+                        <MudButton Variant="Variant.Outlined" Class="hero-btn-outline rounded-pill px-8" StartIcon="@Icons.Material.Filled.PlayCircle">
+                            Watch Demo
+                        </MudButton>
+                    </div>
+                    <div class="mt-8 d-flex align-center gap-2">
+                        <MudAvatarGroup Max="3" Spacing="2">
+                            <MudAvatar Image="https://mudblazor.com/images/users/1.jpg" />
+                            <MudAvatar Image="https://mudblazor.com/images/users/2.jpg" />
+                            <MudAvatar Image="https://mudblazor.com/images/users/3.jpg" />
+                        </MudAvatarGroup>
+                        <MudText Typo="Typo.caption" Style="color: rgba(255,255,255,0.8);">Trusted by 500+ modern growers</MudText>
+                    </div>
+                </MudItem>
+                
+                <MudItem xs="12" md="6" Class="d-flex justify-center relative">
+                    <div class="blob-bg"></div>
+                    
+                    <MudPaper Elevation="25" Class="glass-card pa-4 mt-8">
+                        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="300px" Width="100%" Class="rounded-lg mb-2"/>
+                        <div class="d-flex gap-2">
+                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="80px" Width="30%" Class="rounded-lg"/>
+                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="80px" Width="70%" Class="rounded-lg"/>
+                        </div>
+                        <div class="overlay-badge">
+                            <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Color="Color.Success" />
+                            <MudText Typo="Typo.body2">Yield +24%</MudText>
+                        </div>
+                    </MudPaper>
+                </MudItem>
+            </MudGrid>
+        </MudContainer>
+        
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 320">
+                <path fill="#ffffff" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
+    </div>
+
+    <MudContainer MaxWidth="MaxWidth.Large" Class="py-16">
+        <MudText Typo="Typo.overline" Color="Color.Primary" Align="Align.Center" Class="d-block mb-2 font-weight-bold">
+            FEATURES
+        </MudText>
+        <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12 font-weight-bold" Color="Color.Dark">
+            Everything you need to <span class="mud-primary-text">scale operations</span>
+        </MudText>
+
+        <MudGrid Spacing="4">
+            <MudItem xs="12" sm="6" md="4">
+                <MudPaper Class="feature-card pa-8" Elevation="0">
+                    <div class="icon-box mb-4">
+                        <MudIcon Icon="@Icons.Material.Filled.SatelliteAlt" Size="Size.Large" Color="Color.Primary" />
+                    </div>
+                    <MudText Typo="Typo.h6" Class="mb-2 font-weight-bold">Satellite Analysis</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">
+                        Get NDVI analysis every 3 days. Spot irrigation leaks and pest issues before they become visible to the naked eye.
+                    </MudText>
+                </MudPaper>
+            </MudItem>
+            
+            <MudItem xs="12" sm="6" md="4">
+                <MudPaper Class="feature-card pa-8" Elevation="0">
+                    <div class="icon-box mb-4">
+                        <MudIcon Icon="@Icons.Material.Filled.WaterDrop" Size="Size.Large" Color="Color.Primary" />
+                    </div>
+                    <MudText Typo="Typo.h6" Class="mb-2 font-weight-bold">Smart Irrigation</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">
+                        Connect your IoT sensors to automate watering schedules based on real-time soil moisture data.
+                    </MudText>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4">
+                <MudPaper Class="feature-card pa-8" Elevation="0">
+                    <div class="icon-box mb-4">
+                        <MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Large" Color="Color.Primary" />
+                    </div>
+                    <MudText Typo="Typo.h6" Class="mb-2 font-weight-bold">Labor Management</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">
+                        Assign tasks to field workers via mobile app and track completion rates and harvesting costs.
+                    </MudText>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+
+    <div class="grey-section py-16">
+        <MudContainer MaxWidth="MaxWidth.Large">
+            <MudGrid AlignItems="AlignItems.Center" Spacing="8">
+                <MudItem xs="12" md="6">
+                     <MudPaper Elevation="4" Class="rounded-xl overflow-hidden">
+                        <MudImage Src="https://images.unsplash.com/photo-1625246333195-5519a120dd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                  Alt="Farmer using app" Fluid="true" Class="d-block"/>
+                    </MudPaper>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudChip T="string" Color="Color.Secondary" Size="Size.Small" Class="mb-4">REAL-TIME DATA</MudChip>
+                    <MudText Typo="Typo.h3" Class="mb-4 font-weight-bold">
+                        Your farm in your pocket.
+                    </MudText>
+                    <MudText Typo="Typo.body1" Class="mb-6 mud-text-secondary">
+                        Gone are the days of guessing. With FarmXpert, you have a digital twin of your fields. 
+                        Tap on any acre to see historical yields, current chemical composition, and upcoming weather risks.
+                    </MudText>
+                    <MudList T="string" Dense="true" DisablePadding="true">
+                        <MudListItem Icon="@Icons.Material.Filled.CheckCircle" IconColor="Color.Success">
+                            Offline mode for remote fields
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.CheckCircle" IconColor="Color.Success">
+                            Instant alerts for frost or disease
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.CheckCircle" IconColor="Color.Success">
+                            Export reports for insurance & compliance
+                        </MudListItem>
+                    </MudList>
+                </MudItem>
+            </MudGrid>
+        </MudContainer>
+    </div>
+
+    <MudContainer MaxWidth="MaxWidth.Large" Class="py-16">
+        <MudGrid Justify="Justify.Center" Class="text-center">
+            <MudItem xs="6" md="3">
+                <MudText Typo="Typo.h3" Color="Color.Primary" Class="font-weight-bold">2M+</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">Acres Analyzed</MudText>
+            </MudItem>
+            <MudItem xs="6" md="3">
+                <MudText Typo="Typo.h3" Color="Color.Primary" Class="font-weight-bold">15%</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">Water Saved</MudText>
+            </MudItem>
+            <MudItem xs="6" md="3">
+                <MudText Typo="Typo.h3" Color="Color.Primary" Class="font-weight-bold">4.9/5</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">User Rating</MudText>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+
+    <MudContainer MaxWidth="MaxWidth.Medium" Class="pb-16 pt-8">
+        <MudPaper Class="cta-box pa-16 text-center relative overflow-hidden rounded-xl" Elevation="0">
+             <div class="cta-bg-circle"></div>
+             <MudStack AlignItems="AlignItems.Center" Spacing="4" Class="relative z-10">
+                 <MudText Typo="Typo.h3" Class="white-text font-weight-bold">Ready to modernize?</MudText>
+                 <MudText Typo="Typo.h6" Class="white-text mb-4" Style="opacity: 0.9">Join 2,000+ growers optimizing their yield today.</MudText>
+                 <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Surface" Class="px-12 py-3 rounded-pill text-primary font-weight-bold">
+                     Get Started for Free
+                 </MudButton>
+                 <MudText Typo="Typo.caption" Class="white-text mt-2">No credit card required • Cancel anytime</MudText>
+             </MudStack>
+        </MudPaper>
+    </MudContainer>
+
+    <MudDivider />
+    
+    <div class="py-8 text-center mud-text-secondary">
+        <MudText Typo="Typo.caption">© 2024 FarmXpert Inc. All rights reserved.</MudText>
+    </div>
+</div>
+
+<style>
+    /* Custom Color Variables for consistency */
+    :root {
+        --fx-green-dark: #0f3d2e;
+        --fx-green-light: #2c6e49;
+        --fx-accent: #ffc857;
+    }
+
+    .landing-page {
+        background-color: #ffffff;
+        overflow-x: hidden;
+    }
+
+    /* Hero Styling */
+    .hero-section {
+        background: linear-gradient(135deg, var(--fx-green-dark) 0%, var(--fx-green-light) 100%);
+        color: white;
+        padding-top: 80px;
+        position: relative;
+        /* Ensure no horizontal scrollbar if blobs overflow */
+        overflow: hidden; 
+    }
+
+    .hero-title {
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -1px;
+    }
+
+    .text-highlight {
+        color: var(--fx-accent);
+    }
+
+    .hero-subtitle {
+        color: rgba(255,255,255, 0.9);
+        font-weight: 300;
+        max-width: 500px;
+        line-height: 1.5;
+    }
+
+    .hero-btn {
+        background-color: var(--fx-accent) !important;
+        color: var(--fx-green-dark) !important;
+        font-weight: 700 !important;
+        transition: transform 0.2s ease;
+    }
+    
+    .hero-btn:hover {
+        transform: translateY(-2px);
+        background-color: #ffdb85 !important;
+    }
+
+    .hero-btn-outline {
+        color: white !important;
+        border: 2px solid rgba(255,255,255,0.3) !important;
+        font-weight: 600 !important;
+    }
+    .hero-btn-outline:hover {
+        background-color: rgba(255,255,255,0.1) !important;
+    }
+
+    /* Glassmorphism Card in Hero */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 24px !important;
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .blob-bg {
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, var(--fx-green-light) 0%, rgba(255,255,255,0) 70%);
+        opacity: 0.6;
+        z-index: 1;
+        top: -50px;
+        right: -50px;
+    }
+
+    .overlay-badge {
+        position: absolute;
+        bottom: 20px;
+        right: -20px;
+        background: white;
+        padding: 8px 16px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .wave-bottom {
+        line-height: 0;
+        width: 100%;
+    }
+
+    /* Feature Cards */
+    .feature-card {
+        background-color: #ffffff;
+        border: 1px solid #f0f0f0;
+        border-radius: 16px !important;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.08) !important;
+        border-color: transparent;
+    }
+
+    .icon-box {
+        width: 60px;
+        height: 60px;
+        background-color: #f0f9f4;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Alternate Section */
+    .grey-section {
+        background-color: #fafafa;
+    }
+
+    /* CTA Section */
+    .cta-box {
+        background: var(--fx-green-dark);
+        color: white;
+    }
+    
+    .cta-bg-circle {
+        position: absolute;
+        top: -50%;
+        left: -20%;
+        width: 600px;
+        height: 600px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 50%;
+    }
+
+    .white-text {
+        color: white !important;
+    }
+    
+    .z-10 { z-index: 10; }
+    .relative { position: relative; }
+
+</style>
