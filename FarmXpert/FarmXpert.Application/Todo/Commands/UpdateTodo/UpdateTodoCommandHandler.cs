@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FarmXpert.Application.Todo.Commands.UpdateTodo;
 
-public class UpdateTodoCommandHandler : IRequestHandler<UpdateTodoCommand, Domain.Entities.Todo>
+public class UpdateTodoCommandHandler : IRequestHandler<UpdateTodoCommand, Domain.Entities.Todo?>
 {
     private readonly ITodoRepository _todoRepository;
 
@@ -12,7 +12,7 @@ public class UpdateTodoCommandHandler : IRequestHandler<UpdateTodoCommand, Domai
         _todoRepository = todoRepository;
     }
 
-    public async Task<Domain.Entities.Todo> Handle(UpdateTodoCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Entities.Todo?> Handle(UpdateTodoCommand request, CancellationToken cancellationToken)
     {
         var existingTodo = await _todoRepository.GetByIdAsync(request.Todo.Id, cancellationToken);
         if (existingTodo == null)
