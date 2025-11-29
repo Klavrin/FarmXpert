@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using FarmXpert.Application.SocialPost.Commands.AddComment;
 using FarmXpert.Application.SocialPost.Commands.AddLike;
 using FarmXpert.Application.SocialPost.Commands.CreateSocialPost;
@@ -13,9 +12,7 @@ using FarmXpert.Data;
 using FarmXpert.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmXpert.Controllers;
