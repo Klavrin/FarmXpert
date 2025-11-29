@@ -1,5 +1,6 @@
 @rendermode InteractiveWebAssembly
 @inject HttpClient Http
+@inject NavigationManager NavigationManager  
 
 <MudPaper Class="w-100">
     <MudStepper>
@@ -23,7 +24,6 @@
             </MudStep>
 
             <MudStep Title="Add farm details" Class="d-flex flex-column gap-1">
-                
                 <MudTextField T="string" Label="Farm Name"/>
                 <MudTextField T="string" Label="Farm Location"/>
                 <MudTextField T="string" Label="IDNO"/>
@@ -83,6 +83,7 @@
                 <MudTextField T="string" Label="Herd Book Number" @bind-Value="_landParcel.Size"/>
                 <MudTextField T="string" Label="Production Type" @bind-Value="_landParcel.Size" Style="margin-bottom: 1.5rem;"/>
             </MudStep>
+            
 
             <MudStep Title="Add insurances" SecondaryText="If applicable" Skippable="true" Class="d-flex flex-column gap-2">
                 <MudText Class="fw-bold" Typo="Typo.body1">Insurance Documents:</MudText>
@@ -162,6 +163,9 @@
         {
             var result = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
             Console.WriteLine("Success: " + result["message"]);
+            
+            // 2. Add the refresh logic here
+            NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
         }
         else
         {
