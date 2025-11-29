@@ -15,13 +15,13 @@ namespace FarmXpert.Domain.Entities
         [BsonRepresentation(BsonType.String)]
         public Guid Id { get; set; }
         [Required]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
         [Required]
-        public string Url { get; set; }
+        public string Url { get; set; } = string.Empty;
         [Required]
-        public string FileExtension { get; set; }
+        public string FileExtension { get; set; } = string.Empty;
         [Required]
-        public string OwnerId { get; set; }
+        public string OwnerId { get; set; } = string.Empty;
         public DateTime UploadDate { get; set; } = DateTime.UtcNow;
         public string Status { get; set; } = string.Empty;
         public string RejectionReason { get; set; } = string.Empty;
