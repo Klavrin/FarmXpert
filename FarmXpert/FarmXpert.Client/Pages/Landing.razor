@@ -8,15 +8,15 @@
             <MudGrid Spacing="4" AlignItems="AlignItems.Center">
                 <MudItem xs="12" md="6" Class="py-16">
                     <MudText Typo="Typo.h1" Class="hero-title mb-4">
-                        Precision Farming, <br />
+                        Subsidy Application, <br />
                         <span class="text-highlight">Simplified.</span>
                     </MudText>
                     <MudText Typo="Typo.h5" Class="hero-subtitle mb-8">
-                        FarmXpert combines satellite imagery, soil sensors, and AI to help you grow more while spending less.
+                        FarmXpert combines solid data with rewarding work experience, bringing together the farmers and the development of Moldovan technology.
                     </MudText>
                     <div class="d-flex gap-4">
                         <MudButton Variant="Variant.Filled" Color="Color.Secondary" Size="Size.Large" Class="hero-btn rounded-pill px-8">
-                            Start Free Trial
+                            Get Started Now
                         </MudButton>
                         <MudButton Variant="Variant.Outlined" Class="hero-btn-outline rounded-pill px-8" StartIcon="@Icons.Material.Filled.PlayCircle">
                             Watch Demo
@@ -24,28 +24,27 @@
                     </div>
                     <div class="mt-8 d-flex align-center gap-2">
                         <MudAvatarGroup Max="3" Spacing="2">
-                            <MudAvatar Image="https://mudblazor.com/images/users/1.jpg" />
-                            <MudAvatar Image="https://mudblazor.com/images/users/2.jpg" />
-                            <MudAvatar Image="https://mudblazor.com/images/users/3.jpg" />
+                            <MudAvatar>
+                                <MudImage Src="/images/person1.jpg" />
+                            </MudAvatar>
+                            <MudAvatar>
+                                <MudImage Src="/images/person2.jpg" />
+                            </MudAvatar>
+                            <MudAvatar>
+                                <MudImage Src="/images/person3.jpg" />
+                            </MudAvatar>
                         </MudAvatarGroup>
                         <MudText Typo="Typo.caption" Style="color: rgba(255,255,255,0.8);">Trusted by 500+ modern growers</MudText>
                     </div>
                 </MudItem>
-                
-                <MudItem xs="12" md="6" Class="d-flex justify-center relative">
+                <MudItem xs="12" md="6" Class="d-flex justify-center align-center relative">
                     <div class="blob-bg"></div>
-                    
-                    <MudPaper Elevation="25" Class="glass-card pa-4 mt-8">
-                        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="300px" Width="100%" Class="rounded-lg mb-2"/>
-                        <div class="d-flex gap-2">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="80px" Width="30%" Class="rounded-lg"/>
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="80px" Width="70%" Class="rounded-lg"/>
-                        </div>
-                        <div class="overlay-badge">
-                            <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Color="Color.Success" />
-                            <MudText Typo="Typo.body2">Yield +24%</MudText>
-                        </div>
-                    </MudPaper>
+                    <div class="hero-image-wrapper" style="min-width: 900px;">
+                        <MudImage Src="images/mockup.png"
+                                  Alt="App Dashboard Mockup"
+                                  Fluid="true"
+                                  Class="hero-mockup"/>
+                    </div>
                 </MudItem>
             </MudGrid>
         </MudContainer>
@@ -71,9 +70,9 @@
                     <div class="icon-box mb-4">
                         <MudIcon Icon="@Icons.Material.Filled.SatelliteAlt" Size="Size.Large" Color="Color.Primary" />
                     </div>
-                    <MudText Typo="Typo.h6" Class="mb-2 font-weight-bold">Satellite Analysis</MudText>
-                    <MudText Typo="Typo.body2" Color="Color.Secondary">
-                        Get NDVI analysis every 3 days. Spot irrigation leaks and pest issues before they become visible to the naked eye.
+                    <MudText Typo="Typo.h6" Class="mb-2 font-weight-bold">Parcel Visualization</MudText>
+                    <MudText Typo="Typo.body2" Style="opacity: 0.8">
+                        View and manage all your land parcels directly on an interactive map for clear, accurate planning.
                     </MudText>
                 </MudPaper>
             </MudItem>
@@ -83,9 +82,9 @@
                     <div class="icon-box mb-4">
                         <MudIcon Icon="@Icons.Material.Filled.WaterDrop" Size="Size.Large" Color="Color.Primary" />
                     </div>
-                    <MudText Typo="Typo.h6" Class="mb-2 font-weight-bold">Smart Irrigation</MudText>
-                    <MudText Typo="Typo.body2" Color="Color.Secondary">
-                        Connect your IoT sensors to automate watering schedules based on real-time soil moisture data.
+                    <MudText Typo="Typo.h6" Class="mb-2 font-weight-bold">Intuitive Interface</MudText>
+                    <MudText Typo="Typo.body2" Style="opacity: 0.8">
+                        A simple, user-friendly design that makes navigating and completing tasks effortless.
                     </MudText>
                 </MudPaper>
             </MudItem>
@@ -95,9 +94,9 @@
                     <div class="icon-box mb-4">
                         <MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Large" Color="Color.Primary" />
                     </div>
-                    <MudText Typo="Typo.h6" Class="mb-2 font-weight-bold">Labor Management</MudText>
-                    <MudText Typo="Typo.body2" Color="Color.Secondary">
-                        Assign tasks to field workers via mobile app and track completion rates and harvesting costs.
+                    <MudText Typo="Typo.h6" Class="mb-2 font-weight-bold">Seamless Application</MudText>
+                    <MudText Typo="Typo.body2" Style="opacity: 0.8">
+                        Apply for subsidies quickly with a smooth, step-by-step process and minimal paperwork.
                     </MudText>
                 </MudPaper>
             </MudItem>
@@ -109,12 +108,12 @@
             <MudGrid AlignItems="AlignItems.Center" Spacing="8">
                 <MudItem xs="12" md="6">
                      <MudPaper Elevation="4" Class="rounded-xl overflow-hidden">
-                        <MudImage Src="https://images.unsplash.com/photo-1625246333195-5519a120dd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                        <MudImage Src="images/farmer-phone.jpg" 
                                   Alt="Farmer using app" Fluid="true" Class="d-block"/>
                     </MudPaper>
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudChip T="string" Color="Color.Secondary" Size="Size.Small" Class="mb-4">REAL-TIME DATA</MudChip>
+                    <MudChip T="string" Color="Color.Primary" Size="Size.Small" Class="mb-4">REAL-TIME DATA</MudChip>
                     <MudText Typo="Typo.h3" Class="mb-4 font-weight-bold">
                         Your farm in your pocket.
                     </MudText>
@@ -142,15 +141,15 @@
         <MudGrid Justify="Justify.Center" Class="text-center">
             <MudItem xs="6" md="3">
                 <MudText Typo="Typo.h3" Color="Color.Primary" Class="font-weight-bold">2M+</MudText>
-                <MudText Typo="Typo.body1" Color="Color.Secondary">Acres Analyzed</MudText>
+                <MudText Typo="Typo.body1" Class="opacity: 0.8">Acres Analyzed</MudText>
             </MudItem>
             <MudItem xs="6" md="3">
                 <MudText Typo="Typo.h3" Color="Color.Primary" Class="font-weight-bold">15%</MudText>
-                <MudText Typo="Typo.body1" Color="Color.Secondary">Water Saved</MudText>
+                <MudText Typo="Typo.body1" Class="opacity: 0.8">Water Saved</MudText>
             </MudItem>
             <MudItem xs="6" md="3">
                 <MudText Typo="Typo.h3" Color="Color.Primary" Class="font-weight-bold">4.9/5</MudText>
-                <MudText Typo="Typo.body1" Color="Color.Secondary">User Rating</MudText>
+                <MudText Typo="Typo.body1" Class="opacity: 0.8">User Rating</MudText>
             </MudItem>
         </MudGrid>
     </MudContainer>
@@ -161,8 +160,8 @@
              <MudStack AlignItems="AlignItems.Center" Spacing="4" Class="relative z-10">
                  <MudText Typo="Typo.h3" Class="white-text font-weight-bold">Ready to modernize?</MudText>
                  <MudText Typo="Typo.h6" Class="white-text mb-4" Style="opacity: 0.9">Join 2,000+ growers optimizing their yield today.</MudText>
-                 <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Surface" Class="px-12 py-3 rounded-pill text-primary font-weight-bold">
-                     Get Started for Free
+                 <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Surface" Class="px-12 py-3 rounded-pill font-weight-bold">
+                     <MudText Color="Color.Primary">GET STARTED FOR FREE</MudText>
                  </MudButton>
                  <MudText Typo="Typo.caption" Class="white-text mt-2">No credit card required • Cancel anytime</MudText>
              </MudStack>
@@ -172,7 +171,7 @@
     <MudDivider />
     
     <div class="py-8 text-center mud-text-secondary">
-        <MudText Typo="Typo.caption">© 2024 FarmXpert Inc. All rights reserved.</MudText>
+        <MudText Typo="Typo.caption">© 2025 FarmXpert Inc. All rights reserved.</MudText>
     </div>
 </div>
 
@@ -333,5 +332,4 @@
     
     .z-10 { z-index: 10; }
     .relative { position: relative; }
-
 </style>
