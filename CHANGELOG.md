@@ -11,8 +11,9 @@ Recent updates make FarmXpert more useful and social. We’ve improved how subsi
 - Frontend UX/UI refinements. ([PR #23 – Improve frontend](https://github.com/Klavrin/FarmXpert/pull/23))
 - Unit tests. ([PR #22 – Add unit tests](https://github.com/Klavrin/FarmXpert/pull/22))
 - Deployment: https://farmxpert-fbdre0dsfbbbdrd4.westeurope-01.azurewebsites.net/Account/Login?ReturnUrl=%2F
-- New /profile page ([PR #44 - Add /profile page](https://github.com/Klavrin/FarmXpert/pull/44))
-- Page for uploading documents ([PR #43 - Upload document page](https://github.com/Klavrin/FarmXpert/pull/43))
+- New /profile page. ([PR #44 - Add /profile page](https://github.com/Klavrin/FarmXpert/pull/44))
+- Page for uploading documents. ([PR #43 - Upload document page](https://github.com/Klavrin/FarmXpert/pull/43))
+- Landing page. ([PR # 45 - Add landing page](https://github.com/Klavrin/FarmXpert/pull/45))
 
 ### Changed
 - Homepage layout. ([PR #41 – Homepage](https://github.com/Klavrin/FarmXpert/pull/41))
