@@ -17,9 +17,9 @@ namespace FarmXpert.Domain.Entities
         public Guid UserId { get; set; }
         [BsonRepresentation(BsonType.String)]
         public Guid BusinessId { get; set; }
-        public string SubsidyCode { get; set; }
-        public string Status { get; set; }
-        public List<string> Suggestions { get; set; }
+        public string SubsidyCode { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
+        public List<string> Suggestions { get; set; } = [];
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
