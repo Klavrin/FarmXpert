@@ -10,13 +10,13 @@ public class SocialPost
     [BsonRepresentation(BsonType.String)]
     public Guid Id { get; set; }
     [Required]
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
     [Required]
-    public string Url { get; set; }
+    public string Url { get; set; } = string.Empty;
     [Required]
-    public string FileExtension { get; set; }
+    public string FileExtension { get; set; } = string.Empty;
     [Required]
-    public string BusinessId { get; set; }
+    public string BusinessId { get; set; } = string.Empty;
     public DateTime UploadDate { get; set; } = DateTime.UtcNow;
     public string Content { get; set; } = string.Empty;
     public List<Comment> Comments { get; set; } = new List<Comment>();
