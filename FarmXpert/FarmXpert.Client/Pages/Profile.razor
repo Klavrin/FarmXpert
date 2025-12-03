@@ -2,274 +2,386 @@
 @using MudBlazor
 
 <MudPaper Class="profile-page" Square Elevation="0" Style="background:transparent;">
-  <MudAppBar Elevation="0" Color="Color.Transparent" Class="topbar">
-    <!-- Title intentionally removed -->
-  </MudAppBar>
+  <!-- Banner Section -->
+  <MudCard Class="banner-section" Elevation="0">
+    <MudCardContent Class="banner-content">
+      <MudText Typo="Typo.h2" Class="banner-text">BANNER</MudText>
+    </MudCardContent>
+  </MudCard>
 
-  <section class="info-section">
-    <div class="info-row">
-      <div class="avatar-col">
-        <MudAvatar Size="Size.Large" Src="@AvatarUrl" Alt="avatar" Class="avatar" />
+  <!-- Profile Info Section -->
+  <div class="profile-container">
+    <div class="sidebar-left">
+      <MudCard Class="suggested-panel" Elevation="2">
+        <MudCardContent>
+          <MudText Typo="Typo.h6" Class="suggested-title">Suggested</MudText>
+          
+          @for (int i = 1; i <= 8; i++)
+          {
+            <div class="suggested-item">
+              <div class="suggested-user">
+                <MudAvatar Size="Size.Small" Class="suggested-avatar">
+                  <MudIcon Icon="@Icons.Material.Filled.Person" />
+                </MudAvatar>
+                <MudText Typo="Typo.body2" Class="suggested-username">USERNAME #@i</MudText>
+              </div>
+              <MudIconButton Icon="@Icons.Material.Filled.AddCircleOutline" Size="Size.Small" Class="add-btn" />
+            </div>
+          }
+        </MudCardContent>
+      </MudCard>
+    </div>
 
-        <div class="avatar-meta">
-          <div class="meta-line">
-            <MudText Typo="Typo.h5" Color="Color.Primary" Class="profile-name">@DisplayName</MudText>
-
-            @if (IsVerified)
-            {
-            <MudChip T="string" Color="Color.Info" Icon="@Icons.Material.Filled.Verified" Class="verified-chip">Verified</MudChip>
-            }
-            else
-            {
-            <MudChip T="string" Color="Color.Default" Class="unverified-chip">Unverified</MudChip>
-            }
+    <div class="main-content">
+      <MudCard Class="profile-header" Elevation="2">
+        <MudCardContent Class="profile-card-content">
+          <div class="avatar-wrapper">
+            <MudAvatar Size="Size.Large" Src="@AvatarUrl" Alt="avatar" Class="profile-avatar" />
+          </div>
+          
+          <div class="profile-info">
+            <MudText Typo="Typo.h5" Class="username-text">USERNAME</MudText>
+            <div class="stats-row">
+              <MudText Class="stat-text">x Following</MudText>
+              <MudText Class="stat-text">x Followers</MudText>
+            </div>
           </div>
 
-          <MudText Class="handle">@Handle</MudText>
-        </div>
-      </div>
+          <div class="setup-wrapper">
+            <MudButton Href="/Account/Manage" Variant="Variant.Outlined" Color="Color.Primary" Class="setup-profile-btn">
+              SET UP PROFILE
+            </MudButton>
+          </div>
+        </MudCardContent>
+      </MudCard>
 
-      <div class="right">
-        <MudButton Href="/Account/Manage" Variant="Variant.Outlined" Color="Color.Primary" Class="setup-btn">Set up profile</MudButton>
+      <!-- Posts Section -->
+      <div class="posts-container">
+        @if (Posts?.Any() != true)
+        {
+          <MudText Color="Color.Secondary">No posts yet.</MudText>
+        }
+        else
+        {
+          @foreach (var post in Posts)
+          {
+            <MudCard Class="post-card" Elevation="2">
+              <MudCardContent>
+                <MudText Class="post-title" Typo="Typo.h6">Post Title</MudText>
+                <MudText Class="post-body" Typo="Typo.body2">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi.
+                </MudText>
+              </MudCardContent>
+              <MudCardActions Class="post-actions">
+                <div class="action-item">
+                  <MudIcon Icon="@Icons.Material.Outlined.FavoriteBorder" Size="Size.Small" />
+                  <MudText Typo="Typo.caption">xx</MudText>
+                </div>
+                <div class="action-item">
+                  <MudIcon Icon="@Icons.Material.Outlined.Image" Size="Size.Small" />
+                  <MudText Typo="Typo.caption">xx</MudText>
+                </div>
+              </MudCardActions>
+            </MudCard>
+          }
+        }
       </div>
     </div>
-  </section>
-
-  <!-- Posts section centered at page level -->
-  <section class="posts-page-section">
-    <MudText Class="posts-header" Typo="Typo.h6">My Posts:</MudText>
-
-    <div class="posts-section">
-      @if (Posts?.Any() != true)
-      {
-      <MudText Color="Color.Secondary">No posts yet.</MudText>
-      }
-      else
-      {
-      @foreach (var post in Posts)
-      {
-      <MudPaper Class="post-card" Elevation="1">
-        <div class="post-top">
-          <MudText Class="post-title" Typo="Typo.subtitle1">@post.Title</MudText>
-          <MudText Class="post-meta" Typo="Typo.caption">@post.Date.ToString("MMM d, yyyy")</MudText>
-        </div>
-
-        <MudText Class="post-body" Typo="Typo.body2">@post.Body</MudText>
-
-        <div class="post-actions">
-          <MudText Typo="Typo.caption" Class="likes">❤ @post.Likes</MudText>
-        </div>
-      </MudPaper>
-      }
-      }
-    </div>
-  </section>
+  </div>
 </MudPaper>
 
 <style>
   :root {
-    --mud-palette-primary: #1976d2;
+    --mud-palette-primary: #5f4de0;
+    --banner-purple: #5f4de0;
   }
 
   .profile-page {
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     min-height: 100vh;
-    background: transparent;
-    color: #ffffff;
+    background: #f5f5f5;
+    color: #333;
   }
 
-  .topbar {
-    padding: 8px 16px;
-    border-bottom: 0;
-  }
-
-  .info-section {
-    padding: 18px 20px 32px;
+  .banner-section {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, var(--banner-purple) 0%, #7d6ce8 100%);
     position: relative;
-    background: transparent;
+    border-radius: 0 0 24px 24px;
   }
 
-  .info-row {
-    display:flex;
-    align-items:flex-start;
-    gap:24px;
-    justify-content:space-between;
+  .banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 !important;
   }
 
-  .avatar-col {
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    gap:12px;
-    width:100%;
-    max-width:880px;
+  .banner-text {
+    color: white;
+    font-weight: 700;
+    font-size: 64px;
+    letter-spacing: 8px;
   }
 
-  .avatar {
-    min-width:150px;
-    min-height:150px;
-    border-radius:50%;
-    box-shadow:0 6px 18px rgba(0,0,0,0.65);
-    object-fit:cover;
-    border:4px solid rgba(0,0,0,0.6);
+  .profile-container {
+    display: flex;
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    padding-top: 24px;
+    position: relative;
   }
 
-  .avatar-meta { display:flex; flex-direction:column; gap:10px; margin-top:6px; }
-
-  .meta-line {
-    display:flex;
-    align-items:center;
-    gap:10px;
+  .sidebar-left {
+    width: 280px;
+    flex-shrink: 0;
   }
 
-  .profile-name {
-    margin:0;
-    font-weight:700;
-    font-size:22px;
-    color: var(--mud-palette-primary) !important;
+  .suggested-panel {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
 
-  /* centered posts section at page level */
-  .posts-page-section {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    padding:32px 20px;
-    background: transparent;
-    width:100%;
+  .suggested-panel .mud-card-content {
+    padding: 20px 16px;
   }
 
-  .posts-header {
-    margin-bottom:16px;
-    color: var(--mud-palette-primary) !important;
-    font-weight:600;
-    text-align:center;
+  .suggested-title {
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #333;
   }
 
-  .posts-section {
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    width:100%;
-    max-width:760px;
-    align-items:center;
+  .suggested-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .suggested-item:last-child {
+    border-bottom: none;
+  }
+
+  .suggested-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .suggested-avatar {
+    background: #e0e0e0;
+  }
+
+  .suggested-username {
+    font-size: 14px;
+    color: #333;
+  }
+
+  .add-btn {
+    color: #999;
+  }
+
+  .main-content {
+    flex: 1;
+    max-width: 900px;
+  }
+
+  .profile-header {
+    background: white;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .profile-card-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px !important;
+  }
+
+  .avatar-wrapper {
+    flex-shrink: 0;
+  }
+
+  .profile-avatar {
+    width: 140px !important;
+    height: 140px !important;
+    border: 5px solid white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    background: #e0e0e0;
+  }
+
+  .profile-info {
+    flex: 1;
+    padding-top: 8px;
+  }
+
+  .username-text {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 16px;
+  }
+
+  .stat-text {
+    color: #666;
+    font-size: 14px;
+  }
+
+  .setup-wrapper {
+    padding-top: 8px;
+  }
+
+  .setup-profile-btn {
+    border-radius: 24px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 8px 24px;
+    border: 2px solid var(--banner-purple);
+    color: var(--banner-purple);
+  }
+
+  .setup-profile-btn:hover {
+    background: rgba(95, 77, 224, 0.05);
+  }
+
+  .posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 
   .post-card {
-    padding:12px;
-    background:rgba(255,255,255,0.03);
-    border-radius:10px;
-    border:1px solid var(--mud-palette-primary) !important;
-    width:100%;
-    box-sizing:border-box;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
 
-  .post-top {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:8px;
-    margin-bottom:6px;
+  .post-card .mud-card-content {
+    padding: 20px;
   }
 
   .post-title {
-    font-weight:700;
-    color: var(--mud-palette-primary) !important;
-  }
-
-  .post-meta {
-    color: var(--mud-palette-primary) !important;
-    opacity:0.85;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 12px;
   }
 
   .post-body {
-    color: var(--mud-palette-primary) !important;
-    margin-bottom:8px;
-    white-space:pre-wrap;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 16px;
   }
 
-  .post-actions { display:flex; align-items:center; gap:12px; }
-
-  .likes { color: var(--mud-palette-primary) !important; }
-
-  .verified-chip {
-    background:rgba(15,96,156,0.12);
-    border:1px solid rgba(15,96,156,0.35);
-    color:#aee3ff;
-    padding:6px 10px;
-    border-radius:20px;
-    font-size:13px;
-    width:max-content;
+  .post-actions {
+    display: flex;
+    gap: 20px;
+    padding: 12px 20px;
+    border-top: 1px solid #f0f0f0;
   }
 
-  .unverified-chip {
-    border:1px solid rgba(255,255,255,0.08);
-    background:#6b6b6b;
-    color:#e6e6e6;
-    padding:6px 10px;
-    font-size:13px;
-    border-radius:20px;
-    width:max-content;
+  .action-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #999;
+    cursor: pointer;
   }
 
-  .handle {
-    color:rgba(255,255,255,0.6);
-    font-size:14px;
+  .action-item:hover {
+    color: var(--banner-purple);
   }
 
-  .right { display:flex; align-items:center; }
+  @@media (max-width: 1000px) {
+    .sidebar-left {
+      display: none;
+    }
 
-  .setup-btn {
-    border-radius:28px;
+    .profile-container {
+      padding-top: 24px;
+    }
+
+    .profile-avatar {
+      width: 100px !important;
+      height: 100px !important;
+    }
+
+    .banner-text {
+      font-size: 48px;
+    }
   }
 
-  @@media (max-width:1000px) {
-  .info-row { flex-direction:column; align-items:flex-start; gap:12px; }
-  .right { width:100%; display:flex; justify-content:flex-end; }
-  .avatar { width:180px; height:180px; }
-  .profile-name { font-size:18px; }
-  .posts-page-section { padding:24px 16px; }
+  @@media (max-width: 600px) {
+    .profile-card-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .setup-wrapper {
+      width: 100%;
+    }
+
+    .setup-profile-btn {
+      width: 100%;
+    }
+
+    .stats-row {
+      justify-content: center;
+    }
   }
 </style>
 
 @code {
-private string DisplayName { get; set; } = "serj";
-private string Handle { get; set; } = "@serjnyc";
-private bool IsVerified { get; set; } = false;
-private string AvatarUrl { get; set; } = "_content/FarmXpert.Client/images/default-avatar.png";
+  private string DisplayName { get; set; } = "serj";
+  private string Handle { get; set; } = "@serjnyc";
+  private bool IsVerified { get; set; } = false;
+  private string AvatarUrl { get; set; } = "_content/FarmXpert.Client/images/default-avatar.png";
 
-private List<Post> Posts { get; set; }
+  private List<Post> Posts { get; set; }
 
-protected override void OnInitialized()
-{
-Posts = new List<Post>
-{
-new Post
-{
-Id = 1,
-Title = "Harvest day update",
-Body = "Went to the fields today — yield looks promising. Planning to adjust irrigation schedule next week.",
-Date = DateTime.Now.AddDays(-2),
-Likes = 12
-},
-new Post
-{
-Id = 2,
-Title = "New tool I tried",
-Body = "Tested a new tiller attachment and it saved time. Will post measurements soon.",
-Date = DateTime.Now.AddDays(-10),
-Likes = 5
-}
-};
-}
+  protected override void OnInitialized()
+  {
+    Posts = new List<Post>
+    {
+      new Post
+      {
+        Id = 1,
+        Title = "Harvest day update",
+        Body = "Went to the fields today — yield looks promising. Planning to adjust irrigation schedule next week.",
+        Date = DateTime.Now.AddDays(-2),
+        Likes = 12
+      },
+      new Post
+      {
+        Id = 2,
+        Title = "New tool I tried",
+        Body = "Tested a new tiller attachment and it saved time. Will post measurements soon.",
+        Date = DateTime.Now.AddDays(-10),
+        Likes = 5
+      }
+    };
+  }
 
-private class Post
-{
-public int Id { get; set; }
-public string Title { get; set; }
-public string Body { get; set; }
-public DateTime Date { get; set; }
-public int Likes { get; set; }
-}
+  private class Post
+  {
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public string Body { get; set; }
+    public DateTime Date { get; set; }
+    public int Likes { get; set; }
+  }
 }
