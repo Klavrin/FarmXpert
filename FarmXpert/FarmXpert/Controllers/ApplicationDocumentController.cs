@@ -3,12 +3,8 @@ using FarmXpert.Application.ApplicationDocument.Commands.DeleteApplicationDocume
 using FarmXpert.Application.ApplicationDocument.Commands.UpdateApplicationDocument;
 using FarmXpert.Application.ApplicationDocument.Queries.GetAllApplicationDocuments;
 using FarmXpert.Application.ApplicationDocument.Queries.GetApplicationDocumentById;
-using FarmXpert.Application.PersonalDocument.Commands.DeletePersonalDocument;
-using FarmXpert.Application.PersonalDocument.Queries.GetPersonalDocumentById;
-using FarmXpert.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmXpert.Controllers;
@@ -17,22 +13,19 @@ namespace FarmXpert.Controllers;
 [Route("api/applicationDocuments")]
 [Authorize]
 
-public class ApplicationDocumentController : ControllerBase
+public class ApplicationDocumentController : BaseApiController
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
     private readonly IMediator _mediator;
 
-    public ApplicationDocumentController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
+    public ApplicationDocumentController(IMediator mediator)
     {
         _mediator = mediator;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var documents = await _mediator.Send(new GetAllApplicationDocumentsQuery(userId));
         return Ok(documents);
     }
@@ -40,7 +33,7 @@ public class ApplicationDocumentController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var document = await _mediator.Send(new GetApplicationDocumentByIdQuery(id, userId));
         if (document == null)
         {
@@ -52,7 +45,7 @@ public class ApplicationDocumentController : ControllerBase
     [HttpGet("{id:guid}/download")]
     public async Task<IActionResult> Download(Guid id)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var applicationDocument = await _mediator.Send(new GetApplicationDocumentByIdQuery(id, userId));
         if (applicationDocument == null)
             return NotFound();
@@ -67,7 +60,7 @@ public class ApplicationDocumentController : ControllerBase
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, string Title, string Status, string RejectionReason)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var command = new UpdateApplicationDocumentCommand(id, userId, Title, Status, RejectionReason);
         var updatedApplicationDocument = await _mediator.Send(command);
         if (updatedApplicationDocument == null)
@@ -78,7 +71,7 @@ public class ApplicationDocumentController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateApplicationDocumentRequest request)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var Title = request.Title;
         var File = request.File;
 
@@ -102,7 +95,7 @@ public class ApplicationDocumentController : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var applicationDocument = await _mediator.Send(new GetApplicationDocumentByIdQuery(id, userId));
         if (applicationDocument == null)
             return NotFound();
@@ -115,11 +108,5 @@ public class ApplicationDocumentController : ControllerBase
     {
         public string Title { get; set; } = string.Empty;
         public IFormFile File { get; set; } = null!;
-    }
-    private string CurrentUserId()
-    {
-        return _httpContextAccessor.HttpContext?.User
-            .FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
-            ?? throw new Exception("User not authenticated");
     }
 }

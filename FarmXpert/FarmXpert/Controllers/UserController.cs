@@ -6,7 +6,7 @@ namespace FarmXpert.Controllers;
 
 [ApiController]
 [Route("api/users")]
-public class UserController : ControllerBase
+public class UserController : BaseApiController
 {
     private readonly UserManager<ApplicationUser> _userManager;
 
