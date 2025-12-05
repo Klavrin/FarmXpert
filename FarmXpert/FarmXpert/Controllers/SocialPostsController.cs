@@ -20,16 +20,14 @@ namespace FarmXpert.Controllers;
 [ApiController]
 [Route("api/socialposts")]
 [Authorize]
-public class SocialPostsController : ControllerBase
+public class SocialPostsController : BaseApiController
 {
     private readonly IMediator _mediator;
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public SocialPostsController(IMediator mediator, IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager)
+    public SocialPostsController(IMediator mediator, UserManager<ApplicationUser> userManager)
     {
         _mediator = mediator;
-        _httpContextAccessor = httpContextAccessor;
         _userManager = userManager;
     }
 
@@ -61,7 +59,7 @@ public class SocialPostsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateSocialPostRequest request)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
             return Unauthorized("User not found");
@@ -107,7 +105,7 @@ public class SocialPostsController : ControllerBase
     [HttpPost("{id:guid}/like")]
     public async Task<IActionResult> AddLike(Guid id)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
             return Unauthorized("User not found");
@@ -123,7 +121,7 @@ public class SocialPostsController : ControllerBase
     [HttpDelete("{id:guid}/like")]
     public async Task<IActionResult> DeleteLike(Guid id)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
             return Unauthorized("User not found");
@@ -139,7 +137,7 @@ public class SocialPostsController : ControllerBase
     [HttpPost("{id:guid}/comment")]
     public async Task<IActionResult> AddComment(Guid id, string Content)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
             return Unauthorized("User not found");
@@ -163,7 +161,7 @@ public class SocialPostsController : ControllerBase
     [HttpDelete("{id:guid}/comment")]
     public async Task<IActionResult> DeleteComment(Guid id, Guid commentId)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
             return Unauthorized("User not found");
@@ -182,12 +180,5 @@ public class SocialPostsController : ControllerBase
         public string Title { get; set; } = string.Empty;
         public IFormFile File { get; set; } = null!;
         public string Content { get; set; } = string.Empty;
-    }
-
-    private string CurrentUserId()
-    {
-        return _httpContextAccessor.HttpContext?.User
-            .FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
-            ?? throw new Exception("User not authenticated");
     }
 }

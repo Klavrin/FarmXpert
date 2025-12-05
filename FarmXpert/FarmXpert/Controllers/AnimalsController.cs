@@ -3,7 +3,6 @@ using FarmXpert.Application.Animal.Commands.DeleteAnimal;
 using FarmXpert.Application.Animal.Commands.UpdateAnimal;
 using FarmXpert.Application.Animal.Queries.GetAllAnimals;
 using FarmXpert.Application.Animal.Queries.GetAnimalById;
-using FarmXpert.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,22 +12,20 @@ namespace FarmXpert.Controllers;
 [ApiController]
 [Route("api/animals")]
 [Authorize]
-public class AnimalsController : ControllerBase
+public class AnimalsController : BaseApiController
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
     private readonly IMediator _mediator;
 
-    public AnimalsController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
+    public AnimalsController(IMediator mediator)
     {
         _mediator = mediator;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var animals = await _mediator.Send(new GetAllAnimalsQuery(userId));
         return Ok(animals);
     }
@@ -36,7 +33,7 @@ public class AnimalsController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var animal = await _mediator.Send(new GetAnimalByIdQuery(userId, id));
         if (animal == null)
         {
@@ -46,9 +43,9 @@ public class AnimalsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Animal animal)
+    public async Task<IActionResult> Create([FromBody] FarmXpert.Domain.Entities.Animal animal)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var command = new CreateAnimalCommand(
             OwnerId: userId,
             CattleId: animal.CattleId,
@@ -56,7 +53,6 @@ public class AnimalsController : ControllerBase
             Sex: animal.Sex,
             BirthDate: animal.BirthDate
         );
-
         var created = await _mediator.Send(command);
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
@@ -83,7 +79,7 @@ public class AnimalsController : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var animal = await _mediator.Send(new GetAnimalByIdQuery(userId, id));
         if (animal == null)
         {
@@ -92,12 +88,5 @@ public class AnimalsController : ControllerBase
 
         await _mediator.Send(new DeleteAnimalCommand(userId, id));
         return Ok(animal);
-    }
-
-    private string CurrentUserId()
-    {
-        return _httpContextAccessor.HttpContext?.User
-            .FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
-            ?? throw new Exception("User not authenticated");
     }
 }

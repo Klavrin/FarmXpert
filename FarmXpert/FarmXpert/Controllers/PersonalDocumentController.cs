@@ -14,22 +14,19 @@ namespace FarmXpert.Controllers;
 [Route("api/personalDocuments")]
 [Authorize]
 
-public class PersonalDocumentController : ControllerBase
+public class PersonalDocumentController : BaseApiController
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
     private readonly IMediator _mediator;
 
-    public PersonalDocumentController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
+    public PersonalDocumentController(IMediator mediator)
     {
         _mediator = mediator;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var documents = await _mediator.Send(new GetAllPersonalDocumentsQuery(userId));
         return Ok(documents);
     }
@@ -37,7 +34,7 @@ public class PersonalDocumentController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var document = await _mediator.Send(new GetPersonalDocumentByIdQuery(id, userId));
         if (document == null)
         {
@@ -49,7 +46,7 @@ public class PersonalDocumentController : ControllerBase
     [HttpGet("{id:guid}/download")]
     public async Task<IActionResult> Download(Guid id)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var document = await _mediator.Send(new GetPersonalDocumentByIdQuery(id, userId));
         if (document == null)
             return NotFound();
@@ -64,7 +61,7 @@ public class PersonalDocumentController : ControllerBase
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, string Title)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var command = new UpdatePersonalDocumentCommand(id, userId, Title);
         var updatedDocument = await _mediator.Send(command);
         if (updatedDocument == null)
@@ -77,7 +74,7 @@ public class PersonalDocumentController : ControllerBase
     {
         var Title = request.Title;
         var File = request.File;
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
 
         if (File == null || File.Length == 0)
             return BadRequest("File is required.");
@@ -95,7 +92,7 @@ public class PersonalDocumentController : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var personalDocument = await _mediator.Send(new GetPersonalDocumentByIdQuery(id, userId));
         if (personalDocument == null)
             return NotFound();
@@ -108,12 +105,5 @@ public class PersonalDocumentController : ControllerBase
     {
         public string Title { get; set; } = string.Empty;
         public IFormFile File { get; set; } = null!;
-    }
-
-    private string CurrentUserId()
-    {
-        return _httpContextAccessor.HttpContext?.User
-            .FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
-            ?? throw new Exception("User not authenticated");
     }
 }

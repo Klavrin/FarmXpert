@@ -1,6 +1,3 @@
-using FarmXpert.Application.Field.Commands.DeleteField;
-using FarmXpert.Application.Field.Commands.UpdateField;
-using FarmXpert.Application.Field.Queries.GetFieldById;
 using FarmXpert.Application.Vehicle.Commands.CreateVehicle;
 using FarmXpert.Application.Vehicle.Commands.DeleteVehicle;
 using FarmXpert.Application.Vehicle.Commands.UpdateVehicle;
@@ -16,21 +13,19 @@ namespace FarmXpert.Controllers;
 [ApiController]
 [Route("api/vehicles")]
 [Authorize]
-public class VehiclesController : ControllerBase
+public class VehiclesController : BaseApiController
 {
     private readonly IMediator _mediator;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public VehiclesController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
+    public VehiclesController(IMediator mediator)
     {
         _mediator = mediator;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var vehicles = await _mediator.Send(new GetAllVehiclesQuery(userId));
         return Ok(vehicles);
     }
@@ -38,7 +33,7 @@ public class VehiclesController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var vehicle = await _mediator.Send(new GetVehicleByIdQuery(userId, id));
         if (vehicle == null)
         {
@@ -50,7 +45,7 @@ public class VehiclesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Vehicle vehicle)
     {
-        var userId = CurrentUserId();
+        var userId = GetCurrentUserId();
         var command = new CreateVehicleCommand(
             OwnerId: userId,
             BusinessId: vehicle.BusinessId,
@@ -83,19 +78,12 @@ public class VehiclesController : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var userid = CurrentUserId();
+        var userid = GetCurrentUserId();
         var vehicle = await _mediator.Send(new GetVehicleByIdQuery(userid, id));
         if (vehicle == null)
             return NotFound();
 
         await _mediator.Send(new DeleteVehicleCommand(userid, id));
         return Ok(vehicle);
-    }
-
-    private string CurrentUserId()
-    {
-        return _httpContextAccessor.HttpContext?.User
-            .FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
-            ?? throw new Exception("User not authenticated");
     }
 }
