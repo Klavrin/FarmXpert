@@ -43,17 +43,11 @@ public class AnimalsController : BaseApiController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] FarmXpert.Domain.Entities.Animal animal)
+    public async Task<IActionResult> Create(CreateAnimalCommand command)
     {
         var userId = GetCurrentUserId();
-        var command = new CreateAnimalCommand(
-            OwnerId: userId,
-            CattleId: animal.CattleId,
-            Species: animal.Species,
-            Sex: animal.Sex,
-            BirthDate: animal.BirthDate
-        );
-        var created = await _mediator.Send(command);
+        var commandWithUserId = command with { OwnerId = userId };
+        var created = await _mediator.Send(commandWithUserId);
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
