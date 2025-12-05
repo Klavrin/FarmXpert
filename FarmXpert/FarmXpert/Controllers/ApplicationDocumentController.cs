@@ -3,12 +3,8 @@ using FarmXpert.Application.ApplicationDocument.Commands.DeleteApplicationDocume
 using FarmXpert.Application.ApplicationDocument.Commands.UpdateApplicationDocument;
 using FarmXpert.Application.ApplicationDocument.Queries.GetAllApplicationDocuments;
 using FarmXpert.Application.ApplicationDocument.Queries.GetApplicationDocumentById;
-using FarmXpert.Application.PersonalDocument.Commands.DeletePersonalDocument;
-using FarmXpert.Application.PersonalDocument.Queries.GetPersonalDocumentById;
-using FarmXpert.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmXpert.Controllers;

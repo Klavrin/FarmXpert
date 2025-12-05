@@ -1,4 +1,3 @@
-
 using FarmXpert.Application.Field.Commands.CreateField;
 using FarmXpert.Application.Field.Commands.DeleteField;
 using FarmXpert.Application.Field.Commands.UpdateField;
@@ -7,7 +6,6 @@ using FarmXpert.Application.Field.Queries.GetFieldById;
 using FarmXpert.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmXpert.Controllers;

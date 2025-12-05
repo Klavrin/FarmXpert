@@ -3,7 +3,6 @@ using FarmXpert.Application.PersonalDocument.Commands.DeletePersonalDocument;
 using FarmXpert.Application.PersonalDocument.Commands.UpdatePersonalDocument;
 using FarmXpert.Application.PersonalDocument.Queries.GetAllPersonalDocuments;
 using FarmXpert.Application.PersonalDocument.Queries.GetPersonalDocumentById;
-using FarmXpert.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
