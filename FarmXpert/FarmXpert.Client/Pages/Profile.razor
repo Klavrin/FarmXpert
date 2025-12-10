@@ -16,14 +16,14 @@
         <MudCardContent>
           <MudText Typo="Typo.h6" Class="suggested-title">Suggested</MudText>
           
-          @for (int i = 1; i <= 8; i++)
+          @foreach(string name in SuggestedUsers )
           {
             <div class="suggested-item">
               <div class="suggested-user">
                 <MudAvatar Size="Size.Small" Class="suggested-avatar">
                   <MudIcon Icon="@Icons.Material.Filled.Person" />
                 </MudAvatar>
-                <MudText Typo="Typo.body2" Class="suggested-username">USERNAME #@i</MudText>
+                <MudText Typo="Typo.body2" Class="suggested-username">@name</MudText>
               </div>
               <MudIconButton Icon="@Icons.Material.Filled.AddCircleOutline" Size="Size.Small" Class="add-btn" />
             </div>
@@ -39,13 +39,19 @@
             <MudAvatar Size="Size.Large" Src="@AvatarUrl" Alt="avatar" Class="profile-avatar" />
           </div>
           
-          <div class="profile-info">
-            <MudText Typo="Typo.h5" Class="username-text">USERNAME</MudText>
-            <div class="stats-row">
-              <MudText Class="stat-text">x Following</MudText>
-              <MudText Class="stat-text">x Followers</MudText>
-            </div>
-          </div>
+          
+          <AuthorizeView>
+            <Authorized>
+              <div class="profile-info">
+                <MudText Typo="Typo.h5" Class="username-text">@context.User.Identity?.Name</MudText>
+                <div class="stats-row">
+                  <MudText Class="stat-text">1 Following</MudText>
+                  <MudText Class="stat-text">2 Followers</MudText>
+                </div>
+              </div>
+            </Authorized>
+          </AuthorizeView>
+          
 
           <div class="setup-wrapper">
             <MudButton Href="/Account/Manage" Variant="Variant.Outlined" Color="Color.Primary" Class="setup-profile-btn">
@@ -352,27 +358,23 @@
   private string AvatarUrl { get; set; } = "_content/FarmXpert.Client/images/default-avatar.png";
 
   private List<Post> Posts { get; set; }
+  private List<string> SuggestedUsers { get; set; } = new List<string>
+  {
+    "John",
+    "Jeff Buckley",
+    "Annah Smith",
+    "George Washington",
+    "Charlie Kirk",
+    "Emma Stone",
+    "Walter White",
+    "Larry"
+  };
 
   protected override void OnInitialized()
   {
     Posts = new List<Post>
     {
-      new Post
-      {
-        Id = 1,
-        Title = "Harvest day update",
-        Body = "Went to the fields today — yield looks promising. Planning to adjust irrigation schedule next week.",
-        Date = DateTime.Now.AddDays(-2),
-        Likes = 12
-      },
-      new Post
-      {
-        Id = 2,
-        Title = "New tool I tried",
-        Body = "Tested a new tiller attachment and it saved time. Will post measurements soon.",
-        Date = DateTime.Now.AddDays(-10),
-        Likes = 5
-      }
+      
     };
   }
 
