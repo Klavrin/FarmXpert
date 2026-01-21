@@ -22,6 +22,12 @@ public class ApplicationDocumentController : BaseApiController
         _mediator = mediator;
     }
 
+    /// <summary>
+    /// Retrieves all application documents for the current user.
+    /// </summary>
+    /// <returns>A list of all application documents owned by the authenticated user.</returns>
+    /// <response code="200">Returns the list of application documents.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -30,6 +36,14 @@ public class ApplicationDocumentController : BaseApiController
         return Ok(documents);
     }
 
+    /// <summary>
+    /// Retrieves a specific application document by its ID.
+    /// </summary>
+    /// <param name="id">The unique identifier of the application document.</param>
+    /// <returns>The application document details if found.</returns>
+    /// <response code="200">Returns the application document details.</response>
+    /// <response code="404">If the application document is not found or does not belong to the user.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
@@ -42,6 +56,14 @@ public class ApplicationDocumentController : BaseApiController
         return Ok(document);
     }
 
+    /// <summary>
+    /// Downloads a specific application document file by its ID.
+    /// </summary>
+    /// <param name="id">The unique identifier of the application document to download.</param>
+    /// <returns>The file stream for download.</returns>
+    /// <response code="200">Returns the file for download.</response>
+    /// <response code="404">If the application document or file is not found.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpGet("{id:guid}/download")]
     public async Task<IActionResult> Download(Guid id)
     {
@@ -57,6 +79,17 @@ public class ApplicationDocumentController : BaseApiController
         return File(stream, "application/octet-stream", applicationDocument.Title + applicationDocument.FileExtension);
     }
 
+    /// <summary>
+    /// Updates an existing application document's information.
+    /// </summary>
+    /// <param name="id">The unique identifier of the application document to update.</param>
+    /// <param name="Title">The updated title for the document.</param>
+    /// <param name="Status">The updated status for the document.</param>
+    /// <param name="RejectionReason">The rejection reason if applicable.</param>
+    /// <returns>The updated application document details.</returns>
+    /// <response code="200">Returns the updated application document.</response>
+    /// <response code="404">If the application document is not found.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, string Title, string Status, string RejectionReason)
     {
@@ -68,6 +101,14 @@ public class ApplicationDocumentController : BaseApiController
         return Ok(updatedApplicationDocument);
     }
 
+    /// <summary>
+    /// Creates a new application document by uploading a PDF file.
+    /// </summary>
+    /// <param name="request">The request containing the document title and file to upload.</param>
+    /// <returns>The newly created application document.</returns>
+    /// <response code="201">Returns the newly created application document.</response>
+    /// <response code="400">If the file is missing, empty, or not a PDF.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpPost]
     public async Task<IActionResult> Create(CreateApplicationDocumentRequest request)
     {
@@ -92,6 +133,14 @@ public class ApplicationDocumentController : BaseApiController
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
+    /// <summary>
+    /// Deletes a specific application document by its ID.
+    /// </summary>
+    /// <param name="id">The unique identifier of the application document to delete.</param>
+    /// <returns>The deleted application document details.</returns>
+    /// <response code="200">Returns the deleted application document details.</response>
+    /// <response code="404">If the application document is not found or does not belong to the user.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
@@ -104,9 +153,19 @@ public class ApplicationDocumentController : BaseApiController
         return Ok(applicationDocument);
     }
 
+    /// <summary>
+    /// Request model for creating an application document.
+    /// </summary>
     public class CreateApplicationDocumentRequest
     {
+        /// <summary>
+        /// The title of the application document.
+        /// </summary>
         public string Title { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The PDF file to upload.
+        /// </summary>
         public IFormFile File { get; set; } = null!;
     }
 }
