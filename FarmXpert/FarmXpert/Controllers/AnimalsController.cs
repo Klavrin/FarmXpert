@@ -6,7 +6,6 @@ using FarmXpert.Application.Animal.Queries.GetAnimalById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 namespace FarmXpert.Controllers;
 
 [ApiController]
@@ -14,7 +13,6 @@ namespace FarmXpert.Controllers;
 [Authorize]
 public class AnimalsController : BaseApiController
 {
-
     private readonly IMediator _mediator;
 
     public AnimalsController(IMediator mediator)
@@ -22,6 +20,12 @@ public class AnimalsController : BaseApiController
         _mediator = mediator;
     }
 
+    /// <summary>
+    /// Retrieves all animals for the current user.
+    /// </summary>
+    /// <returns>A list of all animals owned by the authenticated user.</returns>
+    /// <response code="200">Returns the list of animals.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -30,6 +34,14 @@ public class AnimalsController : BaseApiController
         return Ok(animals);
     }
 
+    /// <summary>
+    /// Retrieves a specific animal by its ID.
+    /// </summary>
+    /// <param name="id">The unique identifier of the animal.</param>
+    /// <returns>The animal details if found.</returns>
+    /// <response code="200">Returns the animal details.</response>
+    /// <response code="404">If the animal is not found or does not belong to the user.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
@@ -42,6 +54,14 @@ public class AnimalsController : BaseApiController
         return Ok(animal);
     }
 
+    /// <summary>
+    /// Creates a new animal for the current user.
+    /// </summary>
+    /// <param name="command">The command containing animal details to create.</param>
+    /// <returns>The newly created animal.</returns>
+    /// <response code="201">Returns the newly created animal.</response>
+    /// <response code="400">If the request is invalid.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpPost]
     public async Task<IActionResult> Create(CreateAnimalCommand command)
     {
@@ -51,6 +71,14 @@ public class AnimalsController : BaseApiController
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
+    /// <summary>
+    /// Updates an existing animal's information.
+    /// </summary>
+    /// <param name="command">The command containing updated animal details.</param>
+    /// <returns>The updated animal details.</returns>
+    /// <response code="200">Returns the updated animal.</response>
+    /// <response code="400">If the update fails or the request is invalid.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(UpdateAnimalCommand command)
     {
@@ -61,7 +89,6 @@ public class AnimalsController : BaseApiController
             {
                 return BadRequest("Failed to modify animal information.");
             }
-
             return Ok(updatedAnimal);
         }
         catch (Exception ex)
@@ -70,6 +97,14 @@ public class AnimalsController : BaseApiController
         }
     }
 
+    /// <summary>
+    /// Deletes a specific animal by its ID.
+    /// </summary>
+    /// <param name="id">The unique identifier of the animal to delete.</param>
+    /// <returns>The deleted animal details.</returns>
+    /// <response code="200">Returns the deleted animal details.</response>
+    /// <response code="404">If the animal is not found or does not belong to the user.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
@@ -79,7 +114,6 @@ public class AnimalsController : BaseApiController
         {
             return NotFound();
         }
-
         await _mediator.Send(new DeleteAnimalCommand(userId, id));
         return Ok(animal);
     }

@@ -6,6 +6,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>aspnet-FarmXpert-48440e19-aaa4-4af9-9ffa-672da7a49634</UserSecretsId>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
@@ -36,6 +38,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="DTOs\Animal\" />
       <Folder Include="Entities\" />
     </ItemGroup>
 

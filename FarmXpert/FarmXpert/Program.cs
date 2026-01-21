@@ -1,3 +1,4 @@
+using System.Reflection;
 using AspNetCore.Identity.Mongo;
 using FarmXpert.Application.Todo.Queries.GetAllTodos;
 using FarmXpert.Components;
@@ -59,7 +60,12 @@ builder.Services.AddScoped<IFileStorageService, FileStorageServiceRepository>();
 builder.Services.AddScoped<IApplicationDocumentRepository, ApplicationDocumentRepository>();
 builder.Services.AddScoped<ISocialPostRepository, SocialPostRepository>();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+});
 
 var app = builder.Build();
 

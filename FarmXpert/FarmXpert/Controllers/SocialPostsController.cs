@@ -31,6 +31,12 @@ public class SocialPostsController : BaseApiController
         _userManager = userManager;
     }
 
+    /// <summary>
+    /// Retrieves all social posts from all users.
+    /// </summary>
+    /// <returns>A list of all social posts.</returns>
+    /// <response code="200">Returns the list of social posts.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -38,6 +44,14 @@ public class SocialPostsController : BaseApiController
         return Ok(socialPosts);
     }
 
+    /// <summary>
+    /// Retrieves a specific social post by its ID.
+    /// </summary>
+    /// <param name="id">The unique identifier of the social post.</param>
+    /// <returns>The social post details if found.</returns>
+    /// <response code="200">Returns the social post details.</response>
+    /// <response code="404">If the social post is not found.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
@@ -49,6 +63,13 @@ public class SocialPostsController : BaseApiController
         return Ok(socialPost);
     }
 
+    /// <summary>
+    /// Retrieves all social posts for a specific business.
+    /// </summary>
+    /// <param name="BusinessId">The business identifier.</param>
+    /// <returns>A list of social posts for the specified business.</returns>
+    /// <response code="200">Returns the list of social posts for the business.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpGet("user/{BusinessId}")]
     public async Task<IActionResult> GetUserSocialPosts(string BusinessId)
     {
@@ -56,6 +77,14 @@ public class SocialPostsController : BaseApiController
         return Ok(socialPosts);
     }
 
+    /// <summary>
+    /// Creates a new social post with an image or video attachment.
+    /// </summary>
+    /// <param name="request">The request containing the post title, content, and media file.</param>
+    /// <returns>The newly created social post.</returns>
+    /// <response code="201">Returns the newly created social post.</response>
+    /// <response code="400">If the file type is invalid.</response>
+    /// <response code="401">If the user is not authenticated or not found.</response>
     [HttpPost]
     public async Task<IActionResult> Create(CreateSocialPostRequest request)
     {
@@ -79,6 +108,14 @@ public class SocialPostsController : BaseApiController
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
+    /// <summary>
+    /// Deletes a specific social post by its ID.
+    /// </summary>
+    /// <param name="id">The unique identifier of the social post to delete.</param>
+    /// <returns>The deleted social post details.</returns>
+    /// <response code="200">Returns the deleted social post details.</response>
+    /// <response code="404">If the social post is not found.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
@@ -91,6 +128,16 @@ public class SocialPostsController : BaseApiController
         return Ok(result);
     }
 
+    /// <summary>
+    /// Updates an existing social post's title and content.
+    /// </summary>
+    /// <param name="id">The unique identifier of the social post to update.</param>
+    /// <param name="Title">The updated title for the post.</param>
+    /// <param name="Content">The updated content for the post.</param>
+    /// <returns>The updated social post details.</returns>
+    /// <response code="200">Returns the updated social post.</response>
+    /// <response code="404">If the social post is not found.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Edit(Guid id, string Title, string Content)
     {
@@ -102,6 +149,14 @@ public class SocialPostsController : BaseApiController
         return Ok(result);
     }
 
+    /// <summary>
+    /// Adds a like to a specific social post.
+    /// </summary>
+    /// <param name="id">The unique identifier of the social post to like.</param>
+    /// <returns>The updated social post with the new like.</returns>
+    /// <response code="200">Returns the updated social post.</response>
+    /// <response code="404">If the social post is not found.</response>
+    /// <response code="401">If the user is not authenticated or not found.</response>
     [HttpPost("{id:guid}/like")]
     public async Task<IActionResult> AddLike(Guid id)
     {
@@ -118,6 +173,14 @@ public class SocialPostsController : BaseApiController
         return Ok(result);
     }
 
+    /// <summary>
+    /// Removes a like from a specific social post.
+    /// </summary>
+    /// <param name="id">The unique identifier of the social post to unlike.</param>
+    /// <returns>The updated social post without the like.</returns>
+    /// <response code="200">Returns the updated social post.</response>
+    /// <response code="404">If the social post is not found.</response>
+    /// <response code="401">If the user is not authenticated or not found.</response>
     [HttpDelete("{id:guid}/like")]
     public async Task<IActionResult> DeleteLike(Guid id)
     {
@@ -134,6 +197,15 @@ public class SocialPostsController : BaseApiController
         return Ok(result);
     }
 
+    /// <summary>
+    /// Adds a comment to a specific social post.
+    /// </summary>
+    /// <param name="id">The unique identifier of the social post to comment on.</param>
+    /// <param name="Content">The content of the comment.</param>
+    /// <returns>The updated social post with the new comment.</returns>
+    /// <response code="200">Returns the updated social post.</response>
+    /// <response code="404">If the social post is not found.</response>
+    /// <response code="401">If the user is not authenticated or not found.</response>
     [HttpPost("{id:guid}/comment")]
     public async Task<IActionResult> AddComment(Guid id, string Content)
     {
@@ -158,6 +230,15 @@ public class SocialPostsController : BaseApiController
         return Ok(result);
     }
 
+    /// <summary>
+    /// Deletes a comment from a specific social post.
+    /// </summary>
+    /// <param name="id">The unique identifier of the social post.</param>
+    /// <param name="commentId">The unique identifier of the comment to delete.</param>
+    /// <returns>The updated social post without the deleted comment.</returns>
+    /// <response code="200">Returns the updated social post.</response>
+    /// <response code="404">If the social post or comment is not found.</response>
+    /// <response code="401">If the user is not authenticated or not found.</response>
     [HttpDelete("{id:guid}/comment")]
     public async Task<IActionResult> DeleteComment(Guid id, Guid commentId)
     {
