@@ -7,7 +7,6 @@ using FarmXpert.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 namespace FarmXpert.Controllers;
 
 [ApiController]
@@ -22,6 +21,12 @@ public class VehiclesController : BaseApiController
         _mediator = mediator;
     }
 
+    /// <summary>
+    /// Retrieves all vehicles for the current user.
+    /// </summary>
+    /// <returns>A list of all vehicles owned by the authenticated user.</returns>
+    /// <response code="200">Returns the list of vehicles.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -30,6 +35,14 @@ public class VehiclesController : BaseApiController
         return Ok(vehicles);
     }
 
+    /// <summary>
+    /// Retrieves a specific vehicle by its ID.
+    /// </summary>
+    /// <param name="id">The unique identifier of the vehicle.</param>
+    /// <returns>The vehicle details if found.</returns>
+    /// <response code="200">Returns the vehicle details.</response>
+    /// <response code="404">If the vehicle is not found or does not belong to the user.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
@@ -42,6 +55,14 @@ public class VehiclesController : BaseApiController
         return Ok(vehicle);
     }
 
+    /// <summary>
+    /// Creates a new vehicle for the current user.
+    /// </summary>
+    /// <param name="vehicle">The vehicle entity containing type, fabrication date, brand, and group information.</param>
+    /// <returns>The newly created vehicle.</returns>
+    /// <response code="201">Returns the newly created vehicle.</response>
+    /// <response code="400">If the request is invalid.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Vehicle vehicle)
     {
@@ -54,11 +75,18 @@ public class VehiclesController : BaseApiController
             FabricationDate: vehicle.FabricationDate,
             Brand: vehicle.Brand
         );
-
         var created = await _mediator.Send(command);
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
+    /// <summary>
+    /// Updates an existing vehicle's information.
+    /// </summary>
+    /// <param name="command">The command containing updated vehicle details.</param>
+    /// <returns>The updated vehicle details.</returns>
+    /// <response code="200">Returns the updated vehicle.</response>
+    /// <response code="400">If the update fails or the request is invalid.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(UpdateVehicleCommand command)
     {
@@ -75,6 +103,14 @@ public class VehiclesController : BaseApiController
         }
     }
 
+    /// <summary>
+    /// Deletes a specific vehicle by its ID.
+    /// </summary>
+    /// <param name="id">The unique identifier of the vehicle to delete.</param>
+    /// <returns>The deleted vehicle details.</returns>
+    /// <response code="200">Returns the deleted vehicle details.</response>
+    /// <response code="404">If the vehicle is not found or does not belong to the user.</response>
+    /// <response code="401">If the user is not authenticated.</response>
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
@@ -82,7 +118,6 @@ public class VehiclesController : BaseApiController
         var vehicle = await _mediator.Send(new GetVehicleByIdQuery(userid, id));
         if (vehicle == null)
             return NotFound();
-
         await _mediator.Send(new DeleteVehicleCommand(userid, id));
         return Ok(vehicle);
     }
